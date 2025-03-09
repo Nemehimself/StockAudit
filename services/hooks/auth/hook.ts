@@ -1,6 +1,11 @@
 import api from '@/services/api';
 import { useMutation } from '@tanstack/react-query';
 
+export enum SignupSource {
+  MCOM = 'mcom',
+  STOCK_AUDIT = 'stock_audit',
+}
+
 interface authType {
   email: string;
   password: string;
@@ -10,8 +15,11 @@ interface signupType {
   fullName: string;
   email: string;
   phoneNumber: string;
-  location: string;
-  referralCode: string;
+  location?: string;
+  referralCode?: string;
+  signupSource: SignupSource;
+  password: string;
+  password2: string;
 }
 
 interface signupCustomerType {
