@@ -364,7 +364,7 @@ const Businesses = () => {
                 onClick={processUpdate}
                 disabled={updatePending}
               >
-                {updatePending ? 'LOADING...' : 'EDIT'}
+                {updatePending ? 'Saving...' : 'Save Changes'}
               </button>
               <button
                 className="px-4 py-2 mr-2 bg-transparent font-semibold rounded"

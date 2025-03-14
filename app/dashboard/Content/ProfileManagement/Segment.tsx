@@ -244,7 +244,7 @@ const Segment = () => {
                   onClick={processUpdate}
                   disabled={updatePending}
                 >
-                  {!updatePending ? 'EDIT' : 'EDITING...'}
+                  {!updatePending ? 'Save Changes' : 'Saving...'}
                 </button>
                 <button
                   className="px-4 py-2 mr-2 bg-transparent font-semibold rounded"

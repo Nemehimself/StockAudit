@@ -57,9 +57,10 @@ const Rewards = () => {
   const [currency, setCurrency] = useState<string>('');
 
   // States for DATE RANGE tab
-  const [activeFrom, setActiveFrom] = useState('');
+  const [activeFrom, setActiveFrom] = useState<Date>(new Date());
+  const [expires, setExpires] = useState<Date>(new Date());
+
   const [errorMsg, setErrorMsg] = useState('');
-  const [expires, setExpires] = useState('');
 
   // State for DESCRIPTION tab
   const [description, setDescription] = useState('');
@@ -177,9 +178,9 @@ const Rewards = () => {
 
   const clearForm = () => {
     setTitle('');
-    setActiveFrom('');
+    setActiveFrom(new Date());
     setDescription('');
-    setExpires('');
+    setExpires(new Date());
     setPointsCost('');
     setRewardValue('');
   };
@@ -256,9 +257,9 @@ const Rewards = () => {
         title,
       } = reward;
       setTitle(title);
-      setActiveFrom(activeFrom);
+      setActiveFrom(new Date(activeFrom));
       setDescription(description);
-      setExpires(expires);
+      setExpires(new Date(expires));
       setPointsCost(pointCost);
       setRewardValue(rewardValue);
 
@@ -422,7 +423,7 @@ const Rewards = () => {
                 onClick={processUpdate}
                 disabled={updatePending}
               >
-                {!updatePending ? 'EDIT' : 'EDITING...'}
+                {!updatePending ? 'Save Changes' : 'Saving...'}
               </button>
               <button
                 className="px-4 py-2 mr-2 bg-transparent font-semibold rounded"
@@ -457,10 +458,10 @@ const Rewards = () => {
                   <TableCell className="font-medium">{title}</TableCell>
                   <TableCell className="text-center">{pointCost}</TableCell>
                   <TableCell className="text-base">
-                    {formatDateShort(activeFrom)}
+                    {formatDateShort(activeFrom as string)}
                   </TableCell>
                   <TableCell className="text-base">
-                    {formatDateShort(expires)}
+                    {formatDateShort(expires as string)}
                   </TableCell>
                   <TableCell>{0}</TableCell>
                   <TableCell>

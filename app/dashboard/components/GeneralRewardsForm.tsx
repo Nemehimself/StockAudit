@@ -54,86 +54,81 @@ const GeneralForm: React.FC<GeneralFormProps> = ({
           className="block w-full p-2 border-b-2 border-[#838383] focus:border-[#2D3DFF] outline-none"
         />
       </div>
-      <div>
-        <label className=" mb-1 flex items-center gap-2">
-          Select a currency (required)
-          <ToolTip content="This is the currency this reward will be operated in" />
-        </label>
-        <select
-          name="currency"
-          className="block w-full p-2 border-b-2 border-[#838383] focus:border-[#2D3DFF] outline-none"
-          value={currency}
-          onChange={e => setCurrency(e.target.value)}
-        >
-          <option value="">Select a currency</option>
-          <option value="$">United States - Dollar ($)</option>
-          <option value="€">European Union - Euro (€)</option>
-          <option value="£">United Kingdom - Pound Sterling (£)</option>
-          <option value="¥">Japan - Yen (¥)</option>
-          <option value="A$">Australia - Australian Dollar (A$)</option>
-          <option value="C$">Canada - Canadian Dollar (C$)</option>
-          <option value="CHF">Switzerland - Swiss Franc (CHF)</option>
-          <option value="¥">China - Yuan (¥)</option>
-          <option value="kr">Sweden - Swedish Krona (kr)</option>
-          <option value="NZ$">New Zealand - New Zealand Dollar (NZ$)</option>
-          <option value="₹">India - Indian Rupee (₹)</option>
-          <option value="R$">Brazil - Brazilian Real (R$)</option>
-          <option value="₽">Russia - Russian Ruble (₽)</option>
-          <option value="R">South Africa - South African Rand (R)</option>
-          <option value="Mex$">Mexico - Mexican Peso (Mex$)</option>
-          <option value="S$">Singapore - Singapore Dollar (S$)</option>
-          <option value="HK$">Hong Kong - Hong Kong Dollar (HK$)</option>
-          <option value="kr">Norway - Norwegian Krone (kr)</option>
-          <option value="₩">South Korea - South Korean Won (₩)</option>
-          <option value="₺">Turkey - Turkish Lira (₺)</option>
-          <option value="د.إ">United Arab Emirates - UAE Dirham (د.إ)</option>
-          <option value="﷼">Saudi Arabia - Saudi Riyal (﷼)</option>
-          <option value="zł">Poland - Polish Złoty (zł)</option>
-          <option value="₴">Ukraine - Ukrainian Hryvnia (₴)</option>
-          <option value="₸">Kazakhstan - Kazakhstani Tenge (₸)</option>
-          <option value="₫">Vietnam - Vietnamese Đồng (₫)</option>
-          <option value="₱">Philippines - Philippine Peso (₱)</option>
-          <option value="₦">Nigeria - Nigerian Naira (₦)</option>
-          <option value="₡">Costa Rica - Costa Rican Colón (₡)</option>
-          <option value="₲">Paraguay - Paraguayan Guaraní (₲)</option>
-          <option value="₪">Israel - Israeli Shekel (₪)</option>
-          <option value="₮">Mongolia - Mongolian Tögrög (₮)</option>
-          <option value="៛">Cambodia - Cambodian Riel (៛)</option>
-          <option value="﷼">Qatar - Qatari Riyal (﷼)</option>
-          <option value="₭">Laos - Lao Kip (₭)</option>
-          <option value="₨">Mauritius - Mauritian Rupee (₨)</option>
-          <option value="₩">North Korea - North Korean Won (₩)</option>
-          <option value="₪">Palestine - Palestinian Shekel (₪)</option>
-          <option value="₮">Tajikistan - Tajikistani Somoni (₮)</option>
-          <option value="₺">Northern Cyprus - Turkish Lira (₺)</option>
-          <option value="₼">Azerbaijan - Azerbaijani Manat (₼)</option>
-          <option value="₾">Georgia - Georgian Lari (₾)</option>
-          <option value="₴">Transnistria - Transnistrian Ruble (₴)</option>
-          <option value="₽">Abkhazia - Abkhazian Apsar (₽)</option>
-          <option value="₽">South Ossetia - South Ossetian Ruble (₽)</option>
-          <option value="₽">
-            {"Donetsk People's Republic - Donetsk Ruble (₽)"}
-          </option>
-          <option value="₽">
-            {"Luhansk People's Republic - Luhansk Ruble (₽)"}
-          </option>
-          <option value="₽">Somaliland - Somaliland Shilling (₽)</option>
-          <option value="₽">Artsakh - Artsakh Dram (₽)</option>
-        </select>
-      </div>
-      <div>
-        <label className=" mb-1 flex items-center gap-2">
-          Reward Value (required)
-          <ToolTip content="This is the value customer will get once they have enough point to redeem the reward" />
-        </label>
-        <label className="block mb-1"></label>
-        <input
-          type="number"
-          placeholder="Enter reward value"
-          value={rewardValue ?? ''}
-          onChange={e => setRewardValue(e.target.value)}
-          className="block w-full p-2 border-b-2 border-[#838383] focus:border-[#2D3DFF] outline-none"
-        />
+      <div className="flex items-center gap-2">
+        <div className="w-[30%]">
+          <label className="mb-1 flex items-center gap-2">
+            currency
+            <ToolTip content="This is the currency this reward will be operated in" />
+          </label>
+          <select
+            name="currency"
+            className="block w-full p-2 border-b-2 border-[#838383] focus:border-[#2D3DFF] outline-none"
+            value={currency}
+            onChange={e => setCurrency(e.target.value)}
+          >
+            <option value="">Currency</option>
+            <option value="$">USD ($)</option>
+            <option value="€">EUR (€)</option>
+            <option value="£">GBP (£)</option>
+            <option value="¥">JPY (¥)</option>
+            <option value="A$">AUD (A$)</option>
+            <option value="C$">CAD (C$)</option>
+            <option value="CHF">CHF (CHF)</option>
+            <option value="¥">CNY (¥)</option>
+            <option value="kr">SEK (kr)</option>
+            <option value="NZ$">NZD (NZ$)</option>
+            <option value="₹">INR (₹)</option>
+            <option value="R$">BRL (R$)</option>
+            <option value="₽">RUB (₽)</option>
+            <option value="R">ZAR (R)</option>
+            <option value="Mex$">MXN (Mex$)</option>
+            <option value="S$">SGD (S$)</option>
+            <option value="HK$">HKD (HK$)</option>
+            <option value="kr">NOK (kr)</option>
+            <option value="₩">KRW (₩)</option>
+            <option value="₺">TRY (₺)</option>
+            <option value="د.إ">AED (د.إ)</option>
+            <option value="﷼">SAR (﷼)</option>
+            <option value="zł">PLN (zł)</option>
+            <option value="₴">UAH (₴)</option>
+            <option value="₸">KZT (₸)</option>
+            <option value="₫">VND (₫)</option>
+            <option value="₱">PHP (₱)</option>
+            <option value="₦">NGN (₦)</option>
+            <option value="₡">CRC (₡)</option>
+            <option value="₲">PYG (₲)</option>
+            <option value="₪">ILS (₪)</option>
+            <option value="₮">MNT (₮)</option>
+            <option value="៛">KHR (៛)</option>
+            <option value="﷼">QAR (﷼)</option>
+            <option value="₭">LAK (₭)</option>
+            <option value="₨">MUR (₨)</option>
+            <option value="₩">KPW (₩)</option>
+            <option value="₪">PSE (₪)</option>
+            <option value="₮">TJS (₮)</option>
+            <option value="₺">TRY (₺)</option>
+            <option value="₼">AZN (₼)</option>
+            <option value="₾">GEL (₾)</option>
+            <option value="₴">PRB (₴)</option>
+            <option value="₽">ABH (₽)</option>
+            <option value="₽">SOS (₽)</option>
+            <option value="₽">AMX (₽)</option>
+          </select>
+        </div>
+        <div className="w-[calc(70%)]">
+          <label className=" mb-1 flex items-center gap-2">
+            Reward Value (required)
+            <ToolTip content="This is the value customer will get once they have enough point to redeem the reward" />
+          </label>
+          <label className="block mb-1"></label>
+          <input
+            type="text"
+            placeholder="Enter reward value"
+            value={rewardValue}
+            onChange={e => setRewardValue(e.target.value)}
+            className="block w-full p-2 border-b-2 border-[#838383] focus:border-[#2D3DFF] outline-none"
+          />
+        </div>
       </div>
     </div>
   );

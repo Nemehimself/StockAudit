@@ -67,9 +67,10 @@ export default function Dashboard() {
 
         {/* Content Section with Dynamic Background */}
         <div 
-          className="p-4 flex-1 bg-cover bg-center transition-all duration-300" 
+          className=" flex-1 bg-cover bg-center transition-all duration-300 ease-in-out" 
           style={{ backgroundImage }}
         >
+          <div className="bg-slate-700 bg-opacity-70 w-full h-full p-4">
           <div className="flex flex-row items-center gap-10 justify-center w-full mt-2 text-center px-8">
                   <p className="text-[#fff] font-bold py-2 px-6 bg-opacity-70 bg-[#000]">
                     Please complete this audit as accurately as possible, as it will impact the final results
@@ -83,6 +84,7 @@ export default function Dashboard() {
             React.cloneElement(activeComponent as React.ReactElement<{ selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD" }>, {
               selectedGroup: activeGroup,
             })}
+        </div>
         </div>
       </div>
     </div>
