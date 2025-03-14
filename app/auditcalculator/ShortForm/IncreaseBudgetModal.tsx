@@ -12,8 +12,8 @@ export default function IncreaseBudgetModal({ onClose, setBasePrice, currentBase
   const handleSave = () => {
     const parsedAmount = parseFloat(additionalAmount);
     
-    if (isNaN(parsedAmount) || parsedAmount < 250) {
-      alert("Amount must be at least £250");
+    if (isNaN(parsedAmount) || parsedAmount < 500) {
+      alert("Amount must be at least £500");
       return;
     }
 
@@ -32,7 +32,8 @@ export default function IncreaseBudgetModal({ onClose, setBasePrice, currentBase
           onChange={(e) => setAdditionalAmount(e.target.value)}
           className="border p-2 w-full rounded-md"
           placeholder="Enter additional amount"
-          min="250"
+          min="500"
+          step="500"
         />
         <div className="flex justify-end gap-4 mt-4">
           <button onClick={onClose} className="px-4 py-2 bg-gray-600 text-white rounded-md">

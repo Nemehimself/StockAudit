@@ -24,7 +24,7 @@ export default function RecommendedSolution() {
 
   const currentSeason = getSeasonDates(new Date().getFullYear()).find(s => s.name === activeSeason);
 
-  const [basePrice, setBasePrice] = useState(1000); // Placeholder for backend integration
+  const [basePrice, setBasePrice] = useState(500); // Placeholder for backend integration
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [seasons, setSeasons] = useState(() => getSeasonDates(new Date().getFullYear()));
 
