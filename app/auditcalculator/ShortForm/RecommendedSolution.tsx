@@ -13,7 +13,7 @@ interface SliderValues {
 }
 
 const MIN_BASE_PRICE = 500;
-const MAX_AUDITS = 4;
+// const MAX_AUDITS = 4;
 
 export default function RecommendedSolution() {
   const [activeSeason, setActiveSeason] = useState('Winter');
@@ -32,8 +32,8 @@ export default function RecommendedSolution() {
   const auditsLeft = totalAudits; // ✅ For now, assume all audits are left
 
   // Calculate the audit count based on base price
-  const auditCount = Math.min(Math.floor(basePrice / MIN_BASE_PRICE), MAX_AUDITS);
-  const isCustomDisabled = auditCount < MAX_AUDITS;
+  // const auditCount = Math.min(Math.floor(basePrice / MIN_BASE_PRICE), MAX_AUDITS);
+  const isDisabled = basePrice < 2000;
   
   useEffect(() => {
     const today = new Date();
@@ -96,52 +96,21 @@ export default function RecommendedSolution() {
   }, [basePrice]);
 
   const handleSliderChange = (dial: keyof SliderValues, newValue: number) => {
-    const remainingPercentage = 100 - newValue;
-    const updatedSliders: SliderValues = { ...sliderValues, [dial]: newValue };
-
-    // Get other sliders
-    const otherDials = Object.keys(sliderValues).filter(
-      key => key !== dial
-    ) as (keyof SliderValues)[];
-
-    // Sum of other dials
-    const sumOtherDials = otherDials.reduce(
-      (sum, key) => sum + sliderValues[key],
-      0
-    );
-
-    if (sumOtherDials === 0) {
-      // If all others are zero, distribute evenly
-      const newValuePerDial = Math.floor(
-        remainingPercentage / otherDials.length
-      );
-      otherDials.forEach((d, index) => {
-        updatedSliders[d] =
-          index === otherDials.length - 1
-            ? remainingPercentage - newValuePerDial * (otherDials.length - 1) // Ensure total is exactly 100%
-            : newValuePerDial;
-      });
-    } else {
-      // Distribute proportionally based on their current values
-      otherDials.forEach(d => {
-        updatedSliders[d] = Math.round(
-          (sliderValues[d] / sumOtherDials) * remainingPercentage
-        );
-      });
-
-      // Adjust last dial to make sure the total is exactly 100%
-      const total = Object.values(updatedSliders).reduce(
-        (sum, val) => sum + val,
-        0
-      );
-      if (total !== 100) {
-        const adjustDial = otherDials[otherDials.length - 1];
-        updatedSliders[adjustDial] += 100 - total;
-      }
-    }
-
-    setSliderValues(updatedSliders);
+  
+    // Ensure the new total does not exceed 100%
+    const sumOtherDials = Object.keys(sliderValues)
+      .filter(key => key !== dial)
+      .reduce((sum, key) => sum + sliderValues[key as keyof SliderValues], 0);
+  
+    const maxValueForDial = Math.min(100 - sumOtherDials, newValue);
+  
+    // Update state while ensuring constraints
+    setSliderValues({
+      ...sliderValues,
+      [dial]: maxValueForDial
+    });
   };
+  
 
   interface FormatDate {
     (dateString: string): string;
@@ -196,45 +165,48 @@ export default function RecommendedSolution() {
         ))}
       </div>
 
-      <div className="flex flex-row justify-center gap-4 w-full mt-4">
-      {['Standard', 'Intense', 'Custom'].map(tab => (
-        <button
-          key={tab}
-          onClick={() => {
-            setActiveSubTab(tab);
-            setSliderValues(
-              initialSliders[activeSeason as keyof typeof initialSliders][tab]
-            );
-          }}
-          disabled={tab === "Custom" && isCustomDisabled}
-          className={`px-4 py-2 w-1/6 font-bold border-2 rounded-lg shadow-md ${
-            activeSubTab === tab
-              ? 'border-black text-black'
-              : 'border-gray-400 text-gray-400'
-          }`}
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
-    <div className="flex flex-col gap-4 w-full border-slate-400 p-4 mb-2">
+      <div className="flex flex-col items-center w-full mt-4">
+        <div className="flex flex-row justify-center gap-4 w-full">
+          {['Standard', 'Intense', 'Custom'].map(tab => (
+            <div key={tab} className="relative group">
+              {/* Button */}
+              <button
+                onClick={() => {
+                  setActiveSubTab(tab);
+                  setSliderValues(
+                    initialSliders[activeSeason as keyof typeof initialSliders][tab]
+                  );
+                }}
+                disabled={isDisabled && (tab === "Intense" || tab === "Custom")}
+                className={`px-4 py-2 w-32 text-center font-bold border-2 rounded-lg shadow-md transition ${
+                  activeSubTab === tab
+                    ? 'border-black text-black'
+                    : 'border-gray-400 text-gray-400'
+                } ${isDisabled && (tab === "Intense" || tab === "Custom") ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {tab}
+              </button>
+
+              {/* Tooltip (only appears when disabled and hovered) */}
+              {isDisabled && (tab === "Intense" || tab === "Custom") && (
+                <div className="absolute bottom-full w-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-red-500 text-white text-xs px-3 py-1 rounded-lg shadow-md">
+                  Increase budget to 2000+ to unlock.
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-4 w-full border-slate-400 p-4 mb-2">
   {Object.keys(sliderValues).map(dial => {
-    // 🔹 Find the active season's price
     const activeSeasonPrice = seasons.find(season => season.name === activeSeason)?.price || 0;
 
     return (
-      <div
-        key={dial}
-        className="flex flex-row w-full justify-between p-2 border-b border-[#000]"
-      >
-        <p className="text-lg font-bold text-black w-1/3">
-          {dial.toUpperCase()} DIAL
-        </p>
+      <div key={dial} className="flex flex-row w-full justify-between p-2 border-b border-[#000]">
+        <p className="text-lg font-bold text-black w-1/3">{dial.toUpperCase()} DIAL</p>
         <p className="text-base font-bold text-black w-1/3">
           {sliderValues[dial as keyof SliderValues]}% - £
-          {Math.round(
-            (activeSeasonPrice * sliderValues[dial as keyof SliderValues]) / 100
-          )}
+          {Math.round((activeSeasonPrice * sliderValues[dial as keyof SliderValues]) / 100)}
         </p>
         <div className="w-1/3">
           {activeSubTab === 'Custom' && (
@@ -245,10 +217,7 @@ export default function RecommendedSolution() {
               step="1"
               value={sliderValues[dial as keyof SliderValues]}
               onChange={e =>
-                handleSliderChange(
-                  dial as keyof SliderValues,
-                  Number(e.target.value)
-                )
+                handleSliderChange(dial as keyof SliderValues, Number(e.target.value))
               }
               className="w-full cursor-pointer accent-black"
             />
@@ -258,6 +227,7 @@ export default function RecommendedSolution() {
     );
   })}
 </div>
+
 
     <footer className="w-full flex flex-col justify-start  gap-4 font-medium ml-2 cursor-pointer">
       <div className='flex flex-row items-center gap-4'>
