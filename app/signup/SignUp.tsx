@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { errorType, useSignup } from '@/services/hooks/auth/hook';
 import { useRouter } from 'next/navigation';
 
-interface FormData {
+export interface FormData {
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -75,7 +75,6 @@ const Signup: React.FC = () => {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      console.log('Form Data:', formData);
       mutate(formData);
     }
   };

@@ -1,3 +1,4 @@
+import { FormData } from '@/app/signup/SignUp';
 import api from '@/services/api';
 import { useMutation } from '@tanstack/react-query';
 
@@ -9,17 +10,6 @@ export enum SignupSource {
 interface authType {
   email: string;
   password: string;
-}
-
-interface signupType {
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-  location?: string;
-  referralCode?: string;
-  signupSource: SignupSource;
-  password: string;
-  password2: string;
 }
 
 interface signupCustomerType {
@@ -56,14 +46,14 @@ export const useAuth = () => {
 };
 
 export const useSignup = () => {
-  const create = async (user: signupType) => {
+  const create = async (user: FormData) => {
     const request = api.post(`user/`, { ...user });
     const response = await request;
     return response['data'];
   };
 
   const mutation = useMutation({
-    mutationFn: (user: signupType) => create({ ...user }),
+    mutationFn: (user: FormData) => create({ ...user }),
   });
 
   return mutation;
