@@ -4,53 +4,102 @@ import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 interface IncreaseBudgetModalProps {
   onClose: () => void;
   setBasePrice: (price: number) => void;
-  currentBasePrice: number;  // ✅ Pass the current base price from parent
+  setSeasonBudgets: React.Dispatch<React.SetStateAction<{ Winter: number; Spring: number; Summer: number; Autumn: number }>>;
+  currentBasePrice: number;  
+  seasonBudgets: Record<string, number>; // ✅ Holds the current budget of each season
 }
 
-export default function IncreaseBudgetModal({ onClose, setBasePrice, currentBasePrice }: IncreaseBudgetModalProps) {
-  const [additionalAmount, setAdditionalAmount] = useState(500);
+const seasons = ["Winter", "Spring", "Summer", "Autumn"];
 
-  const handleIncrease = () => {
-    setAdditionalAmount((prev) => prev + 500);
+export default function IncreaseBudgetModal({ 
+  onClose, 
+  setBasePrice, 
+  setSeasonBudgets, 
+  currentBasePrice, 
+  // seasonBudgets 
+}: IncreaseBudgetModalProps) {
+  
+  // ✅ Track additional budget for each season
+  const [additionalBudgets, setAdditionalBudgets] = useState<Record<string, number>>(
+    Object.fromEntries(seasons.map(season => [season, 0])) // Start with 0
+  );
+
+  // ✅ Calculate total additional budget
+  const totalAdditionalBudget = Object.values(additionalBudgets).reduce((sum, amount) => sum + amount, 0);
+
+  // ✅ New budget (Current Budget + Additional Budget)
+  const newBudget = currentBasePrice + totalAdditionalBudget;
+
+  // ✅ Handle increasing/decreasing per season
+  const handleIncrease = (season: string) => {
+    setAdditionalBudgets(prev => ({
+      ...prev,
+      [season]: prev[season] + 500
+    }));
   };
 
-  const handleDecrease = () => {
-    setAdditionalAmount((prev) => (prev > 500 ? prev - 500 : 500));
+  const handleDecrease = (season: string) => {
+    setAdditionalBudgets(prev => ({
+      ...prev,
+      [season]: prev[season] > 0 ? prev[season] - 500 : 0
+    }));
   };
 
-
+  // ✅ Save changes and update state in RecommendedSolution
   const handleSave = () => {
-    const parsedAmount = additionalAmount;
-    
-    if (parsedAmount < 500) {
-      alert("Amount must be at least £500");
-      return;
-    }
-
-    setBasePrice(currentBasePrice + parsedAmount);  // ✅ Add to existing base price
-    onClose();  // ✅ Close modal after saving
+    // ✅ Preserve base price without auto-increasing
+    setBasePrice(currentBasePrice);
+  
+    // ✅ Update only the manually increased amounts
+    setSeasonBudgets(prevBudgets => {
+      const updatedBudgets = { ...prevBudgets };
+  
+      seasons.forEach(season => {
+        updatedBudgets[season as keyof typeof updatedBudgets] = 
+          (prevBudgets[season as keyof typeof prevBudgets] || 0) + additionalBudgets[season]; // Correct accumulation
+      });
+  
+      return updatedBudgets;
+    });
+  
+    onClose(); // Close modal
   };
+  
+  
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
-        <h2 className="text-lg font-bold mb-4">Edit Budget</h2>
-        <p className="mb-2 text-gray-600">Current Budget: £{currentBasePrice}</p>
-        <div className="flex items-center border p-2 rounded-md w-full max-w-[250px]">
-      <button
-        onClick={handleDecrease}
-        className="px-3 py-1 rounded-l-md text-lg"
-      >
-        <FaMinusCircle />
-      </button>
-      <span className="flex-1 text-center">{additionalAmount}</span>
-      <button
-        onClick={handleIncrease}
-        className="px-3 py-1 rounded-r-md text-lg"
-      >
-        <FaPlusCircle />
-      </button>
-    </div>
+        <h2 className="text-xl text-center font-bold mb-4">Add To Budget</h2>
+
+        {/* ✅ Display Budgets */}
+        <div className="flex flex-row gap-4 justify-between items-center mb-2">
+          <p className="text-gray-600">Current Budget: £{currentBasePrice}</p>
+          <p className="text-gray-600">Additional Budget: £{totalAdditionalBudget}</p>
+          <p className="text-gray-800 font-semibold">New Budget: £{newBudget}</p>
+        </div>
+
+        {/* ✅ Season Budget Controls */}
+        <div className="grid grid-cols-1 gap-3">
+          {seasons.map((season) => (
+            <div key={season} className="flex items-center border p-2 rounded-md justify-between">
+              <span className="w-24 font-semibold">{season}</span>
+              
+              <button onClick={() => handleDecrease(season)} className="px-2 text-lg">
+                <FaMinusCircle />
+              </button>
+
+              <span className="text-lg">{additionalBudgets[season]}</span>
+
+              <button onClick={() => handleIncrease(season)} className="px-2 text-lg">
+                <FaPlusCircle />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* ✅ Buttons */}
         <div className="flex justify-end gap-4 mt-4">
           <button onClick={onClose} className="px-4 py-2 bg-gray-600 text-white rounded-md">
             Cancel
