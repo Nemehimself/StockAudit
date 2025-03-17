@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useValidatCustomerNumber } from '@/services/hooks/reward/hook';
 import { errorType } from '@/services/hooks/auth/hook';
-import QRCodeScanner from '@/app/dashboard/Content/Dashboard/QRCodeScanner';
+// import QRCodeScanner from '@/app/dashboard/Content/Dashboard/QRCodeScanner';
 import { RewardMethod } from '@/services/hooks/reward/types';
 
 const ScanQRModal = () => {
@@ -84,7 +84,7 @@ const ScanQRModal = () => {
               />
             </div>
 
-            {!customerNumber ? (
+            {/* {!customerNumber ? (
               <QRCodeScanner
                 setScannedResult={result => setCustomerNumber(result || '')}
               />
@@ -92,7 +92,7 @@ const ScanQRModal = () => {
               <p className="text-2xl font-medium text-center">
                 {customerNumber}
               </p>
-            )}
+            )} */}
           </div>
 
           {errMsg && <p className="text-lg text-red-500">{errMsg}</p>}
