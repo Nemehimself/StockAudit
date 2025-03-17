@@ -4,6 +4,8 @@ import { HiPlusCircle } from "react-icons/hi";
 import IncreaseBudgetModal from "./IncreaseBudgetModal"; // Import the modal
 import { initialSliders } from './initialSliders';
 import { getSeasonDates } from './seasons'; // Adjust the path as needed
+import MoveBudgetModal from "./MoveBudgetModal";
+import { FaInfoCircle } from "react-icons/fa";
 
 interface SliderValues {
   marketing: number;
@@ -25,7 +27,9 @@ export default function RecommendedSolution() {
   const currentSeason = getSeasonDates(new Date().getFullYear()).find(s => s.name === activeSeason);
 
   const [basePrice, setBasePrice] = useState(500); // Placeholder for backend integration
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isIncreaseModalOpen, setIsIncreaseModalOpen] = useState(false);
+  const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
   const [seasons, setSeasons] = useState(() => getSeasonDates(new Date().getFullYear()));
 
   const totalAudits = Math.floor(basePrice / MIN_BASE_PRICE); // ✅ Number of audits covered
@@ -132,9 +136,51 @@ export default function RecommendedSolution() {
         <p className="p-2 rounded-lg shadow-lg bg-slate-800 text-[#fff] font-semibold">
          Budget: £{basePrice}
         </p>
-        <button className=" flex flex-row gap-4 items-center p-2 rounded-lg shadow-lg bg-slate-800 text-[#fff] font-semibold cursor-pointer" onClick={() => setIsModalOpen(true)}>
-          Increase Budget <HiPlusCircle className='w-6 h-6'/> 
-        </button>
+        <button
+        className="flex flex-row gap-4 items-center p-2 rounded-lg shadow-lg bg-slate-800 text-white font-semibold cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        Increase Budget <HiPlusCircle className="w-6 h-6" />
+      </button>
+
+      {/* Dropdown Menu */}
+      {isDropdownOpen && (
+        <div className="absolute mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+          {/* Add to Budget */}
+          <div
+            className="flex items-center justify-between font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            onClick={() => {
+              setIsIncreaseModalOpen(true);
+              setIsDropdownOpen(false);
+            }}
+          >
+            Add To Budget
+            <span className="group relative">
+              <FaInfoCircle className="w-5 h-5 text-gray-500" />
+              <span className="absolute left-0 w-32 bg-black text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                Add more budget to a particular marketing period and pay 
+              </span>
+            </span>
+          </div>
+
+          {/* Move Budget */}
+          <div
+            className="flex items-center justify-between font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            onClick={() => {
+              setIsMoveModalOpen(true);
+              setIsDropdownOpen(false);
+            }}
+          >
+            Move Budget
+            <span className="group relative">
+              <FaInfoCircle className="w-5 h-5 text-gray-500" />
+              <span className="absolute left-0 w-32 bg-black text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                Move current budget to a particular marketing period.
+              </span>
+            </span>
+          </div>
+        </div>
+      )}
         <h1 className="text-black text-2xl text-center font-bold">
           RECOMMENDED SOLUTION
         </h1>
@@ -251,7 +297,33 @@ export default function RecommendedSolution() {
         </div>
     </footer>
     {/* Increase Budget Modal */}
-    {isModalOpen && <IncreaseBudgetModal onClose={() => setIsModalOpen(false)} setBasePrice={setBasePrice} currentBasePrice={basePrice} />}
+    {isIncreaseModalOpen && (
+        <IncreaseBudgetModal
+          onClose={() => setIsIncreaseModalOpen(false)}
+          setBasePrice={setBasePrice}
+          currentBasePrice={basePrice}
+        />
+      )}
+
+    {isMoveModalOpen && (
+        <MoveBudgetModal
+          onClose={() => setIsMoveModalOpen(false)}
+          setBasePrice={setBasePrice}
+          currentBasePrice={basePrice}
+          seasonBudgets={seasons.reduce((acc, season) => {
+            acc[season.name] = season.price;
+            return acc;
+          }, {} as Record<string, number>)}
+          setSeasonBudgets={(budgets: Record<string, number>) => {
+            setSeasons(prevSeasons =>
+              prevSeasons.map(season => ({
+                ...season,
+                price: budgets[season.name] ?? season.price, // Ensure donor season updates too
+              }))
+            );
+          }}
+        />
+      )}
   </div>
 );
 }

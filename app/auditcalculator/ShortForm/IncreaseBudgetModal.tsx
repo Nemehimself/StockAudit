@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 
 interface IncreaseBudgetModalProps {
   onClose: () => void;
@@ -38,16 +39,16 @@ export default function IncreaseBudgetModal({ onClose, setBasePrice, currentBase
         <div className="flex items-center border p-2 rounded-md w-full max-w-[250px]">
       <button
         onClick={handleDecrease}
-        className="bg-gray-200 px-3 py-1 rounded-l-md text-lg"
+        className="px-3 py-1 rounded-l-md text-lg"
       >
-        −
+        <FaMinusCircle />
       </button>
       <span className="flex-1 text-center">{additionalAmount}</span>
       <button
         onClick={handleIncrease}
-        className="bg-gray-200 px-3 py-1 rounded-r-md text-lg"
+        className="px-3 py-1 rounded-r-md text-lg"
       >
-        +
+        <FaPlusCircle />
       </button>
     </div>
         <div className="flex justify-end gap-4 mt-4">
