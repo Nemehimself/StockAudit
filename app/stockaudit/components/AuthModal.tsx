@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import SignInForm from "./SignInForm";
-import RegisterForm from "./RegisterForm";
+import React, { useState } from 'react';
+import SignInForm from './SignInForm';
+import RegisterForm from './RegisterForm';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -26,10 +26,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, closeModal }) => {
               closeModal={closeModal}
             />
           ) : (
-            <RegisterForm
-              switchToSignIn={() => setIsSignIn(true)}
-              closeModal={closeModal}
-            />
+            <RegisterForm switchToSignIn={() => setIsSignIn(true)} />
           )}
         </div>
       </div>
