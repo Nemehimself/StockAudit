@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { useValidatCustomerRedeemNumber } from '@/services/hooks/reward/hook';
 import { errorType } from '@/services/hooks/auth/hook';
-import QRCodeScanner from '@/app/dashboard/Content/Dashboard/QRCodeScanner';
+// import QRCodeScanner from '@/app/dashboard/Content/Dashboard/QRCodeScanner';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -87,7 +87,7 @@ const ScanQRModal = () => {
               </SelectContent>
             </Select>
 
-            {!customerNumber ? (
+            {/* {!customerNumber ? (
               <QRCodeScanner
                 setScannedResult={result => setCustomerNumber(result || '')}
               />
@@ -95,7 +95,7 @@ const ScanQRModal = () => {
               <p className="text-2xl font-medium text-center">
                 {customerNumber}
               </p>
-            )}
+            )} */}
           </div>
 
           {errMsg && <p className="text-lg text-red-500">{errMsg}</p>}
