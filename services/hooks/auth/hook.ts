@@ -98,9 +98,8 @@ export const useAuthStaff = () => {
   return mutation;
 };
 
-export const useSignupCustomer = () => {
+export const useSignupCustomer = (campaignId: string) => {
   const create = async (customer: signupCustomerType) => {
-    const campaignId = localStorage.getItem('campaignId');
     const request = api.post(`customer/`, { ...customer, campaignId });
     const response = await request;
     return response['data'];

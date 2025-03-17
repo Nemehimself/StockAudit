@@ -2,6 +2,7 @@
 
 import { Inter } from 'next/font/google';
 import './globals.css';
+import './landing/components/homepage/feature.css';
 import QueryProvider from '@/services/Provider';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';

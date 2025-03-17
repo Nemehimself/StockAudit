@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   restaurantQuestionsSpareCapacity,
   restaurantQuestionsExcessStock,
   restaurantQuestionsRecommendedSolution,
-} from "../Questions/LongForm/RestaurantQuestions";
-import YouTube from "react-youtube";
+} from '../Questions/LongForm/RestaurantQuestions';
+import YouTube from 'react-youtube';
 
-const videoId = "G0dzLanYW1E";
+const videoId = 'G0dzLanYW1E';
 
 const opts = {
-  height: "100%",
-  width: "100%",
+  height: '100%',
+  width: '100%',
   playerVars: {
     autoplay: 0,
     controls: 1,
@@ -22,14 +22,14 @@ const opts = {
 
 const Restaurants = () => {
   const [selectedSpareType, setSelectedSpareType] = useState<
-    keyof typeof restaurantQuestionsSpareCapacity | ""
-  >("");
+    keyof typeof restaurantQuestionsSpareCapacity | ''
+  >('');
   const [selectedExcessType, setSelectedExcessType] = useState<
-    keyof typeof restaurantQuestionsExcessStock | ""
-  >("");
+    keyof typeof restaurantQuestionsExcessStock | ''
+  >('');
   const [selectedSolutionType, setSelectedSolutionType] = useState<
-    keyof typeof restaurantQuestionsRecommendedSolution | ""
-  >("");
+    keyof typeof restaurantQuestionsRecommendedSolution | ''
+  >('');
   return (
     <div className="flex flex-col justify-center items-center gap-4 w-full p-6">
       <div className="flex flex-col justify-center w-full px-4 bg-cover bg-center bg-no-repeat  h-full">
@@ -42,7 +42,7 @@ const Restaurants = () => {
               <select
                 className="block w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                 value={selectedSpareType}
-                onChange={(e) =>
+                onChange={e =>
                   setSelectedSpareType(
                     e.target
                       .value as keyof typeof restaurantQuestionsSpareCapacity
@@ -50,7 +50,7 @@ const Restaurants = () => {
                 }
               >
                 <option value="">Select Restaurant Type</option>
-                {Object.keys(restaurantQuestionsSpareCapacity).map((type) => (
+                {Object.keys(restaurantQuestionsSpareCapacity).map(type => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -120,7 +120,7 @@ const Restaurants = () => {
               <select
                 className="block w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                 value={selectedExcessType}
-                onChange={(e) =>
+                onChange={e =>
                   setSelectedExcessType(
                     e.target
                       .value as keyof typeof restaurantQuestionsExcessStock
@@ -128,7 +128,7 @@ const Restaurants = () => {
                 }
               >
                 <option value="">Select Restaurant Type</option>
-                {Object.keys(restaurantQuestionsExcessStock).map((type) => (
+                {Object.keys(restaurantQuestionsExcessStock).map(type => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -198,7 +198,7 @@ const Restaurants = () => {
               <select
                 className="block w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                 value={selectedSolutionType}
-                onChange={(e) =>
+                onChange={e =>
                   setSelectedSolutionType(
                     e.target
                       .value as keyof typeof restaurantQuestionsRecommendedSolution
@@ -207,7 +207,7 @@ const Restaurants = () => {
               >
                 <option value="">Select Restaurant Type</option>
                 {Object.keys(restaurantQuestionsRecommendedSolution).map(
-                  (type) => (
+                  type => (
                     <option key={type} value={type}>
                       {type}
                     </option>

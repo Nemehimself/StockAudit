@@ -42,8 +42,8 @@ function getOrdinalSuffix(day: number): string {
 }
 
 export const compareDates = (
-  dateString1: string,
-  dateString2: string
+  dateString1: string | Date,
+  dateString2: string | Date
 ): string | true => {
   // Convert the date strings to Date objects
   const date1 = new Date(dateString1);

@@ -64,7 +64,7 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({ activeAudit, setAct
       </div>
 
           <div className="p-2 bg-white text-[#000] font-bold">
-            5 Audits Left
+          4 of 4 Audit Left
           </div>
       {/* Right Side - User Dropdown */}
       <div className="relative" ref={dropdownRef}>
