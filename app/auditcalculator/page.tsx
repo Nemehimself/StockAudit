@@ -1,8 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import Dashboard from "./Dashboard";
+import React, { Suspense } from 'react';
+import Dashboard from './Dashboard';
+import { useSearchParams } from 'next/navigation';
+
+function SsoIdWrapper() {
+  const searchParams = useSearchParams();
+  const ssoId = searchParams.get('ssoId');
+
+  return <Dashboard ssoId={ssoId ?? ''} />;
+}
 
 export default function Page() {
-  return <Dashboard />;
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SsoIdWrapper />
+    </Suspense>
+  );
 }
