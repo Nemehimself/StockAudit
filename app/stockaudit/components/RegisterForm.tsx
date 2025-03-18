@@ -15,6 +15,7 @@ interface FormInterface {
   phoneNumber: string;
   password: string;
   password2: string;
+  signupSource: SignupSource;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ switchToSignIn }) => {
@@ -25,6 +26,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToSignIn }) => {
     phoneNumber: '',
     password: '',
     password2: '',
+    signupSource: SignupSource.STOCK_AUDIT,
   });
 
   const [error, setError] = useState<string | null>('');
@@ -32,7 +34,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToSignIn }) => {
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValue({ ...formValue, [name]: value });
-    console.log(formValue);
   };
 
   const {
@@ -61,8 +62,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToSignIn }) => {
     const signupSource = SignupSource.STOCK_AUDIT;
 
     mutate({ fullName, email, phoneNumber, signupSource, password, password2 });
-    // closeModal(); // Close modal
-    // router.push('/auditcalculator'); // Navigate to AuditCalculator page
   };
 
   useEffect(() => {
