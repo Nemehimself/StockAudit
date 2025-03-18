@@ -29,7 +29,7 @@ export const Dashboard = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className='flex flex-row items-center w-5/6 justify-center px-20 gap-4'
+                className='flex flex-row items-center w-5/6 justify-center px-20 gap-4 mt-6'
             >
                 <Winter />
                 <Spring />
