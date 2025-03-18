@@ -31,76 +31,70 @@ export default function RecommendedSolution() {
   const [isIncreaseModalOpen, setIsIncreaseModalOpen] = useState(false);
   const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
   const [seasons, setSeasons] = useState(() => getSeasonDates(new Date().getFullYear()));
-  const [seasonBudgets, setSeasonBudgets] = useState({
+  const [seasonBudgets, setSeasonBudgets] = useState<Record<string, number>>({
     Winter: 0,
     Spring: 0,
     Summer: 0,
     Autumn: 0,
   });
-
   const totalAudits = Math.floor(basePrice / MIN_BASE_PRICE); // ✅ Number of audits covered
   const auditsLeft = totalAudits; // ✅ For now, assume all audits are left
 
   // Calculate the audit count based on base price
   // const auditCount = Math.min(Math.floor(basePrice / MIN_BASE_PRICE), MAX_AUDITS);
   const isDisabled = basePrice < 2000;
+
+  // Function to determine the current season based on today's date
+const getCurrentSeason = (year: number) => {
+  const today = new Date();
+  const seasons = getSeasonDates(year);
   
-  useEffect(() => {
-    const today = new Date();
-    let remainingBudget = basePrice;
+  return seasons.find(season => {
+    const start = new Date(season.startDate);
+    const end = new Date(season.endDate);
+    return today >= start && today <= end;
+  })?.name;
+};
 
-    const defaultSeasons = getSeasonDates(today.getFullYear());
+useEffect(() => {
+  const today = new Date();
+  const defaultSeasons = getSeasonDates(today.getFullYear());
 
-    // Convert and sort seasons by startDate
-    const updatedSeasons = defaultSeasons
-      .map(season => ({
-        ...season,
-        startDate: new Date(`${season.startDate}T00:00:00`).toISOString(),
-        endDate: new Date(`${season.endDate}T23:59:59`).toISOString(),
-        price: seasonBudgets[season.name as keyof typeof seasonBudgets] ?? 0
-      }))
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+  const currentSeason = getCurrentSeason(today.getFullYear());
 
-    // Find the first season that includes today's date
-    const currentSeasonIndex = updatedSeasons.findIndex(season => 
-      today >= new Date(season.startDate) && today <= new Date(season.endDate)
-    );
+  setSeasonBudgets(prevBudgets => {
+    const initialBudgets: Record<string, number> = { ...prevBudgets }; // Keep existing values!
 
-    // ✅ Apply basePrice to the current season ONLY if its price is 0
-    if (currentSeasonIndex !== -1) {
-      const currentSeason = updatedSeasons[currentSeasonIndex];
-      if (currentSeason.price === 0) {
-        currentSeason.price = basePrice;
-        remainingBudget -= basePrice;
+    defaultSeasons.forEach(season => {
+      if (!(season.name in initialBudgets)) {
+        initialBudgets[season.name] = season.name === currentSeason ? basePrice : 0;
       }
+    });
+
+    // ✅ Explicitly set base price for current season
+    if (currentSeason) {
+      initialBudgets[currentSeason] = basePrice;
     }
 
-    // ✅ Allocate remaining budget but ensure Winter does NOT receive leftover budget automatically
-    updatedSeasons.forEach((season, index) => {
-      if (index > currentSeasonIndex && remainingBudget > 0 && season.name !== "Winter") {
-        const extraAllocation = Math.min(remainingBudget, MIN_BASE_PRICE);
-        season.price += extraAllocation;
-        remainingBudget -= extraAllocation;
-      }
-    });
+    return initialBudgets;
+  });
 
-    // ✅ Winter keeps its manually added budget
-    updatedSeasons.forEach(season => {
-      if (season.name === "Winter") {
-        season.startDate = new Date(`${today.getFullYear()}-12-01T00:00:00`).toISOString();
-        season.endDate = new Date(`${today.getFullYear() + 1}-02-28T23:59:59`).toISOString();
-      }
-    });
-
-    // Convert dates back to string format before setting state
-    setSeasons(updatedSeasons.map(season => ({
+  // ✅ Ensure the correct seasons are updated without overwriting
+  const updatedSeasons = defaultSeasons
+    .map(season => ({
       ...season,
-      startDate: new Date(season.startDate).toISOString().split('T')[0],
-      endDate: new Date(season.endDate).toISOString().split('T')[0]
-    })));
+      startDate: new Date(`${season.startDate}T00:00:00`).toISOString(),
+      endDate: new Date(`${season.endDate}T23:59:59`).toISOString(),
+      price: seasonBudgets[season.name] ?? 0, // Keep previously stored budgets
+    }))
+    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
-}, [basePrice, seasonBudgets]); 
-
+  setSeasons(updatedSeasons.map(season => ({
+    ...season,
+    startDate: season.startDate.split('T')[0],
+    endDate: season.endDate.split('T')[0]
+  })));
+}, [basePrice, seasonBudgets]); // ✅ Include `basePrice` and `seasonBudgets` dependencies
 
 
   const handleSliderChange = (dial: keyof SliderValues, newValue: number) => {
