@@ -77,7 +77,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ switchToSignIn }) => {
       setError(errMsg);
       console.error(mutateError);
     }
-  }, [isSuccess, isError, error, data, mutateError]);
+  }, [isSuccess, isError, error, data, mutateError, switchToSignIn]);
 
   return (
     <div className="bg-white text-black p-6 rounded-lg shadow-lg w-96">
