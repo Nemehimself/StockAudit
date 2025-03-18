@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { useState, useEffect, JSX } from 'react';
+import { useState, useEffect } from 'react';
 import { HiPlusCircle } from "react-icons/hi";
 import IncreaseBudgetModal from "./IncreaseBudgetModal"; // Import the modal
 import { initialSliders } from './initialSliders';
 import { getSeasonDates } from './seasons'; // Adjust the path as needed
+import MoveBudgetModal from "./MoveBudgetModal";
+import { FaInfoCircle } from "react-icons/fa";
 
 interface SliderValues {
   marketing: number;
@@ -25,8 +27,16 @@ export default function RecommendedSolution() {
   const currentSeason = getSeasonDates(new Date().getFullYear()).find(s => s.name === activeSeason);
 
   const [basePrice, setBasePrice] = useState(500); // Placeholder for backend integration
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isIncreaseModalOpen, setIsIncreaseModalOpen] = useState(false);
+  const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
   const [seasons, setSeasons] = useState(() => getSeasonDates(new Date().getFullYear()));
+  const [seasonBudgets, setSeasonBudgets] = useState({
+    Winter: 0,
+    Spring: 0,
+    Summer: 0,
+    Autumn: 0,
+  });
 
   const totalAudits = Math.floor(basePrice / MIN_BASE_PRICE); // ✅ Number of audits covered
   const auditsLeft = totalAudits; // ✅ For now, assume all audits are left
@@ -38,62 +48,60 @@ export default function RecommendedSolution() {
   useEffect(() => {
     const today = new Date();
     let remainingBudget = basePrice;
-  
-    // Generate dynamic seasons based on the current year
-    const defaultSeasons = getSeasonDates(today.getFullYear());
-  
-    // Convert and sort seasons by startDate
-    interface Season {
-      name: string;
-      startDate: string;
-      endDate: string;
-      icon: JSX.Element;
-      color: string;
-      price: number;
-    }
 
-    const updatedSeasons: Season[] = defaultSeasons
-      .map((season: Season): Season => ({
+    const defaultSeasons = getSeasonDates(today.getFullYear());
+
+    // Convert and sort seasons by startDate
+    const updatedSeasons = defaultSeasons
+      .map(season => ({
         ...season,
         startDate: new Date(`${season.startDate}T00:00:00`).toISOString(),
-        endDate: new Date(`${season.endDate}T23:59:59`).toISOString()
+        endDate: new Date(`${season.endDate}T23:59:59`).toISOString(),
+        price: seasonBudgets[season.name as keyof typeof seasonBudgets] ?? 0
       }))
-      .sort((a: Season, b: Season) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-  
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
     // Find the first season that includes today's date
     const currentSeasonIndex = updatedSeasons.findIndex(season => 
       today >= new Date(season.startDate) && today <= new Date(season.endDate)
     );
-  
-    // Allocate budget only from the correct season onwards
-    const newSeasons = updatedSeasons.map((season, index) => {
-      if (index >= currentSeasonIndex && remainingBudget > 0) {
-        const allocatedAmount = Math.min(remainingBudget, MIN_BASE_PRICE);
-        remainingBudget -= allocatedAmount;
-        return { ...season, price: allocatedAmount };
+
+    // ✅ Apply basePrice to the current season ONLY if its price is 0
+    if (currentSeasonIndex !== -1) {
+      const currentSeason = updatedSeasons[currentSeasonIndex];
+      if (currentSeason.price === 0) {
+        currentSeason.price = basePrice;
+        remainingBudget -= basePrice;
       }
-      return { ...season, price: 0 };
+    }
+
+    // ✅ Allocate remaining budget but ensure Winter does NOT receive leftover budget automatically
+    updatedSeasons.forEach((season, index) => {
+      if (index > currentSeasonIndex && remainingBudget > 0 && season.name !== "Winter") {
+        const extraAllocation = Math.min(remainingBudget, MIN_BASE_PRICE);
+        season.price += extraAllocation;
+        remainingBudget -= extraAllocation;
+      }
     });
 
-    // 🔹 Extend Winter instead of adding a duplicate one
-  if (remainingBudget > 0) {
-    newSeasons.forEach(season => {
+    // ✅ Winter keeps its manually added budget
+    updatedSeasons.forEach(season => {
       if (season.name === "Winter") {
         season.startDate = new Date(`${today.getFullYear()}-12-01T00:00:00`).toISOString();
         season.endDate = new Date(`${today.getFullYear() + 1}-02-28T23:59:59`).toISOString();
-        season.price += remainingBudget;
-        remainingBudget = 0;
       }
     });
-  }
-  
+
     // Convert dates back to string format before setting state
-    setSeasons(newSeasons.map(season => ({
+    setSeasons(updatedSeasons.map(season => ({
       ...season,
       startDate: new Date(season.startDate).toISOString().split('T')[0],
       endDate: new Date(season.endDate).toISOString().split('T')[0]
     })));
-  }, [basePrice]);
+
+}, [basePrice, seasonBudgets]); 
+
+
 
   const handleSliderChange = (dial: keyof SliderValues, newValue: number) => {
   
@@ -132,9 +140,51 @@ export default function RecommendedSolution() {
         <p className="p-2 rounded-lg shadow-lg bg-slate-800 text-[#fff] font-semibold">
          Budget: £{basePrice}
         </p>
-        <button className=" flex flex-row gap-4 items-center p-2 rounded-lg shadow-lg bg-slate-800 text-[#fff] font-semibold cursor-pointer" onClick={() => setIsModalOpen(true)}>
-          Increase Budget <HiPlusCircle className='w-6 h-6'/> 
-        </button>
+        <button
+        className="flex flex-row gap-4 items-center p-2 rounded-lg shadow-lg bg-slate-800 text-white font-semibold cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        Increase Budget <HiPlusCircle className="w-6 h-6" />
+      </button>
+
+      {/* Dropdown Menu */}
+      {isDropdownOpen && (
+        <div className="absolute mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+          {/* Add to Budget */}
+          <div
+            className="flex items-center justify-between font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            onClick={() => {
+              setIsIncreaseModalOpen(true);
+              setIsDropdownOpen(false);
+            }}
+          >
+            Add To Budget
+            <span className="group relative">
+              <FaInfoCircle className="w-5 h-5 text-gray-500" />
+              <span className="absolute left-0 w-32 bg-black text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                Add more budget to a particular marketing period and pay 
+              </span>
+            </span>
+          </div>
+
+          {/* Move Budget */}
+          <div
+            className="flex items-center justify-between font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            onClick={() => {
+              setIsMoveModalOpen(true);
+              setIsDropdownOpen(false);
+            }}
+          >
+            Move Budget
+            <span className="group relative">
+              <FaInfoCircle className="w-5 h-5 text-gray-500" />
+              <span className="absolute left-0 w-32 bg-black text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                Move current budget to a particular marketing period.
+              </span>
+            </span>
+          </div>
+        </div>
+      )}
         <h1 className="text-black text-2xl text-center font-bold">
           RECOMMENDED SOLUTION
         </h1>
@@ -251,7 +301,35 @@ export default function RecommendedSolution() {
         </div>
     </footer>
     {/* Increase Budget Modal */}
-    {isModalOpen && <IncreaseBudgetModal onClose={() => setIsModalOpen(false)} setBasePrice={setBasePrice} currentBasePrice={basePrice} />}
+    {isIncreaseModalOpen && (
+        <IncreaseBudgetModal
+          onClose={() => setIsIncreaseModalOpen(false)}
+          setBasePrice={setBasePrice}
+          setSeasonBudgets={setSeasonBudgets}
+          currentBasePrice={basePrice}
+          seasonBudgets={seasonBudgets}
+        />
+      )}
+
+    {isMoveModalOpen && (
+        <MoveBudgetModal
+          onClose={() => setIsMoveModalOpen(false)}
+          setBasePrice={setBasePrice}
+          currentBasePrice={basePrice}
+          seasonBudgets={seasons.reduce((acc, season) => {
+            acc[season.name] = season.price;
+            return acc;
+          }, {} as Record<string, number>)}
+          setSeasonBudgets={(budgets: Record<string, number>) => {
+            setSeasons(prevSeasons =>
+              prevSeasons.map(season => ({
+                ...season,
+                price: budgets[season.name] ?? season.price, // Ensure donor season updates too
+              }))
+            );
+          }}
+        />
+      )}
   </div>
 );
 }
