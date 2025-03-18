@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, JSX } from 'react';
 import { HiPlusCircle } from "react-icons/hi";
 import IncreaseBudgetModal from "./IncreaseBudgetModal"; // Import the modal
 import { initialSliders } from './initialSliders';
@@ -15,7 +15,6 @@ interface SliderValues {
 }
 
 const MIN_BASE_PRICE = 500;
-// const MAX_AUDITS = 4;
 
 export default function RecommendedSolution() {
   const [activeSeason, setActiveSeason] = useState('Winter');
@@ -40,92 +39,103 @@ export default function RecommendedSolution() {
   const totalAudits = Math.floor(basePrice / MIN_BASE_PRICE); // ✅ Number of audits covered
   const auditsLeft = totalAudits; // ✅ For now, assume all audits are left
 
-  // Calculate the audit count based on base price
-  // const auditCount = Math.min(Math.floor(basePrice / MIN_BASE_PRICE), MAX_AUDITS);
+
   const isDisabled = basePrice < 2000;
 
-  // Function to determine the current season based on today's date
-const getCurrentSeason = (year: number) => {
-  const today = new Date();
-  const seasons = getSeasonDates(year);
-  
-  return seasons.find(season => {
-    const start = new Date(season.startDate);
-    const end = new Date(season.endDate);
-    return today >= start && today <= end;
-  })?.name;
-};
+  useEffect(() => {
+    const today = new Date();
+    let remainingBudget = basePrice;
 
-useEffect(() => {
-  const today = new Date();
-  const defaultSeasons = getSeasonDates(today.getFullYear());
+    // Generate dynamic seasons based on the current year
+    const defaultSeasons = getSeasonDates(today.getFullYear());
 
-  const currentSeason = getCurrentSeason(today.getFullYear());
-
-  setSeasonBudgets(prevBudgets => {
-    const initialBudgets: Record<string, number> = { ...prevBudgets }; // Keep existing values!
-
-    defaultSeasons.forEach(season => {
-      if (!(season.name in initialBudgets)) {
-        initialBudgets[season.name] = season.name === currentSeason ? basePrice : 0;
-      }
-    });
-
-    // ✅ Explicitly set base price for current season
-    if (currentSeason) {
-      initialBudgets[currentSeason] = basePrice;
+    // Convert and sort seasons by startDate
+    interface Season {
+      name: string;
+      startDate: string;
+      endDate: string;
+      icon: JSX.Element;
+      color: string;
+      price: number;
     }
 
-    return initialBudgets;
-  });
+    const updatedSeasons: Season[] = defaultSeasons.map((season: Season): Season => {
+      const [yearStart, monthStart, dayStart] = season.startDate.split('-').map(Number);
+      const [yearEnd, monthEnd, dayEnd] = season.endDate.split('-').map(Number);
+    
+      return {
+        ...season,
+        startDate: new Date(Date.UTC(yearStart, monthStart - 1, dayStart)).toISOString(),
+        endDate: new Date(Date.UTC(yearEnd, monthEnd - 1, dayEnd, 23, 59, 59)).toISOString(),
+      };
+    });
+    
 
-  // ✅ Ensure the correct seasons are updated without overwriting
-  const updatedSeasons = defaultSeasons
-    .map(season => ({
+    // Find the first season that includes today's date
+    const currentSeasonIndex = updatedSeasons.findIndex(season => 
+      today >= new Date(season.startDate) && today <= new Date(season.endDate)
+    );
+
+    // Allocate budget only from the correct season onwards
+    const newSeasons = updatedSeasons.map((season, index) => {
+      if (index >= currentSeasonIndex && remainingBudget > 0) {
+        const allocatedAmount = Math.min(remainingBudget, MIN_BASE_PRICE);
+        remainingBudget -= allocatedAmount;
+        return { ...season, price: allocatedAmount };
+      }
+      return { ...season, price: 0 };
+    });
+
+    // 🔹 Extend Winter instead of adding a duplicate one
+  if (remainingBudget > 0) {
+    newSeasons.forEach(season => {
+      if (season.name === "Winter") {
+        season.startDate = new Date(`${today.getFullYear()}-12-01T00:00:00`).toISOString();
+        season.endDate = new Date(`${today.getFullYear() + 1}-02-28T23:59:59`).toISOString();
+        season.price += remainingBudget;
+        remainingBudget = 0;
+      }
+    });
+  }
+
+    // Convert dates back to string format before setting state
+    setSeasons(newSeasons.map(season => ({
       ...season,
-      startDate: new Date(`${season.startDate}T00:00:00`).toISOString(),
-      endDate: new Date(`${season.endDate}T23:59:59`).toISOString(),
-      price: seasonBudgets[season.name] ?? 0, // Keep previously stored budgets
-    }))
-    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-  setSeasons(updatedSeasons.map(season => ({
-    ...season,
-    startDate: season.startDate.split('T')[0],
-    endDate: season.endDate.split('T')[0]
-  })));
-}, [basePrice, seasonBudgets]); // ✅ Include `basePrice` and `seasonBudgets` dependencies
-
+      startDate: new Date(season.startDate).toISOString().split('T')[0],
+      endDate: new Date(season.endDate).toISOString().split('T')[0]
+    })));
+  }, [basePrice]);
 
   const handleSliderChange = (dial: keyof SliderValues, newValue: number) => {
-  
-    // Ensure the new total does not exceed 100%
-    const sumOtherDials = Object.keys(sliderValues)
+
+  // Ensure the new total does not exceed 100%
+  const sumOtherDials = Object.keys(sliderValues)
       .filter(key => key !== dial)
       .reduce((sum, key) => sum + sliderValues[key as keyof SliderValues], 0);
-  
-    const maxValueForDial = Math.min(100 - sumOtherDials, newValue);
-  
-    // Update state while ensuring constraints
+
+  const maxValueForDial = Math.min(100 - sumOtherDials, newValue);
+
+  // Update state while ensuring constraints
     setSliderValues({
       ...sliderValues,
       [dial]: maxValueForDial
     });
   };
+
+
+  // interface FormatDate {
+  //   (dateString: string): string;
+  // }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(Date.parse(dateString + "T12:00:00Z")); // Ensures UTC parsing
+    return date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+    }).replace(',', '');
+  };
   
 
-  interface FormatDate {
-    (dateString: string): string;
-  }
-
-  const formatDate: FormatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: '2-digit',
-    }).replace(',', ''); // Removes extra comma if any
-  };
 
   return (
     <div
@@ -138,7 +148,7 @@ useEffect(() => {
         className="flex flex-row gap-4 items-center p-2 rounded-lg shadow-lg bg-slate-800 text-white font-semibold cursor-pointer"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        Increase Budget <HiPlusCircle className="w-6 h-6" />
+        Edit Budget <HiPlusCircle className="w-6 h-6" />
       </button>
 
       {/* Dropdown Menu */}
@@ -305,25 +315,25 @@ useEffect(() => {
         />
       )}
 
-    {isMoveModalOpen && (
-        <MoveBudgetModal
-          onClose={() => setIsMoveModalOpen(false)}
-          setBasePrice={setBasePrice}
-          currentBasePrice={basePrice}
-          seasonBudgets={seasons.reduce((acc, season) => {
-            acc[season.name] = season.price;
-            return acc;
-          }, {} as Record<string, number>)}
-          setSeasonBudgets={(budgets: Record<string, number>) => {
-            setSeasons(prevSeasons =>
-              prevSeasons.map(season => ({
-                ...season,
-                price: budgets[season.name] ?? season.price, // Ensure donor season updates too
-              }))
-            );
-          }}
-        />
-      )}
+        {isMoveModalOpen && (
+         <MoveBudgetModal
+           onClose={() => setIsMoveModalOpen(false)}
+           setBasePrice={setBasePrice}
+           currentBasePrice={basePrice}
+           seasonBudgets={seasons.reduce((acc, season) => {
+             acc[season.name] = season.price;
+             return acc;
+           }, {} as Record<string, number>)}
+           setSeasonBudgets={(budgets: Record<string, number>) => {
+             setSeasons(prevSeasons =>
+               prevSeasons.map(season => ({
+                 ...season,
+                 price: budgets[season.name] ?? season.price, // Ensure donor season updates too
+               }))
+             );
+           }}
+         />
+       )}
   </div>
 );
 }
