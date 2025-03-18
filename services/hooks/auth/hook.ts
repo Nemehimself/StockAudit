@@ -21,14 +21,6 @@ interface signupType {
   password: string;
   password2: string;
 }
-
-interface signupCustomerType {
-  fullName: string;
-  email: string;
-  password: string;
-  password2: string;
-}
-
 export interface authDataType {
   accessToken: string;
 }
@@ -69,45 +61,15 @@ export const useSignup = () => {
   return mutation;
 };
 
-export const useAuthCustomer = () => {
-  const create = async ({ email, password, campaignId }: authCustomerType) => {
-    const request = api.post(`auth/customer`, { email, password, campaignId });
-    const response = await request;
-    return response['data'] as authDataType;
-  };
-
-  const mutation = useMutation({
-    mutationFn: ({ email, password, campaignId }: authCustomerType) =>
-      create({ email, password, campaignId }),
-  });
-
-  return mutation;
-};
-
-export const useAuthStaff = () => {
-  const create = async ({ email, password }: authType) => {
-    const request = api.post(`auth/staff`, { email, password });
-    const response = await request;
-    return response['data'] as authDataType;
-  };
-
-  const mutation = useMutation({
-    mutationFn: ({ email, password }: authType) => create({ email, password }),
-  });
-
-  return mutation;
-};
-
-export const useSignupCustomer = () => {
-  const create = async (customer: signupCustomerType) => {
-    const campaignId = localStorage.getItem('campaignId');
-    const request = api.post(`customer/`, { ...customer, campaignId });
+export const useSSO = () => {
+  const create = async (ssoId: string) => {
+    const request = api.post(`auth/sso-login/`, { ssoId });
     const response = await request;
     return response['data'];
   };
 
   const mutation = useMutation({
-    mutationFn: (customer: signupCustomerType) => create({ ...customer }),
+    mutationFn: create,
   });
 
   return mutation;
