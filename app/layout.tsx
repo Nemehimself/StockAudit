@@ -2,10 +2,7 @@
 
 import { Inter } from 'next/font/google';
 import './globals.css';
-import './landing/components/homepage/feature.css';
 import QueryProvider from '@/services/Provider';
-import { Provider } from 'react-redux';
-import { store } from '@/store/store';
 import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
@@ -24,12 +21,10 @@ export default function RootLayout({
           }
         `}</style>
         <body className={`${inter.variable} antialiased`}>
-          <Provider store={store}>
-            <QueryProvider>
-              {children}
-              <Toaster />
-            </QueryProvider>
-          </Provider>
+          <QueryProvider>
+            {children}
+            <Toaster />
+          </QueryProvider>
         </body>
       </head>
       {/* ✅ Moved outside */}
