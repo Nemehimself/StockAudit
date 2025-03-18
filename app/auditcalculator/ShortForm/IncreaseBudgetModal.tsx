@@ -4,7 +4,7 @@ import { FaPlusCircle, FaMinusCircle } from "react-icons/fa";
 interface IncreaseBudgetModalProps {
   onClose: () => void;
   setBasePrice: (price: number) => void;
-  setSeasonBudgets: React.Dispatch<React.SetStateAction<{ Winter: number; Spring: number; Summer: number; Autumn: number }>>;
+  setSeasonBudgets: React.Dispatch<React.SetStateAction<Record<string, number>>>;
   currentBasePrice: number;  
   seasonBudgets: Record<string, number>; // ✅ Holds the current budget of each season
 }
@@ -13,10 +13,9 @@ const seasons = ["Winter", "Spring", "Summer", "Autumn"];
 
 export default function IncreaseBudgetModal({ 
   onClose, 
-  setBasePrice, 
+  setBasePrice, // ✅ Fix: Now passed correctly
   setSeasonBudgets, 
-  currentBasePrice, 
-  // seasonBudgets 
+  currentBasePrice 
 }: IncreaseBudgetModalProps) {
   
   // ✅ Track additional budget for each season
@@ -45,29 +44,27 @@ export default function IncreaseBudgetModal({
     }));
   };
 
-  // ✅ Save changes and update state in RecommendedSolution
   const handleSave = () => {
-    // ✅ Preserve base price without auto-increasing
-    setBasePrice(currentBasePrice);
-  
-    // ✅ Update only the manually increased amounts
     setSeasonBudgets(prevBudgets => {
       const updatedBudgets = { ...prevBudgets };
   
-      seasons.forEach(season => {
-        updatedBudgets[season as keyof typeof updatedBudgets] = 
-          (prevBudgets[season as keyof typeof prevBudgets] || 0) + additionalBudgets[season]; // Correct accumulation
+      Object.keys(additionalBudgets).forEach(season => {
+        updatedBudgets[season] = (prevBudgets[season] ?? 0) + additionalBudgets[season];
       });
   
       return updatedBudgets;
     });
   
-    onClose(); // Close modal
+    // ✅ Ensure base price type is correct
+    setBasePrice(currentBasePrice + totalAdditionalBudget);
+  
+    onClose();
   };
   
   
   
-
+  
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
