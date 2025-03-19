@@ -5,16 +5,20 @@ import { Autumn } from './Autumn';
 import { Spring } from './Spring';
 import { Summer } from './Summer';
 import { Winter } from './Winter';
+import { BudgetFeatures } from './BudgetFeatures';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export const Dashboard = () => {
     const [showFeatures, setShowFeatures] = useState(false);
 
     return (
-        <div className='flex flex-col items-center justify-center p-4 gap-4'>
-            <header className='flex flex-col items-center w-1/2 justify-center gap-4'>
-                <h1 className='font-normal text-2xl'>
+        <div className='flex flex-col items-center justify-center gap-4'>
+          <h1 className='text-6xl w-full text-center text-[#fff] bg-blue-500 p-4 font-normal'>
+            AUDIT PRICING</h1>
+            <header className='flex flex-col items-center w-1/2 mt-4 justify-center gap-4'>
+                <h1 className='font-normal text-3xl'>
                     MAKE A SELECTION FROM OUR 
-                    <span className='text-5xl text-blue-600 ml-2'>BUDGETS</span>
+                    <span className='text-7xl text-blue-600 ml-2'>BUDGETS</span>
                 </h1>
                 <p className='text-center mt-10'>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
@@ -23,7 +27,12 @@ export const Dashboard = () => {
                     vitae asperiores dolore corporis voluptatem!
                 </p>
             </header>
-
+            <DotLottieReact
+              src="https://lottie.host/e20ab106-7674-412f-b590-4b3258d8ee7c/HnQv0JcMqA.lottie"
+              loop
+              autoplay
+              className='w-48 h-24'
+            />
             {/* Budget Cards */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -47,22 +56,7 @@ export const Dashboard = () => {
                 View all features for the budgets <FaChevronDown />
             </motion.button>
 
-            {showFeatures && (
-                <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="mt-6 bg-gray-100 p-4 rounded-xl w-1/2"
-                >
-                    <h3 className="text-xl font-bold">Budget Features</h3>
-                    <ul className="mt-2 text-gray-600">
-                        <li>✔ Advanced Analytics</li>
-                        <li>✔ Custom Reports</li>
-                        <li>✔ 24/7 Support</li>
-                        <li>✔ Flexible Payment Options</li>
-                    </ul>
-                </motion.div>
-            )}
+            {showFeatures && <BudgetFeatures />}
         </div>
     )
 }

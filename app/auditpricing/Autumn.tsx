@@ -41,7 +41,7 @@ export const Autumn = () => {
       </p>
 
       <button
-        className="border-t border-b border-white  px-4 py-2 w-full bg-transparent text-white"
+        className="border-t border-white  px-4 py-2 w-full bg-transparent text-white"
         onClick={handleLogin}
       >
         Make Payment
@@ -63,7 +63,7 @@ export const Autumn = () => {
         <FaStripeS /> <span> Pay with Stripe </span>
       </motion.button>
 
-      <hr className="w-full bg-white mt-6" />
+      <hr className="w-full bg-white mt-2" />
 
       <p>What we offer:</p>
       <ul>
