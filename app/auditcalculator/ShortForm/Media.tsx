@@ -31,26 +31,17 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
 
-  const [inputValues, setInputValues] = useState(Array(7).fill(0)); // Ensure default state is 0 for all inputs
+  const [inputValues, setInputValues] = useState<Record<string, number>>({});
   const [yearlyMaxCapacity, setYearlyMaxCapacity] = useState(0);
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
   const [currency, setCurrency] = useState<string>("£");
-  const [errors, setErrors] = useState(Array(7).fill(false)); // Track missing inputs
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-  const handleInputChange2 = (index: number, value: number) => {
-    setInputValues((prev) => {
-      const newValues = [...prev];
-      newValues[index] = value || 0;
-      return newValues;
-    });
-
-    setErrors((prev) => {
-      const newErrors = [...prev];
-      newErrors[index] = false; // Reset error when user enters a value
-      return newErrors;
-    });
+  const handleInputChange2 = (question: string, value: number) => {
+    setInputValues((prev) => ({ ...prev, [question]: value }));
+    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,13 +51,15 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
 
   const handleCalculate = () => {
     if (selectedGroup !== "GroupD") {
-      const newErrors = inputValues.map(
-        (val, index) => [0, 3, 4, 5, 6].includes(index) && val === 0 // Require fields for calculations
-      );
+      const newErrors = Object.keys(inputValues).reduce((acc, key) => {
+        const index = parseInt(key, 10);
+        acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0; // Require fields for calculations
+        return acc;
+      }, {} as Record<string, boolean>);
 
       setErrors(newErrors);
 
-      if (newErrors.some((err) => err)) {
+      if (Object.values(newErrors).some((err) => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -95,11 +88,11 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
   };
 
   const handleReset = () => {
-    setInputValues(Array(7).fill(0)); // Reset all input values to 0
+    setInputValues({}); // Reset all input values to an empty object
     setYearlyMaxCapacity(0); // Reset yearly max capacity
     setCurrentYearlyTurnOver(0); // Reset yearly turnover
     setYearlySpareCapacity(0); // Reset spare capacity
-    setErrors(Array(7).fill(false)); // Clear error messages
+    setErrors({}); // Clear error messages
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -240,7 +233,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                               value = maxValue;
                             }
                             e.target.value = value.toString(); // Enforce the max value
-                            handleInputChange2(index, value);
+                            handleInputChange2(question, value);
                           }}
                           className={`w-1/3 p-2 border ${
                             errors[index]
