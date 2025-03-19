@@ -31,26 +31,17 @@ const Restaurants: React.FC<
     setAnswers((prev) => ({ ...prev, [key]: value }));
   };
 
-  const [inputValues, setInputValues] = useState(Array(7).fill(0)); // Ensure default state is 0 for all inputs
+  const [inputValues, setInputValues] = useState<Record<string, number>>({});
   const [yearlyMaxCapacity, setYearlyMaxCapacity] = useState(0);
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
   const [currency, setCurrency] = useState<string>("£");
-  const [errors, setErrors] = useState(Array(7).fill(false)); // Track missing inputs
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-  const handleInputChange2 = (index: number, value: number) => {
-    setInputValues((prev) => {
-      const newValues = [...prev];
-      newValues[index] = value || 0;
-      return newValues;
-    });
-
-    setErrors((prev) => {
-      const newErrors = [...prev];
-      newErrors[index] = false; // Reset error when user enters a value
-      return newErrors;
-    });
+  const handleInputChange2 = (question: string, value: number) => {
+    setInputValues((prev) => ({ ...prev, [question]: value }));
+    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,13 +51,15 @@ const Restaurants: React.FC<
 
   const handleCalculate = () => {
     if (selectedGroup !== "GroupD") {
-      const newErrors = inputValues.map(
-        (val, index) => [0, 3, 4, 5, 6].includes(index) && val === 0 // Require fields for calculations
-      );
+      const newErrors = Object.keys(inputValues).reduce((acc, key) => {
+        const index = parseInt(key, 10);
+        acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0;
+        return acc;
+      }, {} as Record<string, boolean>);
 
       setErrors(newErrors);
 
-      if (newErrors.some((err) => err)) {
+      if (Object.values(newErrors).some((err) => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -90,8 +83,9 @@ const Restaurants: React.FC<
         (inputValues[5] || 1);
     } else {
       // Calculate Yearly Max Capacity
-      maxCapacity = inputValues.slice(0, 5).some((val) => val > 0)
-        ? inputValues.slice(0, 5).reduce((acc, val) => acc * (val || 1), 1)
+      const inputValuesArray = Object.values(inputValues).slice(0, 5);
+      maxCapacity = inputValuesArray.some((val) => val > 0)
+        ? inputValuesArray.reduce((acc, val) => acc * (val || 1), 1)
         : 0;
 
       // Calculate Current Yearly Turnover
@@ -112,11 +106,11 @@ const Restaurants: React.FC<
   };
 
   const handleReset = () => {
-    setInputValues(Array(7).fill(0)); // Reset all input values to 0
+    setInputValues({}); // Reset all input values to an empty object
     setYearlyMaxCapacity(0); // Reset yearly max capacity
     setCurrentYearlyTurnOver(0); // Reset yearly turnover
     setYearlySpareCapacity(0); // Reset spare capacity
-    setErrors(Array(7).fill(false)); // Clear error messages
+    setErrors({}); // Clear error messages
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -233,16 +227,14 @@ const Restaurants: React.FC<
                       Category: string;
                       Questions: { Question: string; Tooltip: string }[];
                     }
-                  ).Questions.map((questionObj, index) => {
-                    const { Question, Tooltip } = questionObj; // Destructure the object
-
+                  ).Questions.map(({ Question, Tooltip }) => {
                     const maxValue = Question.includes("(max 52)")
                       ? 52
                       : undefined;
 
                     return (
                       <div
-                        key={index}
+                        key={Question}
                         className="flex flex-row justify-between gap-4"
                       >
                         <div className="flex w-2/3 items-center gap-2">
@@ -251,8 +243,8 @@ const Restaurants: React.FC<
                           </label>
                           <span className="relative group">
                             <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300" />
-                            <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                              {Tooltip} {/* Tooltip content */}
+                            <span className="absolute left-full top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
+                              {Tooltip}
                             </span>
                           </span>
                         </div>
@@ -260,22 +252,21 @@ const Restaurants: React.FC<
                           type="number"
                           min="0"
                           max={maxValue}
-                          value={inputValues[index]} // Bind value to inputValues state
+                          value={inputValues[Question] || ""}
                           onChange={(e) => {
                             let value = parseInt(e.target.value, 10) || 0;
                             if (maxValue !== undefined && value > maxValue) {
                               value = maxValue;
                             }
-                            e.target.value = value.toString(); // Enforce the max value
-                            handleInputChange2(index, value);
+                            handleInputChange2(Question, value);
                           }}
                           className={`w-1/3 p-2 border ${
-                            errors[index]
+                            errors[Question]
                               ? "border-red-500"
                               : "border-[#838383]"
                           } focus:border-[#2D3DFF] outline-none rounded mb-4`}
                         />
-                        {errors[index] && (
+                        {errors[Question] && (
                           <p className="text-red-500 text-xs">Missing input</p>
                         )}
                       </div>
@@ -287,17 +278,18 @@ const Restaurants: React.FC<
               <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-[#fff] p-4">
                 {/* Yearly Maximum Capacity */}
                 <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <p className="text-center font-bold text-base">
-                    Yearly Maximum Capacity:
-                  </p>
-                  <span className="relative group">
-                            <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                            <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                            This represents the highest revenue potential, assuming the restaurant operates at full efficiency.
-                            </span>
-                          </span>
-                </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-center font-bold text-base">
+                      Yearly Maximum Capacity:
+                    </p>
+                    <span className="relative group">
+                      <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
+                      <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
+                        This represents the highest revenue potential, assuming
+                        the restaurant operates at full efficiency.
+                      </span>
+                    </span>
+                  </div>
                   <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
                     <p className="text-center font-bold text-xl ">
                       {currency}
@@ -308,17 +300,18 @@ const Restaurants: React.FC<
 
                 {/* Current Yearly TurnOver */}
                 <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <p className="text-center font-bold text-base">
-                    Current Yearly TurnOver:
-                  </p>
-                  <span className="relative group">
-                            <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                            <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                            This represents actual revenue based on the current number of customers served per hour.
-                            </span>
-                          </span>
-                </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-center font-bold text-base">
+                      Current Yearly TurnOver:
+                    </p>
+                    <span className="relative group">
+                      <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
+                      <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
+                        This represents actual revenue based on the current
+                        number of customers served per hour.
+                      </span>
+                    </span>
+                  </div>
                   <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
                     <p className="text-center font-bold text-xl ">
                       {currency}
@@ -329,17 +322,18 @@ const Restaurants: React.FC<
 
                 {/* Yearly Spare Capacity */}
                 <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <p className="text-center font-bold text-base">
-                    Yearly Spare Capacity:
-                  </p>
-                  <span className="relative group">
-                            <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                            <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                            This indicates the missed revenue potential due to lower customer flow or operational inefficiencies.
-                            </span>
-                          </span>
-                </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-center font-bold text-base">
+                      Yearly Spare Capacity:
+                    </p>
+                    <span className="relative group">
+                      <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
+                      <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
+                        This indicates the missed revenue potential due to lower
+                        customer flow or operational inefficiencies.
+                      </span>
+                    </span>
+                  </div>
                   <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
                     <p className="text-center font-bold text-xl ">
                       {currency}
