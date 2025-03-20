@@ -5,7 +5,7 @@ import { RiCloseLargeLine } from "react-icons/ri";
 
 export const BudgetFeatures = () => {
   // Define the type for feature availability
-  type Seasons = "Winter" | "Spring" | "Summer" | "Autumn";
+  type Seasons = "Audit1" | "Audit2" | "Audit3" | "Audit4";
 
   // Features list (vertical headers)
   const features: string[] = [
@@ -20,10 +20,10 @@ export const BudgetFeatures = () => {
 
   // Feature availability under each season
   const featureAvailability: Record<Seasons, boolean[]> = {
-    Winter: [true, true, false, true, false, true, false],
-    Spring: [true, false, true, false, true, true, true],
-    Summer: [false, true, true, true, true, false, true],
-    Autumn: [true, true, true, false, false, true, false],
+    Audit1: [true, true, false, true, false, true, false],
+    Audit2: [true, false, true, false, true, true, true],
+    Audit3: [false, true, true, true, true, false, true],
+    Audit4: [true, true, true, false, false, true, false],
   };
 
   return (
