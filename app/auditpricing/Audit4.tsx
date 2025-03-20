@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
-import { FaCanadianMapleLeaf } from "react-icons/fa";
+import { AiOutlineAudit } from "react-icons/ai";
 import { HiBadgeCheck } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { FaPaypal, FaStripeS } from "react-icons/fa";
+import { FaCircleChevronDown } from "react-icons/fa6";
 
-export const Autumn = () => {
+export const Audit4 = () => {
   const router = useRouter();
+   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
+    const seasons = [
+        { name: "Winter", period: "01 Dec - 28 Feb" },
+        { name: "Spring", period: "01 Mar - 31 May" },
+        { name: "Summer", period: "01 Jun - 31 Aug" },
+        { name: "Autumn", period: "01 Sep - 30 Nov" }
+    ];
+
+    const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedValue = event.target.value;
+    
+      setSelectedSeasons((prevSeasons) => {
+        if (prevSeasons.length < 4) {
+          return [...prevSeasons, selectedValue]; // Allow selection up to 4
+        }
+        return prevSeasons;
+      });
+    };
+
   const handleLogin = () => {
     router.push("/auditcalculator"); // Navigate to AuditCalculator page
   };
@@ -26,20 +46,50 @@ export const Autumn = () => {
     >
       <p className="flex flex-row items-center text-3xl font-light gap-4">
         <span>
-          <FaCanadianMapleLeaf className="w-8 h-8" />
+          <AiOutlineAudit className='w-8 h-8' />
         </span>
-        Autumn <span> £2000</span>
+        Audit4 
       </p>
-      <p>Lorem ipsum dolor sit amet.</p>
+      <p className="text-center">You are eligible for the four Audits in one or multiple seasons</p>
       <p className="text-2xl">
         {" "}
-        £500 <span className="text-xs">/mo.</span>
+        £2000 <span className="text-xs">/budget</span>
       </p>
       <p> 20% on First payment</p>
       <p className="flex items-center gap-2">
-        <HiBadgeCheck /> Lorem ipsum dolor sit amet.
+        <HiBadgeCheck /> Select Your desired four Audits
       </p>
-
+            {/* Season Dropdown */}
+                  <div className="relative w-full">
+                    <select
+                      className="w-full p-3 border cursor-pointer border-gray-400 rounded-lg appearance-none bg-white text-gray-900"
+                      value=""
+                      onChange={handleSeasonChange}
+                    >
+                      <option value="" disabled selected>
+    Select a season
+  </option>
+            {seasons.map((s) => (
+              <option 
+  key={s.name} 
+  value={s.name}
+  disabled={selectedSeasons.length >= 4} // Disable all options after 4 selections
+>
+  {s.name} - {s.period}
+</option>
+            ))}
+                    </select>
+                    <FaCircleChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none cursor-pointer" />
+                  </div>
+            
+                  {/* Display Selected Seasons */}
+                  <div className="mt-2 text-[#000]">
+                    {selectedSeasons.length > 0 ? (
+                      <p className='text-sm font-medium'>Selected: {selectedSeasons.join(", ")}</p>
+                    ) : (
+                      <p className="text-[#000]">No seasons selected</p>
+                    )}
+                  </div>
       <button
         className="border-t border-white  px-4 py-2 w-full bg-transparent text-white"
         onClick={handleLogin}

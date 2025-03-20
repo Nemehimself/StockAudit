@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa6";
-import { Autumn } from './Autumn';
-import { Spring } from './Spring';
-import { Summer } from './Summer';
-import { Winter } from './Winter';
+import { Audit4 } from './Audit4';
+import { Audit2 } from './Audit2';
+import { Audit3 } from './Audit3';
+import { Audit1 } from './Audit1';
 import { BudgetFeatures } from './BudgetFeatures';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
@@ -12,7 +12,7 @@ export const Dashboard = () => {
     const [showFeatures, setShowFeatures] = useState(false);
 
     return (
-        <div className='flex flex-col items-center justify-center gap-4'>
+        <div className='flex flex-col items-center justify-center gap-4 mb-10'>
           <h1 className='text-6xl w-full text-center text-[#fff] bg-blue-500 p-4 font-normal'>
             AUDIT PRICING</h1>
             <header className='flex flex-col items-center w-1/2 mt-4 justify-center gap-4'>
@@ -40,10 +40,10 @@ export const Dashboard = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className='flex flex-row items-center w-5/6 justify-center px-20 gap-4 mt-6'
             >
-                <Winter />
-                <Spring />
-                <Summer />
-                <Autumn />
+                <Audit1 />
+                <Audit2 />
+                <Audit3 />
+                <Audit4 />
             </motion.div>
 
             {/* Expandable Features Section */}
