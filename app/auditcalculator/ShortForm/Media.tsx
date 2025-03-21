@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaCircleInfo } from "react-icons/fa6";
-import { mediaExcessStock } from "../Questions/ShortForm/ExcessAudit/Media";
-import { MediaSpareQuestions } from "../Questions/ShortForm/SpareCapacity/Media";
-import VideoModal from "../VideoModal";
-import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution";
-import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
+import React, { useState } from 'react';
+import { FaCircleInfo } from 'react-icons/fa6';
+import { mediaExcessStock } from '../Questions/ShortForm/ExcessAudit/Media';
+import { MediaSpareQuestions } from '../Questions/ShortForm/SpareCapacity/Media';
+import VideoModal from '../VideoModal';
+import { FaPlay } from 'react-icons/fa';
+import RecommendedSolution from './RecommendedSolution';
+import { currencyOptions } from '../Questions/ShortForm/SpareCapacity/currencyOption';
+import { useCreateAudit } from '@/services/hooks/audit/hook';
 
 interface MediaProps {
-  selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD";
+  selectedGroup: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD';
   activeCategory: string | null;
   setActiveCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -21,14 +22,14 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
   selectedGroup,
 }) => {
   const groupData = MediaSpareQuestions[selectedGroup]?.[0] || null; // Fetch selected group data
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [tooltipVisible, setTooltipVisible] = useState<string | null>(null);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
 
   // Handle input change
   const handleInputChange = (key: string, value: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    setAnswers(prev => ({ ...prev, [key]: value }));
   };
 
   const [inputValues, setInputValues] = useState<Record<string, number>>({});
@@ -36,12 +37,13 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
-  const [currency, setCurrency] = useState<string>("£");
+  const [currency, setCurrency] = useState<string>('£');
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const { mutate, isPending } = useCreateAudit();
 
   const handleInputChange2 = (question: string, value: number) => {
-    setInputValues((prev) => ({ ...prev, [question]: value }));
-    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
+    setInputValues(prev => ({ ...prev, [question]: value }));
+    setErrors(prev => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,7 +52,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
   };
 
   const handleCalculate = () => {
-    if (selectedGroup !== "GroupD") {
+    if (selectedGroup !== 'GroupD') {
       const newErrors = Object.keys(inputValues).reduce((acc, key) => {
         const index = parseInt(key, 10);
         acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0; // Require fields for calculations
@@ -59,7 +61,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
 
       setErrors(newErrors);
 
-      if (Object.values(newErrors).some((err) => err)) {
+      if (Object.values(newErrors).some(err => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -68,16 +70,14 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
     let yearlyTurnOver = 0;
 
     maxCapacity =
-      (inputValues[0] || 1) *
-      (inputValues[1] || 1) *
-      (inputValues[2] || 1) ;
+      (inputValues[0] || 1) * (inputValues[1] || 1) * (inputValues[2] || 1);
 
     yearlyTurnOver =
       (inputValues[0] || 1) *
       (inputValues[3] || 1) *
       (inputValues[4] || 1) *
       (inputValues[5] || 1) *
-      (inputValues[6] || 1) ;
+      (inputValues[6] || 1);
 
     // Calculate Yearly Spare Capacity
     const spareCapacity = maxCapacity - yearlyTurnOver;
@@ -85,6 +85,15 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
     setYearlyMaxCapacity(maxCapacity);
     setCurrentYearlyTurnOver(yearlyTurnOver);
     setYearlySpareCapacity(spareCapacity);
+
+    const audit = {
+      ...inputValues,
+      maxCapacity,
+      yearlyTurnOver,
+      spareCapacity,
+    };
+
+    mutate({ audit });
   };
 
   const handleReset = () => {
@@ -126,15 +135,15 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                 <select
                   className="flex justify-start items-center w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={e => setSelectedCategory(e.target.value)}
                 >
                   <option value="">Select Media Type</option>
-                  {groupData.DropDown.map((item) => (
+                  {groupData.DropDown.map(item => (
                     <option
-                      key={typeof item === "string" ? item : item.Category}
-                      value={typeof item === "string" ? item : item.Category}
+                      key={typeof item === 'string' ? item : item.Category}
+                      value={typeof item === 'string' ? item : item.Category}
                     >
-                      {typeof item === "string" ? item : item.Category}
+                      {typeof item === 'string' ? item : item.Category}
                     </option>
                   ))}
                 </select>
@@ -199,18 +208,18 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                 {/* Questions Display */}
                 {selectedCategory &&
                   groupData.DropDown.find(
-                    (item) =>
-                      typeof item !== "string" &&
+                    item =>
+                      typeof item !== 'string' &&
                       item.Category === selectedCategory
                   ) &&
                   (
                     groupData.DropDown.find(
-                      (item) =>
-                        typeof item !== "string" &&
+                      item =>
+                        typeof item !== 'string' &&
                         item.Category === selectedCategory
                     ) as { Category: string; Questions: string[] }
                   ).Questions.map((question, index) => {
-                    const maxValue = question.includes("(max 52)")
+                    const maxValue = question.includes('(max 52)')
                       ? 52
                       : undefined;
 
@@ -227,7 +236,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                           min="0"
                           max={maxValue}
                           value={inputValues[index]} // Bind value to inputValues state
-                          onChange={(e) => {
+                          onChange={e => {
                             let value = parseInt(e.target.value, 10) || 0;
                             if (maxValue !== undefined && value > maxValue) {
                               value = maxValue;
@@ -237,8 +246,8 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                           }}
                           className={`w-1/3 p-2 border ${
                             errors[index]
-                              ? "border-red-500"
-                              : "border-[#838383]"
+                              ? 'border-red-500'
+                              : 'border-[#838383]'
                           } focus:border-[#2D3DFF] outline-none rounded mb-4`}
                         />
                         {errors[index] && (
@@ -260,7 +269,8 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                     <span className="relative group">
                       <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
                       <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                        This represents the Maximum potential revenue based on publication capacity.
+                        This represents the Maximum potential revenue based on
+                        publication capacity.
                       </span>
                     </span>
                   </div>
@@ -303,7 +313,8 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                     <span className="relative group">
                       <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
                       <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                        This indicates that If the result is negative, it means they are exceeding their theoretical capacity.
+                        This indicates that If the result is negative, it means
+                        they are exceeding their theoretical capacity.
                       </span>
                     </span>
                   </div>
@@ -318,12 +329,14 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                 <div className=" w-full flex flex-row gap-4">
                   <button
                     onClick={handleCalculate}
+                    disabled={isPending}
                     className="rounded-full mt-4 py-2 px-4 w-1/2 bg-blue-500 text-[#fff] font-bold hover:bg-blue-800"
                   >
                     Calculate
                   </button>
                   <button
                     onClick={handleReset}
+                    disabled={isPending}
                     className="rounded-full mt-4 py-2 px-4 w-1/2 bg-slate-800 text-[#fff] font-bold hover:bg-slate-600"
                   >
                     Reset
@@ -387,27 +400,23 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                       </div>
 
                       {/* Input Field */}
-                      {data.Question.toLowerCase().includes("(yes/no)") ? (
+                      {data.Question.toLowerCase().includes('(yes/no)') ? (
                         <select
                           className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
+                          value={answers[key] || ''}
+                          onChange={e => handleInputChange(key, e.target.value)}
                         >
                           <option value="">Select</option>
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
                         </select>
                       ) : data.Question.includes(
-                          "How often do you conduct stock takes?"
+                          'How often do you conduct stock takes?'
                         ) ? (
                         <select
                           className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
+                          value={answers[key] || ''}
+                          onChange={e => handleInputChange(key, e.target.value)}
                         >
                           <option value="">Select</option>
                           <option value="Daily">Daily</option>
@@ -415,14 +424,14 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                           <option value="Monthly">Monthly</option>
                           <option value="Monthly">Quarterly</option>
                         </select>
-                      ) : data.Question.toLowerCase().includes("(%)") ? (
+                      ) : data.Question.toLowerCase().includes('(%)') ? (
                         <input
                           type="number"
                           min="0"
                           max="100"
                           className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
+                          value={answers[key] || ''}
+                          onChange={e =>
                             handleInputChange(
                               key,
                               Math.min(100, Number(e.target.value)).toString()
@@ -433,10 +442,8 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                         <input
                           type="text"
                           className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
+                          value={answers[key] || ''}
+                          onChange={e => handleInputChange(key, e.target.value)}
                         />
                       )}
                     </div>
