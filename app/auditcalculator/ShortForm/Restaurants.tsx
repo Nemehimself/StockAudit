@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaCircleInfo } from 'react-icons/fa6';
 import { restaurantsExcessStock } from '../Questions/ShortForm/ExcessAudit/Restaurants';
 import { Restaurant } from '../Questions/ShortForm/SpareCapacity/Restaurant';
@@ -9,7 +9,6 @@ import { FaPlay } from 'react-icons/fa';
 import RecommendedSolution from './RecommendedSolution';
 import { currencyOptions } from '../Questions/ShortForm/SpareCapacity/currencyOption';
 import { useCreateAudit } from '@/services/hooks/audit/hook';
-import { json } from 'stream/consumers';
 
 interface RestaurantsProps {
   selectedGroup: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD';
@@ -42,8 +41,6 @@ const Restaurants: React.FC<
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const { mutate, isPending } = useCreateAudit();
-
-  useEffect(() => {});
 
   const handleInputChange2 = (question: string, value: number) => {
     setInputValues(prev => ({ ...prev, [question]: value }));
