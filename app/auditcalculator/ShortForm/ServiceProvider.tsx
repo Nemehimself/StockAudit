@@ -1,34 +1,37 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaCircleInfo } from "react-icons/fa6";
-import { serviceProviderExcessStock } from "../Questions/ShortForm/ExcessAudit/ServiceProvider";
-import { serviceProviderSpareQuestions } from "../Questions/ShortForm/SpareCapacity/ServiceProviders";
-import VideoModal from "../VideoModal";
-import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution";
-import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
+import React, { useState } from 'react';
+import { FaCircleInfo } from 'react-icons/fa6';
+import { serviceProviderExcessStock } from '../Questions/ShortForm/ExcessAudit/ServiceProvider';
+import { serviceProviderSpareQuestions } from '../Questions/ShortForm/SpareCapacity/ServiceProviders';
+import VideoModal from '../VideoModal';
+import { FaPlay } from 'react-icons/fa';
+import RecommendedSolution from './RecommendedSolution';
+import { currencyOptions } from '../Questions/ShortForm/SpareCapacity/currencyOption';
+import { useCreateAudit } from '@/services/hooks/audit/hook';
 
 interface ServiceProviderProps {
-  selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD";
+  selectedGroup: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD';
   activeCategory: string | null;
   setActiveCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 type ServiceProviderGroups = keyof typeof serviceProviderSpareQuestions;
 
-const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceProviderGroups }> = ({
-  selectedGroup,
-}) => {
+const ServiceProvider: React.FC<
+  ServiceProviderProps & { selectedGroup: ServiceProviderGroups }
+> = ({ selectedGroup }) => {
   const groupData = serviceProviderSpareQuestions[selectedGroup]?.[0] || null; // Fetch selected group data
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [tooltipVisible, setTooltipVisible] = useState<string | null>(null);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
 
+  const { mutate, isPending } = useCreateAudit();
+
   // Handle input change
   const handleInputChange = (key: string, value: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    setAnswers(prev => ({ ...prev, [key]: value }));
   };
 
   const [inputValues, setInputValues] = useState<Record<string, number>>({});
@@ -36,12 +39,12 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
-  const [currency, setCurrency] = useState<string>("£");
+  const [currency, setCurrency] = useState<string>('£');
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const handleInputChange2 = (question: string, value: number) => {
-    setInputValues((prev) => ({ ...prev, [question]: value }));
-    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
+    setInputValues(prev => ({ ...prev, [question]: value }));
+    setErrors(prev => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,7 +53,7 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
   };
 
   const handleCalculate = () => {
-    if (selectedGroup !== "GroupD") {
+    if (selectedGroup !== 'GroupD') {
       const newErrors = Object.keys(inputValues).reduce((acc, key) => {
         const index = parseInt(key, 10);
         acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0; // Require fields for calculations
@@ -59,7 +62,7 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
 
       setErrors(newErrors);
 
-      if (Object.values(newErrors).some((err) => err)) {
+      if (Object.values(newErrors).some(err => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -87,6 +90,15 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
     setYearlyMaxCapacity(maxCapacity);
     setCurrentYearlyTurnOver(yearlyTurnOver);
     setYearlySpareCapacity(spareCapacity);
+
+    const audit = {
+      ...inputValues,
+      maxCapacity,
+      yearlyTurnOver,
+      spareCapacity,
+    };
+
+    mutate({ audit });
   };
 
   const handleReset = () => {
@@ -100,7 +112,9 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
   const [isOpen, setIsOpen] = useState(false);
 
   if (!groupData) {
-    return <div className="text-white">Please select a ServiceProvider group.</div>;
+    return (
+      <div className="text-white">Please select a ServiceProvider group.</div>
+    );
   }
 
   return (
@@ -128,15 +142,15 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
                 <select
                   className="flex justify-start items-center w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={e => setSelectedCategory(e.target.value)}
                 >
                   <option value="">Select Hotel Type</option>
-                  {groupData.DropDown.map((item) => (
+                  {groupData.DropDown.map(item => (
                     <option
-                      key={typeof item === "string" ? item : item.Category}
-                      value={typeof item === "string" ? item : item.Category}
+                      key={typeof item === 'string' ? item : item.Category}
+                      value={typeof item === 'string' ? item : item.Category}
                     >
-                      {typeof item === "string" ? item : item.Category}
+                      {typeof item === 'string' ? item : item.Category}
                     </option>
                   ))}
                 </select>
@@ -201,18 +215,18 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
                 {/* Questions Display */}
                 {selectedCategory &&
                   groupData.DropDown.find(
-                    (item) =>
-                      typeof item !== "string" &&
+                    item =>
+                      typeof item !== 'string' &&
                       item.Category === selectedCategory
                   ) &&
                   (
                     groupData.DropDown.find(
-                      (item) =>
-                        typeof item !== "string" &&
+                      item =>
+                        typeof item !== 'string' &&
                         item.Category === selectedCategory
                     ) as { Category: string; Questions: string[] }
                   ).Questions.map((question, index) => {
-                    const maxValue = question.includes("(max 52)")
+                    const maxValue = question.includes('(max 52)')
                       ? 52
                       : undefined;
 
@@ -229,7 +243,7 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
                           min="0"
                           max={maxValue}
                           value={inputValues[index]} // Bind value to inputValues state
-                          onChange={(e) => {
+                          onChange={e => {
                             let value = parseInt(e.target.value, 10) || 0;
                             if (maxValue !== undefined && value > maxValue) {
                               value = maxValue;
@@ -239,8 +253,8 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
                           }}
                           className={`w-1/3 p-2 border ${
                             errors[index]
-                              ? "border-red-500"
-                              : "border-[#838383]"
+                              ? 'border-red-500'
+                              : 'border-[#838383]'
                           } focus:border-[#2D3DFF] outline-none rounded mb-4`}
                         />
                         {errors[index] && (
@@ -322,12 +336,14 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
                 <div className=" w-full flex flex-row gap-4">
                   <button
                     onClick={handleCalculate}
+                    disabled={isPending}
                     className="rounded-full mt-4 py-2 px-4 w-1/2 bg-blue-500 text-[#fff] font-bold hover:bg-blue-800"
                   >
                     Calculate
                   </button>
                   <button
                     onClick={handleReset}
+                    disabled={isPending}
                     className="rounded-full mt-4 py-2 px-4 w-1/2 bg-slate-800 text-[#fff] font-bold hover:bg-slate-600"
                   >
                     Reset
@@ -364,88 +380,90 @@ const ServiceProvider: React.FC<ServiceProviderProps & { selectedGroup: ServiceP
             <div className="flex flex-row">
               {/* Left Section */}
               <div className="w-2/3 h-[29rem] p-4 mr-2 overflow-y-scroll scrollbar-hidden">
-                {Object.entries(serviceProviderExcessStock).map(([key, data]) => (
-                  <div key={key} className="mb-4 ">
-                    <div className="flex flex-row justify-between gap-4">
-                      {/* Question Label with Tooltip */}
-                      <div className="flex w-2/3 items-center gap-2">
-                        <label className="text-white text-base font-normal">
-                          {data.Question}
-                        </label>
+                {Object.entries(serviceProviderExcessStock).map(
+                  ([key, data]) => (
+                    <div key={key} className="mb-4 ">
+                      <div className="flex flex-row justify-between gap-4">
+                        {/* Question Label with Tooltip */}
+                        <div className="flex w-2/3 items-center gap-2">
+                          <label className="text-white text-base font-normal">
+                            {data.Question}
+                          </label>
 
-                        {/* Tooltip Icon */}
-                        <span
-                          className="relative group"
-                          onMouseEnter={() => setTooltipVisible(key)}
-                          onMouseLeave={() => setTooltipVisible(null)}
-                        >
-                          <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300" />
+                          {/* Tooltip Icon */}
+                          <span
+                            className="relative group"
+                            onMouseEnter={() => setTooltipVisible(key)}
+                            onMouseLeave={() => setTooltipVisible(null)}
+                          >
+                            <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300" />
 
-                          {/* Tooltip Content */}
-                          {tooltipVisible === key && (
-                            <div className="absolute left-full -ml-60 w-72 p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg z-50">
-                              {data.Tooltip}
-                            </div>
-                          )}
-                        </span>
+                            {/* Tooltip Content */}
+                            {tooltipVisible === key && (
+                              <div className="absolute left-full -ml-60 w-72 p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg z-50">
+                                {data.Tooltip}
+                              </div>
+                            )}
+                          </span>
+                        </div>
+
+                        {/* Input Field */}
+                        {data.Question.toLowerCase().includes('(yes/no)') ? (
+                          <select
+                            className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
+                            value={answers[key] || ''}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
+                          >
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                        ) : data.Question.includes(
+                            'How often do you conduct stock takes?'
+                          ) ? (
+                          <select
+                            className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
+                            value={answers[key] || ''}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
+                          >
+                            <option value="">Select</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Monthly">Quarterly</option>
+                          </select>
+                        ) : data.Question.toLowerCase().includes('(%)') ? (
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
+                            value={answers[key] || ''}
+                            onChange={e =>
+                              handleInputChange(
+                                key,
+                                Math.min(100, Number(e.target.value)).toString()
+                              )
+                            }
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
+                            value={answers[key] || ''}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
+                          />
+                        )}
                       </div>
-
-                      {/* Input Field */}
-                      {data.Question.toLowerCase().includes("(yes/no)") ? (
-                        <select
-                          className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
-                        >
-                          <option value="">Select</option>
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
-                        </select>
-                      ) : data.Question.includes(
-                          "How often do you conduct stock takes?"
-                        ) ? (
-                        <select
-                          className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
-                        >
-                          <option value="">Select</option>
-                          <option value="Daily">Daily</option>
-                          <option value="Weekly">Weekly</option>
-                          <option value="Monthly">Monthly</option>
-                          <option value="Monthly">Quarterly</option>
-                        </select>
-                      ) : data.Question.toLowerCase().includes("(%)") ? (
-                        <input
-                          type="number"
-                          min="0"
-                          max="100"
-                          className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(
-                              key,
-                              Math.min(100, Number(e.target.value)).toString()
-                            )
-                          }
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                          value={answers[key] || ""}
-                          onChange={(e) =>
-                            handleInputChange(key, e.target.value)
-                          }
-                        />
-                      )}
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
               {/* Right Section */}
               <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-[#fff] p-4">
