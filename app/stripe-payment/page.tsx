@@ -1,8 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import StripePayment from "./Stripe";
 
 export default function Page() {
-  return <StripePayment />;
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+        <StripePayment />
+    </Suspense>
+    );
 }

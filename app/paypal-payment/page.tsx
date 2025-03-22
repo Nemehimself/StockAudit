@@ -1,8 +1,12 @@
-"use client";
+'use client';
 
-import React from "react";
+import React, { Suspense } from "react";
 import PayPalPayment from "./Paypal";
 
 export default function Page() {
-  return <PayPalPayment />;
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <PayPalPayment />
+        </Suspense>
+    );
 }
