@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 function SsoIdWrapper() {
   const searchParams = useSearchParams();
-  const ssoId = searchParams.get('ssoId');
+  const ssoId = searchParams?.get('ssoId') ?? '';
 
   return <Dashboard ssoId={ssoId ?? ''} />;
 }
