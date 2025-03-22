@@ -3,8 +3,8 @@ import { useState } from "react";
 
 const StripePayment = () => {
     const searchParams = useSearchParams();
-    const amount = searchParams.get("amount") || "500";
-    const season = searchParams.get("season") || "Not Selected";
+    const amount = searchParams?.get("amount") ?? "500";
+    const season = searchParams?.get("season") ?? "Not Selected";
     const [loading, setLoading] = useState(false);
 
     const handleStripePayment = async () => {
