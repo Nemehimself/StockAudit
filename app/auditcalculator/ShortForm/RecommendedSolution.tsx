@@ -292,9 +292,9 @@ export default function RecommendedSolution() {
         >
           Agree with terms and conditions
         </Link>
-      <button className="rounded-full py-2 px-4 w-1/4 bg-black text-[#fff] font-bold hover:bg-blue-800">
-        Submit
-      </button>
+        <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800">
+                Save
+        </button>
       </div>
       <div className="flex flex-row justify-between items-center gap-4">
           {["Agent", "Account Manager", "Consultant"].map((role) => (

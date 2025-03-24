@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { Inter } from 'next/font/google';
-import './globals.css';
-import QueryProvider from '@/services/Provider';
-import { Toaster } from '@/components/ui/sonner';
+import { Inter } from "next/font/google";
+import "./globals.css";
+import QueryProvider from "@/services/Provider";
+import { Toaster } from "@/components/ui/sonner";
+import { ReduxProvider } from "./store/ReduxProvider";
 
-const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -20,14 +21,16 @@ export default function RootLayout({
             --font-inter: ${inter.variable};
           }
         `}</style>
-        <body className={`${inter.variable} antialiased`}>
+      </head>
+      <body className={`${inter.variable} antialiased`}>
+        {/* ✅ Wrap the entire app inside ReduxProvider */}
+        <ReduxProvider>
           <QueryProvider>
             {children}
             <Toaster />
           </QueryProvider>
-        </body>
-      </head>
-      {/* ✅ Moved outside */}
+        </ReduxProvider>
+      </body>
     </html>
   );
 }

@@ -5,6 +5,9 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { FaUserCircle, FaChevronDown, FaChevronRight, FaHistory, FaOrcid } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { decrementAudit } from "@/app/store/auditSlice";
 
 interface StockAuditHeaderProps {
   activeAudit: "short" | "long";
@@ -14,6 +17,8 @@ interface StockAuditHeaderProps {
 
 const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({ activeAudit, setActiveAudit, setActiveIndex }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const auditsLeft = useSelector((state: RootState) => state.audit.auditsLeft);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -64,7 +69,7 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({ activeAudit, setAct
       </div>
 
           <div className="p-2 bg-white text-[#000] font-bold">
-          4 of 4 Audit Left
+          {auditsLeft} of 4 Audits Left
           </div>
       {/* Right Side - User Dropdown */}
       <div className="relative" ref={dropdownRef}>
@@ -90,7 +95,7 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({ activeAudit, setAct
               <span>History</span>
             </div>
             <hr className="border-gray-700" />
-            <div className="flex items-center gap-3 p-3 hover:bg-red-600 cursor-pointer">
+            <div className="flex items-center gap-3 p-3 hover:bg-red-600 cursor-pointer" onClick={() => dispatch(decrementAudit())}>
               <CiLogout />
               <span>Logout</span>
             </div>
