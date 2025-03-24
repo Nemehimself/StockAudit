@@ -13,7 +13,7 @@ const StripePayment = () => {
             const response = await fetch("/api/stripe-checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: parseFloat(amount) * 100 }),
+                body: JSON.stringify({ amount: Number(amount) * 100, season }),
             });
     
             if (!response.ok) {
