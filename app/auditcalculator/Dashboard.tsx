@@ -23,7 +23,7 @@ export default function Dashboard({ ssoId }: { ssoId?: string }) {
     if (ssoId) {
       if (!isPending) mutate(ssoId);
     }
-  }, [ssoId, mutate]);
+  }, [ssoId, mutate, isPending]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -37,8 +37,10 @@ export default function Dashboard({ ssoId }: { ssoId?: string }) {
 
   useEffect(() => {
     const token = getCookieValue('token');
-    if (!token && !ssoId) router.push('/stockaudit');
-  });
+    if (!token && !ssoId && !isSuccess) {
+        router.push('/stockaudit');
+    }
+}, [ssoId, router, isSuccess]); 
 
   // Get the active menu item (to retrieve its background image)
   const activeMenuItem = shortMenuItems.find(

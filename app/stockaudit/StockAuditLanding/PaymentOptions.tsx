@@ -1,7 +1,6 @@
 import React from "react";
-import { FaPaypal } from "react-icons/fa";
-import { FaStripeS } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { MdOutlinePayments } from "react-icons/md";
 
 const PaymentOptions = () => {
   const router = useRouter();
@@ -12,13 +11,12 @@ const PaymentOptions = () => {
   return (
     <div className="bg-gray-50 p-6  text-center">
       <h2 className="text-xl font-semibold mb-4">Purchase an Audit</h2>
-      <div className="flex justify-center space-x-4">
-        <button className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow" onClick={handlePayment}> 
-            <FaPaypal /> <span>Pay with PayPal </span>
+      <p>Click on the button below to purchase any of Audit 1, Audit 2, Audit 3 or Audit 4 to be able to access the stock audit calculator. Make sure you are signed in to be able to have access.</p>
+      <div className="flex justify-center space-x-4 mt-2">
+        <button className="flex flex-row justify-between items-center gap-4 bg-blue-500 text-white px-4 py-4 rounded-lg shadow text-xl font-semibold" onClick={handlePayment}> 
+        <MdOutlinePayments className="w-8 h-8"/> <span>Make Audit Payment </span>
         </button>
-        <button className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow">
-            <FaStripeS /> <span> Pay with Stripe </span>
-        </button>
+        
       </div>
     </div>
   );
