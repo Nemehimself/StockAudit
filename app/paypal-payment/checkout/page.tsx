@@ -2,14 +2,21 @@
 
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 const PayPalCheckout = () => {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen text-gray-600 text-lg">Loading...</div>}>
+      <PayPalCheckoutContent />
+    </Suspense>
+  );
+};
+
+const PayPalCheckoutContent = () => {
   const searchParams = useSearchParams();
   const amount = searchParams?.get("amount") ?? "500";
   const season = searchParams?.get("season") ?? "Not Selected";
 
-  // Ensure client ID is available
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
   if (!clientId) {
     return (
