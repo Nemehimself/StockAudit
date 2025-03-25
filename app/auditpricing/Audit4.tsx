@@ -5,16 +5,18 @@ import { HiBadgeCheck } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { FaPaypal, FaStripeS } from "react-icons/fa";
 import { FaCircleChevronDown } from "react-icons/fa6";
+import { RiResetLeftFill } from "react-icons/ri";
 
 export const Audit4 = () => {
   const router = useRouter();
-   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
-    const seasons = [
+  const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
+  
+  const seasons = [
         { name: "Winter", period: "01 Dec - 28 Feb" },
         { name: "Spring", period: "01 Mar - 31 May" },
         { name: "Summer", period: "01 Jun - 31 Aug" },
         { name: "Autumn", period: "01 Sep - 30 Nov" }
-    ];
+  ];
 
     const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedValue = event.target.value;
@@ -27,8 +29,21 @@ export const Audit4 = () => {
       });
     };
 
+    const handleReset = () => {
+      setSelectedSeasons([]); // Clears the selection
+    };
+
   const handleLogin = () => {
     router.push("/auditcalculator"); // Navigate to AuditCalculator page
+  };
+
+  const handlePaymentRedirect = (method: "paypal" | "stripe") => {
+    if (selectedSeasons.length === 0) {
+      alert("Please select a season before proceeding to payment.");
+      return;
+    }
+    const query = `?amount=2000&season=${encodeURIComponent(selectedSeasons.join(", "))}`;
+    router.push(`/${method}-payment${query}`);
   };
 
   return (
@@ -90,6 +105,10 @@ export const Audit4 = () => {
                       <p className="text-[#000]">No seasons selected</p>
                     )}
                   </div>
+                  <div className='flex flex-row justify-center items-center gap-2 w-full'>
+                                <RiResetLeftFill className="w-6 h-6 cursor-pointer" onClick={handleReset} />
+                                <p className='font-bold'>RESET</p>
+                              </div>
       <button
         className="border-t border-white  px-4 py-2 w-full bg-transparent text-white"
         onClick={handleLogin}
@@ -97,19 +116,19 @@ export const Audit4 = () => {
         Make Payment
       </button>
       <motion.button
-        whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
-        whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow  hover:bg-white hover:text-blue-500 transition-all duration-300"
-        onClick={handleLogin}
-      >
+                    whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-blue-500 transition-all duration-300"
+                    onClick={() => handlePaymentRedirect("paypal")}
+                  >
         <FaPaypal /> <span>Pay with PayPal </span>
       </motion.button>
       <motion.button
-        whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
-        whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow  hover:bg-white hover:text-black transition-all duration-300"
-        onClick={handleLogin}
-      >
+                    whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-black transition-all duration-300"
+                    onClick={() => handlePaymentRedirect("stripe")}
+                  >
         <FaStripeS /> <span> Pay with Stripe </span>
       </motion.button>
 

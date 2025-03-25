@@ -5,39 +5,57 @@ import { HiBadgeCheck } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { FaPaypal, FaStripeS } from "react-icons/fa";
 import { FaCircleChevronDown } from "react-icons/fa6";
+import { RiResetLeftFill } from "react-icons/ri";
 
 export const Audit3 = () => {
   const router = useRouter();
-   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
-    const seasons = [
+  const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
+  
+   const seasons = [
       { name: "Winter", period: "01 Dec - 28 Feb" },
       { name: "Spring", period: "01 Mar - 31 May" },
       { name: "Summer", period: "01 Jun - 31 Aug" },
       { name: "Autumn", period: "01 Sep - 30 Nov" }
-  ];
+    ];
 
-  const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-  
-    setSelectedSeasons((prevSeasons) => {
-      // If already 3 selections, prevent further selection unless it's repeating the same one
-      if (prevSeasons.length === 3) {
-        return prevSeasons.every(season => season === selectedValue) ? [...prevSeasons, selectedValue].slice(1) : prevSeasons;
-      }
-  
-      // If it's a duplicate selection and within limit, allow
-      if (prevSeasons.includes(selectedValue)) {
+    const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedValue = event.target.value;
+    
+      setSelectedSeasons((prevSeasons) => {
+        const count = prevSeasons.filter(season => season === selectedValue).length;
+    
+        if (count > 0) {
+          // If the season is already selected, remove ONE instance
+          const indexToRemove = prevSeasons.indexOf(selectedValue);
+          return prevSeasons.filter((_, index) => index !== indexToRemove);
+        }
+    
+        if (prevSeasons.length === 3) {
+          // If three different seasons are selected, replace the first one
+          return [prevSeasons[1], prevSeasons[2], selectedValue];
+        }
+    
+        // Normal case: Add the season if there's space
         return [...prevSeasons, selectedValue];
-      }
-  
-      // If different selections but not exceeding three, allow
-      return prevSeasons.length < 3 ? [...prevSeasons, selectedValue] : prevSeasons;
-    });
-  };
-  
+      });
+    };
 
+    const handleReset = () => {
+      setSelectedSeasons([]); // Clears the selection
+    };
+    
+    
   const handleLogin = () => {
     router.push("/auditcalculator");
+  };
+
+  const handlePaymentRedirect = (method: "paypal" | "stripe") => {
+    if (selectedSeasons.length === 0) {
+      alert("Please select a season before proceeding to payment.");
+      return;
+    }
+    const query = `?amount=1500&season=${encodeURIComponent(selectedSeasons.join(", "))}`;
+    router.push(`/${method}-payment${query}`);
   };
 
   return (
@@ -97,6 +115,10 @@ export const Audit3 = () => {
                 <p className="text-[#000]">No seasons selected</p>
               )}
             </div>
+            <div className='flex flex-row justify-center items-center gap-2 w-full'>
+              <RiResetLeftFill className="w-6 h-6 cursor-pointer" onClick={handleReset} />
+              <p className='font-bold'>RESET</p>
+            </div>
       <button
         className="border-t border-white  px-4 py-2 w-full bg-transparent text-white"
         onClick={handleLogin}
@@ -104,19 +126,19 @@ export const Audit3 = () => {
         Make Payment
       </button>
       <motion.button
-        whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
-        whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow  hover:bg-white hover:text-blue-500 transition-all duration-300"
-        onClick={handleLogin}
-      >
+                    whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-blue-500 transition-all duration-300"
+                    onClick={() => handlePaymentRedirect("paypal")}
+                  >
         <FaPaypal /> <span>Pay with PayPal </span>
       </motion.button>
       <motion.button
-        whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
-        whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow  hover:bg-white hover:text-black transition-all duration-300"
-        onClick={handleLogin}
-      >
+                    whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-black transition-all duration-300"
+                    onClick={() => handlePaymentRedirect("stripe")}
+                  >
         <FaStripeS /> <span> Pay with Stripe </span>
       </motion.button>
 
