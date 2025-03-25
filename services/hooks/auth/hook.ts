@@ -23,6 +23,7 @@ interface signupType {
 }
 export interface authDataType {
   accessToken: string;
+  name?: string;
 }
 
 export interface authCustomerType extends authType {
@@ -42,6 +43,9 @@ export const useAuth = () => {
 
   const mutation = useMutation({
     mutationFn: ({ email, password }: authType) => create({ email, password }),
+    onSuccess: data => {
+      localStorage.setItem('username', data.name ?? '');
+    },
   });
 
   return mutation;
@@ -65,11 +69,14 @@ export const useSSO = () => {
   const create = async (ssoId: string) => {
     const request = api.post(`auth/sso-login/`, { ssoId });
     const response = await request;
-    return response['data'];
+    return response['data'] as authDataType;
   };
 
   const mutation = useMutation({
     mutationFn: create,
+    onSuccess: data => {
+      localStorage.setItem('username', data.name ?? '');
+    },
   });
 
   return mutation;
