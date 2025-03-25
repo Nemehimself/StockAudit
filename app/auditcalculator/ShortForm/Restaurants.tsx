@@ -106,14 +106,15 @@ const Restaurants: React.FC<
     setYearlyMaxCapacity(maxCapacity);
     setCurrentYearlyTurnOver(yearlyTurnOver);
     setYearlySpareCapacity(spareCapacity);
+  };
 
+  const handleSave = () => {
     const audit = {
       ...inputValues,
-      maxCapacity,
-      yearlyTurnOver,
-      spareCapacity,
+      yearlyMaxCapacity,
+      yearlySpareCapacity,
+      currentYearlyTurnOver,
     };
-
     mutate({ audit });
   };
 
@@ -192,7 +193,8 @@ const Restaurants: React.FC<
                                 | boolean
                                 | React.ReactElement<
                                     unknown,
-                                    string | React.JSXElementConstructor<unknown>
+                                    | string
+                                    | React.JSXElementConstructor<unknown>
                                   >
                                 | Iterable<React.ReactNode>
                                 | React.ReactPortal
@@ -280,7 +282,9 @@ const Restaurants: React.FC<
                             } focus:border-[#2D3DFF] outline-none rounded mb-4`}
                           />
                           {errors[Question] && (
-                            <p className="text-red-500 text-xs">Missing input</p>
+                            <p className="text-red-500 text-xs">
+                              Missing input
+                            </p>
                           )}
                         </div>
                       );
@@ -298,8 +302,8 @@ const Restaurants: React.FC<
                       <span className="relative group">
                         <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
                         <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                          This represents the highest revenue potential, assuming
-                          the restaurant operates at full efficiency.
+                          This represents the highest revenue potential,
+                          assuming the restaurant operates at full efficiency.
                         </span>
                       </span>
                     </div>
@@ -342,8 +346,8 @@ const Restaurants: React.FC<
                       <span className="relative group">
                         <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
                         <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                          This indicates the missed revenue potential due to lower
-                          customer flow or operational inefficiencies.
+                          This indicates the missed revenue potential due to
+                          lower customer flow or operational inefficiencies.
                         </span>
                       </span>
                     </div>
@@ -392,8 +396,12 @@ const Restaurants: React.FC<
                   </div>
                 </div>
               </div>
-              <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800">
-                Save
+              <button
+                onClick={handleSave}
+                disabled={isPending}
+                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
+              >
+                {isPending ? 'Saving...' : 'Save'}
               </button>
             </div>
           </div>
@@ -438,7 +446,9 @@ const Restaurants: React.FC<
                           <select
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
                             value={answers[key] || ''}
-                            onChange={e => handleInputChange(key, e.target.value)}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
                           >
                             <option value="">Select</option>
                             <option value="Yes">Yes</option>
@@ -450,7 +460,9 @@ const Restaurants: React.FC<
                           <select
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
                             value={answers[key] || ''}
-                            onChange={e => handleInputChange(key, e.target.value)}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
                           >
                             <option value="">Select</option>
                             <option value="Daily">Daily</option>
@@ -477,7 +489,9 @@ const Restaurants: React.FC<
                             type="text"
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
                             value={answers[key] || ''}
-                            onChange={e => handleInputChange(key, e.target.value)}
+                            onChange={e =>
+                              handleInputChange(key, e.target.value)
+                            }
                           />
                         )}
                       </div>
@@ -504,8 +518,8 @@ const Restaurants: React.FC<
                       closeModal={() => setIsOpen(false)}
                     />
                   </div>
+                </div>
               </div>
-            </div>
               <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800">
                 Save
               </button>
