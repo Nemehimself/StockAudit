@@ -1,16 +1,18 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import PayPalCheckout from "./PayPalCheckout"; // Import the checkout component
+import { useSearchParams, useRouter } from "next/navigation";
 
 const PayPalPayment = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const amount = searchParams?.get("amount") ?? "500";
   const season = searchParams?.get("season") ?? "Not Selected";
-  const [showCheckout, setShowCheckout] = useState(false);
 
-  if (showCheckout) return <PayPalCheckout />; // Show PayPalCheckout after clicking "Pay Now"
+  const handlePayment = () => {
+    const checkoutUrl = `/paypal-payment/checkout?amount=${amount}&season=${season}`;
+    console.log("Navigating to:", checkoutUrl); // Debugging log
+    router.push(checkoutUrl);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
@@ -24,7 +26,7 @@ const PayPalPayment = () => {
         </p>
 
         <button
-          onClick={() => setShowCheckout(true)}
+          onClick={handlePayment}
           className="w-full py-3 px-6 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all"
         >
           Pay Now
