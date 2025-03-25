@@ -4,8 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { CiLogin } from 'react-icons/ci';
 import AuthModal from '../components/AuthModal';
 
-const Header = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+interface HeaderType {
+  modalOpen: boolean;
+  setModalOpen: (val: boolean) => void;
+}
+
+const Header: React.FC<HeaderType> = ({ modalOpen, setModalOpen }) => {
   const [name, setName] = useState<string | null>('');
 
   useEffect(() => {

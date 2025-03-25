@@ -5,6 +5,10 @@ import { NextRequest } from 'next/server';
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/stockaudit', req.url));
+  }
+
   if (pathname === '/auditcalculator' || pathname === '/auditpricing') {
     const token = req.cookies.get('token')?.value;
     if (!token) {
@@ -16,5 +20,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/auditcalculator', '/auditpricing'],
+  matcher: ['/', '/auditcalculator', '/auditpricing'],
 };
