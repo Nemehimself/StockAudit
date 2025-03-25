@@ -108,16 +108,32 @@ const Restaurants: React.FC<
     setYearlySpareCapacity(spareCapacity);
   };
 
-  const handleSave = () => {
-    const audit = {
-      ...inputValues,
+  const handleSaveSpareCapacity = () => {
+    const audit: Record<string, number> = {
       yearlyMaxCapacity,
-      yearlySpareCapacity,
       currentYearlyTurnOver,
+      yearlySpareCapacity,
+      ...inputValues, 
     };
+  
+    console.log("Saved Data:", audit);
     mutate({ audit });
   };
-
+  
+  const handleSaveExcessStock = () => {
+    const leftSectionData: Record<string, string> = {};
+  
+    // Iterate over restaurantExcessStock to extract answers
+    Object.keys(restaurantsExcessStock).forEach((key) => {
+      leftSectionData[key] = answers[key] || ''; // Store user inputs, fallback to empty string
+    });
+  
+    // Save to local storage
+    localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
+  
+    console.log('Saved Data:', leftSectionData);
+  };
+  
   const handleReset = () => {
     setInputValues({}); // Reset all input values to an empty object
     setYearlyMaxCapacity(0); // Reset yearly max capacity
@@ -149,116 +165,47 @@ const Restaurants: React.FC<
                 </span>
               </span>
             </h2>
-            <div className="flex flex-col justify-between items-center gap-4">
-              <div className="flex flex-row">
+            <div className="flex flex-col justify-between items-center gap-4 ">
+              <div className="flex flex-row w-full">
                 {/* Left Section */}
                 <div className="w-2/3 p-4 mr-2 overflow-y-scroll scrollbar-hidden">
                   <select
-                    className="flex justify-start items-center w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
+                    className="w-full p-2 border rounded"
                     value={selectedCategory}
-                    onChange={e => setSelectedCategory(e.target.value)}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
                   >
                     <option value="">Type of Restaurant / Eatery</option>
-                    {groupData.DropDown.map(item => (
-                      <option
-                        key={typeof item === 'string' ? item : item.Category}
-                        value={typeof item === 'string' ? item : item.Category}
-                      >
-                        {typeof item === 'string' ? item : item.Category}
+                    {groupData.DropDown.map((item) => (
+                      <option key={item?.Category ?? item} value={item?.Category ?? item}>
+                        {item?.Category ?? item}
                       </option>
                     ))}
                   </select>
 
-                  {/* currency options */}
+                  {/* Currency Options */}
                   {selectedCategory && (
                     <div className="flex justify-between items-center my-3 ">
-                      <p className="text-white">Select a currency</p>
-                      <select
-                        className="w-1/3 p-2 rounded outline-blue-500"
-                        value={currency}
-                        onChange={handleCurrencyChange}
-                      >
-                        {currencyOptions.map(
-                          (
-                            option: {
-                              value:
-                                | string
-                                | number
-                                | readonly string[]
-                                | undefined;
-                              label:
-                                | string
-                                | number
-                                | bigint
-                                | boolean
-                                | React.ReactElement<
-                                    unknown,
-                                    | string
-                                    | React.JSXElementConstructor<unknown>
-                                  >
-                                | Iterable<React.ReactNode>
-                                | React.ReactPortal
-                                | Promise<
-                                    | string
-                                    | number
-                                    | bigint
-                                    | boolean
-                                    | React.ReactPortal
-                                    | React.ReactElement<
-                                        unknown,
-                                        | string
-                                        | React.JSXElementConstructor<unknown>
-                                      >
-                                    | Iterable<React.ReactNode>
-                                    | null
-                                    | undefined
-                                  >
-                                | null
-                                | undefined;
-                            },
-                            i: React.Key | null | undefined
-                          ) => (
-                            <option value={option.value} key={i}>
-                              {option.label}
-                            </option>
-                          )
-                        )}
+                      <p className='text-white'>Select a currency</p>
+                      <select className="w-1/3 p-2 rounded" value={currency} onChange={handleCurrencyChange}>
+                        {currencyOptions.map((option, i) => (
+                          <option key={i} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   )}
 
+                  {/* Dynamic Questions */}
                   {selectedCategory &&
-                    groupData.DropDown.find(
-                      item =>
-                        typeof item !== 'string' &&
-                        item.Category === selectedCategory
-                    ) &&
-                    (
-                      groupData.DropDown.find(
-                        item =>
-                          typeof item !== 'string' &&
-                          item.Category === selectedCategory
-                      ) as {
-                        Category: string;
-                        Questions: { Question: string; Tooltip: string }[];
-                      }
-                    ).Questions.map(({ Question, Tooltip }) => {
-                      const maxValue = Question.includes('(max 52)')
-                        ? 52
-                        : undefined;
-
-                      return (
-                        <div
-                          key={Question}
-                          className="flex flex-row justify-between gap-4"
-                        >
-                          <div className="flex w-2/3 items-center gap-2">
-                            <label className="text-white text-base font-normal">
-                              {Question}
-                            </label>
+                    groupData.DropDown.find((item) => item?.Category === selectedCategory)?.Questions.map(
+                      ({ Question, Tooltip }) => (
+                        <div key={Question} className="flex justify-between gap-4">
+                          <div className="flex w-2/3 items-center gap-2 ">
+                            <label className='text-white gap-4'>{Question}</label>
                             <span className="relative group">
-                              <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300" />
-                              <span className="absolute left-full top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
+                              <FaCircleInfo className="cursor-pointer hover:text-gray-300 text-white" />
+                              <span className="absolute left-full top-full w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100">
                                 {Tooltip}
                               </span>
                             </span>
@@ -266,144 +213,63 @@ const Restaurants: React.FC<
                           <input
                             type="number"
                             min="0"
-                            max={maxValue}
+                            max={Question.includes('(max 52)') ? 52 : undefined}
                             value={inputValues[Question] || ''}
-                            onChange={e => {
-                              let value = parseInt(e.target.value, 10) || 0;
-                              if (maxValue !== undefined && value > maxValue) {
-                                value = maxValue;
-                              }
-                              handleInputChange2(Question, value);
-                            }}
-                            className={`w-1/3 p-2 border ${
-                              errors[Question]
-                                ? 'border-red-500'
-                                : 'border-[#838383]'
-                            } focus:border-[#2D3DFF] outline-none rounded mb-4`}
+                            onChange={(e) => handleInputChange2(Question, Math.min(parseInt(e.target.value) || 0, 52))}
+                            className={`w-1/3 p-2 border mt-2 rounded ${errors[Question] ? 'border-red-500' : 'border-gray-300'}`}
                           />
-                          {errors[Question] && (
-                            <p className="text-red-500 text-xs">
-                              Missing input
-                            </p>
-                          )}
+                          {errors[Question] && <p className="text-red-500 text-xs">Missing input</p>}
                         </div>
-                      );
-                    })}
+                      )
+                    )}
                 </div>
 
                 {/* Right Section */}
-                <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-[#fff] p-4">
-                  {/* Yearly Maximum Capacity */}
-                  <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                    <div className="flex items-center gap-2">
-                      <p className="text-center font-bold text-base">
-                        Yearly Maximum Capacity:
-                      </p>
-                      <span className="relative group">
-                        <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                        <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                          This represents the highest revenue potential,
-                          assuming the restaurant operates at full efficiency.
+                <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-white p-4">
+                  {[
+                    { label: 'Yearly Maximum Capacity', value: yearlyMaxCapacity },
+                    { label: 'Current Yearly TurnOver', value: currentYearlyTurnOver },
+                    { label: 'Yearly Spare Capacity', value: yearlySpareCapacity },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex flex-col w-full items-center gap-2">
+                      <div className="flex items-center gap-2">
+                        <p className="text-base font-bold">{label}:</p>
+                        <span className="relative group">
+                          <FaCircleInfo className="cursor-pointer hover:text-gray-500" />
+                          <span className="absolute left-full top-full w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100">
+                            Tooltip for {label}
+                          </span>
                         </span>
-                      </span>
+                      </div>
+                      <div className="w-full bg-red-300 text-white p-2 rounded-lg">
+                        <p className="text-center font-bold text-xl">{currency}{value}</p>
+                      </div>
                     </div>
-                    <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
-                      <p className="text-center font-bold text-xl ">
-                        {currency}
-                        {yearlyMaxCapacity}
-                      </p>
-                    </div>
-                  </div>
+                  ))}
 
-                  {/* Current Yearly TurnOver */}
-                  <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                    <div className="flex items-center gap-2">
-                      <p className="text-center font-bold text-base">
-                        Current Yearly TurnOver:
-                      </p>
-                      <span className="relative group">
-                        <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                        <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                          This represents actual revenue based on the current
-                          number of customers served per hour.
-                        </span>
-                      </span>
-                    </div>
-                    <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
-                      <p className="text-center font-bold text-xl ">
-                        {currency}
-                        {currentYearlyTurnOver}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Yearly Spare Capacity */}
-                  <div className="flex flex-col px-2 w-full justify-between items-center gap-2">
-                    <div className="flex items-center gap-2">
-                      <p className="text-center font-bold text-base">
-                        Yearly Spare Capacity:
-                      </p>
-                      <span className="relative group">
-                        <FaCircleInfo className="cursor-pointer text-[#000] hover:text-gray-500" />
-                        <span className="absolute left-full  top-full transform -translate-y-1/2 w-64 p-2 bg-gray-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-lg">
-                          This indicates the missed revenue potential due to
-                          lower customer flow or operational inefficiencies.
-                        </span>
-                      </span>
-                    </div>
-                    <div className="flex justify-center items-center w-full bg-red-300 text-[#fff] p-2 rounded-lg">
-                      <p className="text-center font-bold text-xl ">
-                        {currency}
-                        {yearlySpareCapacity}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className=" w-full flex flex-row gap-4">
-                    <button
-                      onClick={handleCalculate}
-                      className="rounded-full mt-4 py-2 px-4 w-1/2 bg-blue-500 text-[#fff] font-bold hover:bg-blue-800"
-                      disabled={isPending}
-                    >
+                  {/* Buttons */}
+                  <div className="w-full flex gap-4 mt-10">
+                    <button onClick={handleCalculate} className="w-1/2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-800">
                       Calculate
                     </button>
-                    <button
-                      onClick={handleReset}
-                      className="rounded-full mt-4 py-2 px-4 w-1/2 bg-slate-800 text-[#fff] font-bold hover:bg-slate-600"
-                      disabled={isPending}
-                    >
+                    <button onClick={handleReset} className="w-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
                       Reset
                     </button>
                   </div>
 
-                  <p className=" text-center text-sm mt-6">
-                    Kindly click button below to Watch the Explanation Video
-                  </p>
+                  <button onClick={() => setIsOpen(true)} className="flex items-center gap-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-blue-700 mt-8">
+                    Watch Video <FaPlay />
+                  </button>
 
-                  <div className="flex flex-row w-full justify-center gap-4">
-                    <button
-                      onClick={() => setIsOpen(true)}
-                      className="flex flex-row gap-4 items-center justify-center px-4 py-2 bg-red-600 text-white mt-2 font-bold rounded-md hover:bg-blue-700"
-                    >
-                      Watch Video <FaPlay />
-                    </button>
-
-                    {/* Modal Overlay */}
-                    <VideoModal
-                      isOpen={isOpen}
-                      closeModal={() => setIsOpen(false)}
-                    />
-                  </div>
+                  {/* Modal Overlay */}
+                  <VideoModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
                 </div>
               </div>
-              <button
-                onClick={handleSave}
-                disabled={isPending}
-                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
-              >
+              <button onClick={handleSaveSpareCapacity} className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-black font-bold hover:bg-blue-800">
                 {isPending ? 'Saving...' : 'Save'}
               </button>
             </div>
+
           </div>
 
           <div className="flex flex-col justify-between w-3/4 h-1/3 bg-gray-900 bg-opacity-80 p-4 rounded-3xl">
@@ -520,7 +386,7 @@ const Restaurants: React.FC<
                   </div>
                 </div>
               </div>
-              <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800">
+              <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800" onClick={handleSaveExcessStock}>
                 Save
               </button>
             </div>
