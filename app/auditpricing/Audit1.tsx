@@ -5,6 +5,7 @@ import { HiBadgeCheck } from "react-icons/hi";
 import { motion } from "framer-motion";
 import { FaPaypal, FaStripeS } from "react-icons/fa";
 import { FaCircleChevronDown } from "react-icons/fa6";
+import { RiResetLeftFill } from "react-icons/ri";
 
 export const Audit1 = () => {
   const router = useRouter();
@@ -23,9 +24,9 @@ export const Audit1 = () => {
     setSelectedSeason(e.target.value); // Updates the selected season
   };
 
-  const handleLogin = () => {
-    router.push("/auditcalculator");
-  };
+//   const handleLogin = () => {
+//     router.push("/auditcalculator");
+//   };
 
   const handlePaymentRedirect = (method: "paypal" | "stripe") => {
     if (!selectedSeason) {
@@ -34,6 +35,10 @@ export const Audit1 = () => {
     }
     const query = `?amount=500&season=${encodeURIComponent(selectedSeason)}`;
     router.push(`/${method}-payment${query}`);
+  };
+
+  const handleReset = () => {
+    setSelectedSeason(""); // Clears the selection
   };
 
   return (
@@ -90,10 +95,16 @@ export const Audit1 = () => {
       ) : (
         <p className="text-[#000]">No seasons selected</p>
       )}
-
+      <div className="flex flex-row justify-center items-center gap-2 w-full">
+        <RiResetLeftFill
+          className="w-6 h-6 cursor-pointer"
+          onClick={handleReset}
+        />
+        <p className="font-bold">RESET</p>
+      </div>
       <button
         className="border-t border-white px-4 py-2 w-full bg-transparent text-white"
-        onClick={handleLogin}
+        // onClick={handleLogin}
       >
         Make Payment
       </button>

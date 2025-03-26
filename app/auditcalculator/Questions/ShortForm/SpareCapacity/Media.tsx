@@ -11,8 +11,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -22,8 +22,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -33,8 +33,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -44,8 +44,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -64,8 +64,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -75,8 +75,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -86,8 +86,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         }
@@ -106,8 +106,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -117,8 +117,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         }
@@ -136,8 +136,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -147,8 +147,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         },
@@ -158,8 +158,8 @@ export const MediaSpareQuestions = {
                 "Total Number of Publications Produced Each Month",
                 "Total Number of Months Open Per Year (Max 12)",
                 "How many Individual Media Clients are you and your team Currently Serving Each Hour?",
-                "Total Number of Hours Open Per Day",
-                "Total Number of Days Open Per Week",
+                "Total Number of Hours Open Per Day (max 24)",
+                "Total Number of Days Open Per Week (max 7)",
                 "Total Number of Weeks Open Per Year (max 52)",
                 ]
         }

@@ -8,8 +8,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -18,8 +18,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -28,8 +28,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -38,8 +38,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -48,8 +48,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -67,8 +67,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -77,8 +77,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -87,8 +87,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -97,8 +97,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -115,8 +115,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -125,8 +125,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -135,8 +135,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
@@ -153,8 +153,8 @@ export const ManufacturingSpareQuestions = {
             "Questions": [
                 "Unit Cost for Each Item (£)",
                 "Maximum No. of Items Produced in an Hour",
-                "Total No. of Manufacturing Hours Per Day",
-                "Total No. of Days Open Per Week",
+                "Total No. of Manufacturing Hours Per Day (max 24)",
+                "Total No. of Days Open Per Week (max 7)",
                 "Total No. of Weeks Open Per Year (max 52)",
                 "How Many Individual Manufacturing Clients Are Your Team Currently Serving Each Hour?",
                 ]
