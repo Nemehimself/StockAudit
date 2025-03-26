@@ -11,9 +11,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
             }, 
             {
@@ -22,9 +22,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
             }, 
             {
@@ -33,9 +33,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
             }
         ],
@@ -52,9 +52,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         }, 
         {"Category":"Hostels",
@@ -62,9 +62,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         }, 
         {"Category":"Motels",
@@ -72,9 +72,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         }
     ],
@@ -90,9 +90,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         },
         {"Category":"Bed and Breakfast (B&B)",
@@ -100,9 +100,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         },
         {"Category":"Serviced Apartments",
@@ -110,9 +110,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         },
         {"Category":"Holiday Homes",
@@ -120,9 +120,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         }
       ],
@@ -139,9 +139,9 @@ export const HotelsSpareQuestions = {
                     "Average Room Rate",
                     "Total Number of Rooms",
                     "Total Number of Weeks Open Per Year (max 52)",
-                    "How many days per week is your hotel open?",
+                    "How many days per week is your hotel open? (max 7)",
                     "How many individual bookings are you and your team currently taking per hour?",
-                    "Total hours open per day (default 24 for hotels)",
+                    "Total hours open per day (max 24)",
                 ]
         }
     ],

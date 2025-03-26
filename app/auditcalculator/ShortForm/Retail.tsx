@@ -9,6 +9,7 @@ import { FaPlay } from "react-icons/fa";
 import RecommendedSolution from "./RecommendedSolution";
 import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
 import { useCreateAudit } from "@/services/hooks/audit/hook";
+import Link from "next/link";
 
 interface RetailProps {
   selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD";
@@ -183,7 +184,7 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                   {/* currency options */}
                   {selectedCategory && (
                     <div className="flex justify-between items-center my-3">
-                      <p className='text-white'>Select a currency</p>
+                      <p className="text-white">Select a currency</p>
                       <select
                         className="w-1/3 p-2 rounded"
                         value={currency}
@@ -219,20 +220,38 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                         <input
                           type="number"
                           min="0"
-                          max={Question.includes("(max 52)") ? 52 : undefined}
+                          max={
+                            Question.includes("(max 52)")
+                              ? 52
+                              : Question.includes("(max 24)")
+                              ? 24
+                              : Question.includes("(max 7)")
+                              ? 7
+                              : undefined
+                          }
                           value={inputValues[Question] || ""}
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const inputValue = parseInt(e.target.value) || 0;
+                            const maxLimit = Question.includes("(max 52)")
+                              ? 52
+                              : Question.includes("(max 24)")
+                              ? 24
+                              : Question.includes("(max 7)")
+                              ? 7
+                              : Infinity; // No limit if no max is defined
+
                             handleInputChange2(
                               Question,
-                              Math.min(parseInt(e.target.value) || 0, 52)
-                            )
-                          }
+                              Math.min(inputValue, maxLimit)
+                            );
+                          }}
                           className={`w-1/3 p-2 border mt-2 rounded ${
                             errors[Question]
                               ? "border-red-500"
                               : "border-gray-300"
                           }`}
                         />
+
                         {errors[Question] && (
                           <p className="text-red-500 text-xs">Missing input</p>
                         )}
@@ -243,11 +262,23 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                 {/* Right Section */}
                 <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-white p-4">
                   {[
-                    { label: 'Yearly Maximum Capacity', value: yearlyMaxCapacity },
-                    { label: 'Current Yearly TurnOver', value: currentYearlyTurnOver },
-                    { label: 'Yearly Spare Capacity', value: yearlySpareCapacity },
+                    {
+                      label: "Yearly Maximum Capacity",
+                      value: yearlyMaxCapacity,
+                    },
+                    {
+                      label: "Current Yearly TurnOver",
+                      value: currentYearlyTurnOver,
+                    },
+                    {
+                      label: "Yearly Spare Capacity",
+                      value: yearlySpareCapacity,
+                    },
                   ].map(({ label, value }) => (
-                    <div key={label} className="flex flex-col w-full items-center gap-2">
+                    <div
+                      key={label}
+                      className="flex flex-col w-full items-center gap-2"
+                    >
                       <div className="flex items-center gap-2">
                         <p className="text-base font-bold">{label}:</p>
                         <span className="relative group">
@@ -258,36 +289,61 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                         </span>
                       </div>
                       <div className="w-full bg-red-300 text-white p-2 rounded-lg">
-                        <p className="text-center font-bold text-xl">{currency}{value}</p>
+                        <p className="text-center font-bold text-xl">
+                          {currency}
+                          {value}
+                        </p>
                       </div>
                     </div>
                   ))}
 
                   {/* Buttons */}
                   <div className="w-full flex gap-4 mt-10">
-                    <button onClick={handleCalculate} className="w-1/2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-800">
+                    <button
+                      onClick={handleCalculate}
+                      className="w-1/2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-800"
+                    >
                       Calculate
                     </button>
-                    <button onClick={handleReset} className="w-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
+                    <button
+                      onClick={handleReset}
+                      className="w-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600"
+                    >
                       Reset
                     </button>
                   </div>
 
-                  <button onClick={() => setIsOpen(true)} className="flex items-center gap-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-blue-700 mt-8">
+                  <button
+                    onClick={() => setIsOpen(true)}
+                    className="flex items-center gap-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-blue-700 mt-8"
+                  >
                     Watch Video <FaPlay />
                   </button>
 
                   {/* Modal Overlay */}
-                  <VideoModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+                  <VideoModal
+                    isOpen={isOpen}
+                    closeModal={() => setIsOpen(false)}
+                  />
                 </div>
               </div>
-              <button
+              <div className="flex flex-row items-center gap-4 w-full">
+                <input type="checkbox" />
+                <Link
+                  href="auditcalculator/terms-and-conditions"
+                  className="hover:underline text-white"
+                >
+                  By clicking this box, you agree that all the content above is
+                  correct and accurate
+                </Link>
+                <button
                 onClick={handleSaveSpareCapacity}
                 disabled={isPending}
                 className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
               >
                 {isPending ? "Saving..." : "Save"}
               </button>
+              </div>
             </div>
           </div>
 
@@ -405,12 +461,22 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                   </div>
                 </div>
               </div>
-              <button
+              <div className="flex flex-row items-center gap-4 w-full">
+                <input type="checkbox" />
+                <Link
+                  href="auditcalculator/terms-and-conditions"
+                  className="hover:underline text-white"
+                >
+                  By clicking this box, you agree that all the content above is
+                  correct and accurate
+                </Link>
+                <button
                 className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
                 onClick={handleSaveExcessStock}
               >
                 Save
               </button>
+              </div>
             </div>
           </div>
 

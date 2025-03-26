@@ -1,4 +1,4 @@
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useState, useEffect, JSX } from 'react';
 import { HiPlusCircle } from "react-icons/hi";
 import IncreaseBudgetModal from "./IncreaseBudgetModal"; // Import the modal
@@ -6,6 +6,7 @@ import { initialSliders } from './initialSliders';
 import { getSeasonDates } from './seasons'; // Adjust the path as needed
 import MoveBudgetModal from "./MoveBudgetModal";
 import { FaInfoCircle } from "react-icons/fa";
+import Footer from './Footer';
 
 interface SliderValues {
   marketing: number;
@@ -283,27 +284,7 @@ export default function RecommendedSolution() {
 </div>
 
 
-    <footer className="w-full flex flex-col justify-start  gap-4 font-medium ml-2 cursor-pointer">
-      <div className='flex flex-row items-center gap-4'>
-        <input type="checkbox" />
-        <Link
-          href="auditcalculator/terms-and-conditions"
-          className="hover:underline"
-        >
-          Agree with terms and conditions
-        </Link>
-        <button className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800">
-                Save
-        </button>
-      </div>
-      <div className="flex flex-row justify-between items-center gap-4">
-          {["Agent", "Account Manager", "Consultant"].map((role) => (
-            <button key={role} className="rounded-lg py-2 px-4 w-1/3 bg-black text-white font-bold hover:bg-slate-700">
-              {role}
-            </button>
-          ))}
-        </div>
-    </footer>
+    <Footer />
     {/* Increase Budget Modal */}
     {isIncreaseModalOpen && (
         <IncreaseBudgetModal
