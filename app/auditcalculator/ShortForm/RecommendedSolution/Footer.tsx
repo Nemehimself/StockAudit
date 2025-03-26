@@ -6,7 +6,9 @@ const Footer = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
   const [accountManagerModalOpen, setAccountManagerModalOpen] = useState(false);
   const [consultantModalOpen, setConsultantModalOpen] = useState(false);
-  const [appointmentDetails, setAppointmentDetails] = useState<string | null>(null);
+  const [appointmentDetails, setAppointmentDetails] = useState<string | null>(
+    null
+  );
 
   // Disable buttons if an appointment is booked
   const disableButtons = appointmentDetails !== null;
@@ -51,14 +53,20 @@ const Footer = () => {
       </div>
 
       {/* Display Appointment Details Only If Saved */}
-      {appointmentDetails && <p className="text-center">Appointment Booking Details: {appointmentDetails}</p>}
+      {appointmentDetails && (
+        <p className="text-center">
+          Appointment Booking Details: {appointmentDetails}
+        </p>
+      )}
 
       {/* Agent Modal */}
       <AppointmentModal
         title="Agent Appointment"
         isOpen={agentModalOpen}
         onClose={() => setAgentModalOpen(false)}
-        onSave={(date, time) => setAppointmentDetails(`Agent - ${date} at ${time}`)}
+        onSave={(date, time) =>
+          setAppointmentDetails(`Agent - ${date} at ${time}`)
+        }
       />
 
       {/* Account Manager Modal */}
@@ -66,7 +74,9 @@ const Footer = () => {
         title="Account Manager Appointment"
         isOpen={accountManagerModalOpen}
         onClose={() => setAccountManagerModalOpen(false)}
-        onSave={(date, time) => setAppointmentDetails(`Account Manager - ${date} at ${time}`)}
+        onSave={(date, time) =>
+          setAppointmentDetails(`Account Manager - ${date} at ${time}`)
+        }
       />
 
       {/* Consultant Modal */}
@@ -74,7 +84,9 @@ const Footer = () => {
         title="Consultant Appointment"
         isOpen={consultantModalOpen}
         onClose={() => setConsultantModalOpen(false)}
-        onSave={(date, time) => setAppointmentDetails(`Consultant - ${date} at ${time}`)}
+        onSave={(date, time) =>
+          setAppointmentDetails(`Consultant - ${date} at ${time}`)
+        }
       />
     </footer>
   );

@@ -64,10 +64,14 @@ const CheckoutContent = ({ amount, season }: { amount: string; season: string })
               });
             }}
             onApprove={async (_data, actions) => {
-              if (!actions.order) return;
-              await actions.order.capture();
-              router.push("/success");
-            }}
+                if (!actions.order) return;
+                await actions.order.capture();
+                
+                // ✅ Store payment details in localStorage
+                localStorage.setItem("paymentDetails", JSON.stringify({ amount, season }));
+              
+                router.push("/success");
+              }}
             onCancel={() => router.push("/cancel")}
           />
         )}

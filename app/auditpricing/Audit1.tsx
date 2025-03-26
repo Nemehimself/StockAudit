@@ -24,9 +24,9 @@ export const Audit1 = () => {
     setSelectedSeason(e.target.value); // Updates the selected season
   };
 
-  const handleLogin = () => {
-    router.push("/auditcalculator");
-  };
+//   const handleLogin = () => {
+//     router.push("/auditcalculator");
+//   };
 
   const handlePaymentRedirect = (method: "paypal" | "stripe") => {
     if (!selectedSeason) {
@@ -95,13 +95,16 @@ export const Audit1 = () => {
       ) : (
         <p className="text-[#000]">No seasons selected</p>
       )}
-    <div className='flex flex-row justify-center items-center gap-2 w-full'>
-                                    <RiResetLeftFill className="w-6 h-6 cursor-pointer" onClick={handleReset} />
-                                    <p className='font-bold'>RESET</p>
-                                  </div>
+      <div className="flex flex-row justify-center items-center gap-2 w-full">
+        <RiResetLeftFill
+          className="w-6 h-6 cursor-pointer"
+          onClick={handleReset}
+        />
+        <p className="font-bold">RESET</p>
+      </div>
       <button
         className="border-t border-white px-4 py-2 w-full bg-transparent text-white"
-        onClick={handleLogin}
+        // onClick={handleLogin}
       >
         Make Payment
       </button>
