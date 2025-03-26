@@ -21,7 +21,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -33,7 +33,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -54,7 +54,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -66,7 +66,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -87,7 +87,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -99,7 +99,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -120,7 +120,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -132,7 +132,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -153,7 +153,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -165,7 +165,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -186,7 +186,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -198,7 +198,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -219,7 +219,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -231,7 +231,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -260,7 +260,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -272,7 +272,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -293,7 +293,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -305,7 +305,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -326,7 +326,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -338,7 +338,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -359,7 +359,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -371,7 +371,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -392,7 +392,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -404,7 +404,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -425,7 +425,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -437,7 +437,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -458,7 +458,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -470,7 +470,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -491,7 +491,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -503,7 +503,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -533,7 +533,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -545,7 +545,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -566,7 +566,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -578,7 +578,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -599,7 +599,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -611,7 +611,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -632,7 +632,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -644,7 +644,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -665,7 +665,7 @@ export const Restaurant = {
               Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Total No of Days open per week',
+              Question: 'Total No of Days open per week (max 7)',
               Tooltip: '',
             },
             {
@@ -677,7 +677,7 @@ export const Restaurant = {
               Tooltip: 'Average',
             },
             {
-              Question: 'How many hours do you open in a day?',
+              Question: 'How many hours do you open in a day? (max 24)',
               Tooltip: '',
             },
           ],
@@ -699,24 +699,28 @@ export const Restaurant = {
               Tooltip: 'The average amount spent per customer per visit',
             },
             {
-              Question: 'Number of Customers Served Per Hour?',
-              Tooltip: 'Actual customer flow, not seat-based',
+              Question: 'Total No of seats in the restaurant',
+              Tooltip: '',
             },
             {
-              Question: 'Maximum possible customers served per hour?',
-              Tooltip: 'The highest revenue potential, assuming the restaurant operates at full efficiency',
+              Question: 'Maximum No. Of Sittings Per Day',
+              Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Hours Open Per Day',
-              Tooltip: 'Total operating hours per day',
+              Question: 'Total No of Days open per week (max 7)',
+              Tooltip: '',
             },
             {
-              Question: 'Days Open Per Week',
-              Tooltip: 'How many days per week the restaurant operates',
+              Question: 'Total weeks open per year(max 52)',
+              Tooltip: 'Maximum: 52',
             },
             {
-              Question: 'Total Weeks Open Per Year',
-              Tooltip: 'Usually up to 52 weeks per year',
+              Question: 'Number of Customers Served Per Hour (Average)?',
+              Tooltip: 'Average',
+            },
+            {
+              Question: 'How many hours do you open in a day? (max 24)',
+              Tooltip: '',
             },
           ],
         },
@@ -728,24 +732,28 @@ export const Restaurant = {
               Tooltip: 'The average amount spent per customer per visit',
             },
             {
-              Question: 'Number of Customers Served Per Hour?',
-              Tooltip: 'Actual customer flow, not seat-based',
+              Question: 'Total No of seats in the restaurant',
+              Tooltip: '',
             },
             {
-              Question: 'Maximum possible customers served per hour?',
-              Tooltip: 'The highest revenue potential, assuming the restaurant operates at full efficiency',
+              Question: 'Maximum No. Of Sittings Per Day',
+              Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Hours Open Per Day',
-              Tooltip: 'Total operating hours per day',
+              Question: 'Total No of Days open per week (max 7)',
+              Tooltip: '',
             },
             {
-              Question: 'Days Open Per Week',
-              Tooltip: 'How many days per week the restaurant operates',
+              Question: 'Total weeks open per year(max 52)',
+              Tooltip: 'Maximum: 52',
             },
             {
-              Question: 'Total Weeks Open Per Year',
-              Tooltip: 'Usually up to 52 weeks per year',
+              Question: 'Number of Customers Served Per Hour (Average)?',
+              Tooltip: 'Average',
+            },
+            {
+              Question: 'How many hours do you open in a day? (max 24)',
+              Tooltip: '',
             },
           ],
         },
@@ -757,24 +765,28 @@ export const Restaurant = {
               Tooltip: 'The average amount spent per customer per visit',
             },
             {
-              Question: 'Number of Customers Served Per Hour?',
-              Tooltip: 'Actual customer flow, not seat-based',
+              Question: 'Total No of seats in the restaurant',
+              Tooltip: '',
             },
             {
-              Question: 'Maximum possible customers served per hour?',
-              Tooltip: 'The highest revenue potential, assuming the restaurant operates at full efficiency',
+              Question: 'Maximum No. Of Sittings Per Day',
+              Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Hours Open Per Day',
-              Tooltip: 'Total operating hours per day',
+              Question: 'Total No of Days open per week (max 7)',
+              Tooltip: '',
             },
             {
-              Question: 'Days Open Per Week',
-              Tooltip: 'How many days per week the restaurant operates',
+              Question: 'Total weeks open per year(max 52)',
+              Tooltip: 'Maximum: 52',
             },
             {
-              Question: 'Total Weeks Open Per Year',
-              Tooltip: 'Usually up to 52 weeks per year',
+              Question: 'Number of Customers Served Per Hour (Average)?',
+              Tooltip: 'Average',
+            },
+            {
+              Question: 'How many hours do you open in a day? (max 24)',
+              Tooltip: '',
             },
           ],
         },
@@ -786,24 +798,28 @@ export const Restaurant = {
               Tooltip: 'The average amount spent per customer per visit',
             },
             {
-              Question: 'Number of Customers Served Per Hour?',
-              Tooltip: 'Actual customer flow, not seat-based',
+              Question: 'Total No of seats in the restaurant',
+              Tooltip: '',
             },
             {
-              Question: 'Maximum possible customers served per hour?',
-              Tooltip: 'The highest revenue potential, assuming the restaurant operates at full efficiency',
+              Question: 'Maximum No. Of Sittings Per Day',
+              Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Hours Open Per Day',
-              Tooltip: 'Total operating hours per day',
+              Question: 'Total No of Days open per week (max 7)',
+              Tooltip: '',
             },
             {
-              Question: 'Days Open Per Week',
-              Tooltip: 'How many days per week the restaurant operates',
+              Question: 'Total weeks open per year(max 52)',
+              Tooltip: 'Maximum: 52',
             },
             {
-              Question: 'Total Weeks Open Per Year',
-              Tooltip: 'Usually up to 52 weeks per year',
+              Question: 'Number of Customers Served Per Hour (Average)?',
+              Tooltip: 'Average',
+            },
+            {
+              Question: 'How many hours do you open in a day? (max 24)',
+              Tooltip: '',
             },
           ],
         },
@@ -815,24 +831,28 @@ export const Restaurant = {
               Tooltip: 'The average amount spent per customer per visit',
             },
             {
-              Question: 'Number of Customers Served Per Hour?',
-              Tooltip: 'Actual customer flow, not seat-based',
+              Question: 'Total No of seats in the restaurant',
+              Tooltip: '',
             },
             {
-              Question: 'Maximum possible customers served per hour?',
-              Tooltip: 'The highest revenue potential, assuming the restaurant operates at full efficiency',
+              Question: 'Maximum No. Of Sittings Per Day',
+              Tooltip: 'how many times each seat can be used daily',
             },
             {
-              Question: 'Hours Open Per Day',
-              Tooltip: 'Total operating hours per day',
+              Question: 'Total No of Days open per week (max 7)',
+              Tooltip: '',
             },
             {
-              Question: 'Days Open Per Week',
-              Tooltip: 'How many days per week the restaurant operates',
+              Question: 'Total weeks open per year(max 52)',
+              Tooltip: 'Maximum: 52',
             },
             {
-              Question: 'Total Weeks Open Per Year',
-              Tooltip: 'Usually up to 52 weeks per year',
+              Question: 'Number of Customers Served Per Hour (Average)?',
+              Tooltip: 'Average',
+            },
+            {
+              Question: 'How many hours do you open in a day? (max 24)',
+              Tooltip: '',
             },
           ],
         },

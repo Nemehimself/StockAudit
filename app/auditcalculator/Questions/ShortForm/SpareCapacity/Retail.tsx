@@ -21,7 +21,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -29,7 +29,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -54,7 +54,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -62,7 +62,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -86,7 +86,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -94,7 +94,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -118,7 +118,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -126,7 +126,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -149,7 +149,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -157,7 +157,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -180,7 +180,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -188,7 +188,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -220,7 +220,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -228,7 +228,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -251,7 +251,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -259,7 +259,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -282,7 +282,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -290,7 +290,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -313,7 +313,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -321,14 +321,14 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
               Question: 'No. of Days to Completely Restock',
               Tooltip: 'Estimates lost sales due to stockouts – can be used to adjust Max.C if needed',
             },
-          ], },
+          ],},
       ],
     },
   ],
@@ -352,7 +352,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -360,7 +360,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -383,7 +383,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -391,7 +391,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -414,7 +414,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -422,7 +422,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -445,7 +445,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -453,7 +453,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -476,7 +476,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -484,7 +484,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -507,7 +507,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -515,7 +515,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -546,7 +546,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -554,7 +554,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -562,36 +562,37 @@ export const RetailSpareQuestions = {
               Tooltip: 'Estimates lost sales due to stockouts – can be used to adjust Max.C if needed',
             },
           ], },
-        { "Category": "Printing and Photography", Questions: [
-          {
-            Question: 'Average Transaction Value (ATV)',
-            Tooltip: 'Average amount a customer spends per visit',
-          },
-          {
-            Question: 'Maximum Customers Per Hour',
-            Tooltip: 'Retailer’s capacity to serve customers per hour based on staff and space limits',
-          },
-          {
-            Question: 'Actual Customers Per Hour',
-            Tooltip: 'Current customer flow per hour',
-          },
-          {
-            Question: 'Days Open Per Week',
-            Tooltip: '',
-          },
-          {
-            Question: 'Weeks Open Per Year (max 52)',
-            Tooltip: 'Max: 52 weeks per year)',
-          },
-          {
-            Question: 'Hours Open Per Day',
-            Tooltip: '',
-          },
-          {
-            Question: 'No. of Days to Completely Restock',
-            Tooltip: 'Estimates lost sales due to stockouts – can be used to adjust Max.C if needed',
-          },
-        ],},
+        { "Category": "Printing and Photography", 
+          Questions: [
+            {
+              Question: 'Average Transaction Value (ATV)',
+              Tooltip: 'Average amount a customer spends per visit',
+            },
+            {
+              Question: 'Maximum Customers Per Hour',
+              Tooltip: 'Retailer’s capacity to serve customers per hour based on staff and space limits',
+            },
+            {
+              Question: 'Actual Customers Per Hour',
+              Tooltip: 'Current customer flow per hour',
+            },
+            {
+              Question: 'Days Open Per Week (max 7)',
+              Tooltip: '',
+            },
+            {
+              Question: 'Weeks Open Per Year (max 52)',
+              Tooltip: 'Max: 52 weeks per year)',
+            },
+            {
+              Question: 'Hours Open Per Day (max 24)',
+              Tooltip: '',
+            },
+            {
+              Question: 'No. of Days to Completely Restock',
+              Tooltip: 'Estimates lost sales due to stockouts – can be used to adjust Max.C if needed',
+            },
+          ],},
         { "Category": "Charity Shops", 
           Questions: [
             {
@@ -607,7 +608,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -615,7 +616,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -638,7 +639,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -646,7 +647,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -669,7 +670,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -677,7 +678,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
@@ -700,7 +701,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Current customer flow per hour',
             },
             {
-              Question: 'Days Open Per Week',
+              Question: 'Days Open Per Week (max 7)',
               Tooltip: '',
             },
             {
@@ -708,7 +709,7 @@ export const RetailSpareQuestions = {
               Tooltip: 'Max: 52 weeks per year)',
             },
             {
-              Question: 'Hours Open Per Day',
+              Question: 'Hours Open Per Day (max 24)',
               Tooltip: '',
             },
             {
