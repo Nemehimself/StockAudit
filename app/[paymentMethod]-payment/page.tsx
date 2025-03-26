@@ -7,9 +7,9 @@ export default function PaymentPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const amount = searchParams.get("amount");
-  const season = searchParams.get("season");
-  const paymentMethod = searchParams.get("paymentMethod"); // paypal or stripe
+  const amount = searchParams?.get("amount") ?? "500";
+  const season = searchParams?.get("season") ?? "Not Selected";
+  const paymentMethod = searchParams?.get("paymentMethod") ?? ""; // paypal or stripe
 
   useEffect(() => {
     // Simulate payment success (Replace with real API call)
