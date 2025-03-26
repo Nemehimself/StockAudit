@@ -6,7 +6,7 @@ import { retailExcessStock } from "../Questions/ShortForm/ExcessAudit/Retail";
 import { RetailSpareQuestions } from "../Questions/ShortForm/SpareCapacity/Retail";
 import VideoModal from "../VideoModal";
 import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution";
+import RecommendedSolution from "./RecommendedSolution/RecommendedSolution";
 import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
 import { useCreateAudit } from "@/services/hooks/audit/hook";
 import Link from "next/link";
@@ -337,12 +337,12 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                   correct and accurate
                 </Link>
                 <button
-                onClick={handleSaveSpareCapacity}
-                disabled={isPending}
-                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
-              >
-                {isPending ? "Saving..." : "Save"}
-              </button>
+                  onClick={handleSaveSpareCapacity}
+                  disabled={isPending}
+                  className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
+                >
+                  {isPending ? "Saving..." : "Save"}
+                </button>
               </div>
             </div>
           </div>
@@ -471,17 +471,17 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
                   correct and accurate
                 </Link>
                 <button
-                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
-                onClick={handleSaveExcessStock}
-              >
-                Save
-              </button>
+                  className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
+                  onClick={handleSaveExcessStock}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col justify-between w-fit h-1/3 gap-4 bg-[#000] bg-opacity-70 p-4 mt-6 rounded-3xl">
-            <RecommendedSolution />
+          <RecommendedSolution />
           </div>
         </div>
       </div>

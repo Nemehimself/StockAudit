@@ -1,8 +1,12 @@
 "use client";
 
-import React from "react";
+import { Suspense } from "react";
 import Success from "./success";
 
 export default function Page() {
-  return <Success />;
-}
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Success />
+        </Suspense>
+      );
+    };

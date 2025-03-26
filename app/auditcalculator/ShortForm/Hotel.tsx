@@ -6,7 +6,7 @@ import { hotelExcessStock } from "../Questions/ShortForm/ExcessAudit/Hotel";
 import { HotelsSpareQuestions } from "../Questions/ShortForm/SpareCapacity/Hotels";
 import VideoModal from "../VideoModal";
 import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution";
+import RecommendedSolution from "./RecommendedSolution/RecommendedSolution";
 import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
 import { useCreateAudit } from "@/services/hooks/audit/hook";
 import Link from "next/link";
@@ -328,16 +328,17 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
                   href="auditcalculator/terms-and-conditions"
                   className="hover:underline text-white"
                 >
-                  By clicking this box, you agree that all the content above is correct and accurate
+                  By clicking this box, you agree that all the content above is
+                  correct and accurate
                 </Link>
                 <button
-                onClick={handleSaveSpareCapacity}
-                disabled={isPending}
-                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
-              >
-                {isPending ? "Saving..." : "Save"}
-              </button>
-            </div> 
+                  onClick={handleSaveSpareCapacity}
+                  disabled={isPending}
+                  className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
+                >
+                  {isPending ? "Saving..." : "Save"}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -461,20 +462,21 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
                   href="auditcalculator/terms-and-conditions"
                   className="hover:underline text-white"
                 >
-                  By clicking this box, you agree that all the content above is correct and accurate
+                  By clicking this box, you agree that all the content above is
+                  correct and accurate
                 </Link>
                 <button
-                className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
-                onClick={handleSaveExcessStock}
-              >
-                Save
-              </button>
-            </div> 
+                  className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
+                  onClick={handleSaveExcessStock}
+                >
+                  Save
+                </button>
+              </div>
             </div>
           </div>
 
           <div className="flex flex-col justify-between w-3/4 h-1/3 gap-4 bg-[#000] bg-opacity-70 p-4 mt-6 rounded-3xl">
-            <RecommendedSolution />
+          <RecommendedSolution />
           </div>
         </div>
       </div>
