@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaCircleInfo } from "react-icons/fa6";
-import { restaurantsExcessStock } from "../Questions/ShortForm/ExcessAudit/Restaurants";
-import { Restaurant } from "../Questions/ShortForm/SpareCapacity/Restaurant";
-import VideoModal from "../VideoModal";
-import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution/RecommendedSolution";
-import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
-import { useCreateAudit } from "@/services/hooks/audit/hook";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { FaCircleInfo } from 'react-icons/fa6';
+import { restaurantsExcessStock } from '../Questions/ShortForm/ExcessAudit/Restaurants';
+import { Restaurant } from '../Questions/ShortForm/SpareCapacity/Restaurant';
+import VideoModal from '../VideoModal';
+import { FaPlay } from 'react-icons/fa';
+import RecommendedSolution from './RecommendedSolution/RecommendedSolution';
+import { currencyOptions } from '../Questions/ShortForm/SpareCapacity/currencyOption';
+import { useCreateAudit } from '@/services/hooks/audit/hook';
+import Link from 'next/link';
 
 interface RestaurantsProps {
-  selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD";
+  selectedGroup: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD';
   activeCategory: string | null;
   setActiveCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -23,14 +23,14 @@ const Restaurants: React.FC<
   RestaurantsProps & { selectedGroup: RestaurantGroups }
 > = ({ selectedGroup }) => {
   const groupData = Restaurant[selectedGroup]?.[0] || null; // Fetch selected group data
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [tooltipVisible, setTooltipVisible] = useState<string | null>(null);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
 
   // Handle input change
   const handleInputChange = (key: string, value: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    setAnswers(prev => ({ ...prev, [key]: value }));
   };
 
   const [inputValues, setInputValues] = useState<Record<string, number>>({});
@@ -38,14 +38,14 @@ const Restaurants: React.FC<
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
-  const [currency, setCurrency] = useState<string>("£");
+  const [currency, setCurrency] = useState<string>('£');
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const { mutate, isPending } = useCreateAudit();
 
   const handleInputChange2 = (question: string, value: number) => {
-    setInputValues((prev) => ({ ...prev, [question]: value }));
-    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
+    setInputValues(prev => ({ ...prev, [question]: value }));
+    setErrors(prev => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,7 +54,7 @@ const Restaurants: React.FC<
   };
 
   const handleCalculate = () => {
-    if (selectedGroup !== "GroupD") {
+    if (selectedGroup !== 'GroupD') {
       const newErrors = Object.keys(inputValues).reduce((acc, key) => {
         const index = parseInt(key, 10);
         acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0;
@@ -63,7 +63,7 @@ const Restaurants: React.FC<
 
       setErrors(newErrors);
 
-      if (Object.values(newErrors).some((err) => err)) {
+      if (Object.values(newErrors).some(err => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -71,7 +71,7 @@ const Restaurants: React.FC<
     let maxCapacity = 0;
     let yearlyTurnOver = 0;
 
-    if (selectedGroup === "GroupD") {
+    if (selectedGroup === 'GroupD') {
       maxCapacity =
         (inputValues[0] || 1) *
         (inputValues[2] || 1) *
@@ -88,7 +88,7 @@ const Restaurants: React.FC<
     } else {
       // Calculate Yearly Max Capacity
       const inputValuesArray = Object.values(inputValues).slice(0, 5);
-      maxCapacity = inputValuesArray.some((val) => val > 0)
+      maxCapacity = inputValuesArray.some(val => val > 0)
         ? inputValuesArray.reduce((acc, val) => acc * (val || 1), 1)
         : 0;
 
@@ -116,23 +116,33 @@ const Restaurants: React.FC<
       yearlySpareCapacity,
       ...inputValues,
     };
-
-    console.log("Saved Data:", audit);
-    mutate({ audit });
+    localStorage.setItem('spareCapacityData', JSON.stringify(audit));
   };
 
   const handleSaveExcessStock = () => {
     const leftSectionData: Record<string, string> = {};
 
     // Iterate over restaurantExcessStock to extract answers
-    Object.keys(restaurantsExcessStock).forEach((key) => {
-      leftSectionData[key] = answers[key] || ""; // Store user inputs, fallback to empty string
+    Object.keys(restaurantsExcessStock).forEach(key => {
+      leftSectionData[key] = answers[key] || ''; // Store user inputs, fallback to empty string
     });
 
     // Save to local storage
-    localStorage.setItem("leftSectionData", JSON.stringify(leftSectionData));
+    localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
 
-    console.log("Saved Data:", leftSectionData);
+    console.log('Saved Data:', leftSectionData);
+  };
+
+  const handleSubmit = () => {
+    const excessStock = JSON.parse(
+      localStorage.getItem('leftSectionData') || '{}'
+    );
+    const spareCapacity = JSON.parse(
+      localStorage.getItem('spareCapacityData') || '{}'
+    );
+
+    const audit = { excessStock, spareCapacity };
+    mutate({ audit });
   };
 
   const handleReset = () => {
@@ -173,10 +183,10 @@ const Restaurants: React.FC<
                   <select
                     className="w-full p-2 border rounded"
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    onChange={e => setSelectedCategory(e.target.value)}
                   >
                     <option value="">Type of Restaurant / Eatery</option>
-                    {groupData.DropDown.map((item) => (
+                    {groupData.DropDown.map(item => (
                       <option
                         key={item?.Category ?? item}
                         value={item?.Category ?? item}
@@ -207,7 +217,7 @@ const Restaurants: React.FC<
                   {/* Dynamic Questions */}
                   {selectedCategory &&
                     groupData.DropDown.find(
-                      (item) => item?.Category === selectedCategory
+                      item => item?.Category === selectedCategory
                     )?.Questions.map(({ Question, Tooltip }) => (
                       <div
                         key={Question}
@@ -226,22 +236,22 @@ const Restaurants: React.FC<
                           type="number"
                           min="0"
                           max={
-                            Question.includes("(max 52)")
+                            Question.includes('(max 52)')
                               ? 52
-                              : Question.includes("(max 24)")
+                              : Question.includes('(max 24)')
                               ? 24
-                              : Question.includes("(max 7)")
+                              : Question.includes('(max 7)')
                               ? 7
                               : undefined
                           }
-                          value={inputValues[Question] || ""}
-                          onChange={(e) => {
+                          value={inputValues[Question] || ''}
+                          onChange={e => {
                             const inputValue = parseInt(e.target.value) || 0;
-                            const maxLimit = Question.includes("(max 52)")
+                            const maxLimit = Question.includes('(max 52)')
                               ? 52
-                              : Question.includes("(max 24)")
+                              : Question.includes('(max 24)')
                               ? 24
-                              : Question.includes("(max 7)")
+                              : Question.includes('(max 7)')
                               ? 7
                               : Infinity; // No limit if no max is defined
 
@@ -252,8 +262,8 @@ const Restaurants: React.FC<
                           }}
                           className={`w-1/3 p-2 border mt-2 rounded ${
                             errors[Question]
-                              ? "border-red-500"
-                              : "border-gray-300"
+                              ? 'border-red-500'
+                              : 'border-gray-300'
                           }`}
                         />
 
@@ -268,15 +278,15 @@ const Restaurants: React.FC<
                 <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-white p-4">
                   {[
                     {
-                      label: "Yearly Maximum Capacity",
+                      label: 'Yearly Maximum Capacity',
                       value: yearlyMaxCapacity,
                     },
                     {
-                      label: "Current Yearly TurnOver",
+                      label: 'Current Yearly TurnOver',
                       value: currentYearlyTurnOver,
                     },
                     {
-                      label: "Yearly Spare Capacity",
+                      label: 'Yearly Spare Capacity',
                       value: yearlySpareCapacity,
                     },
                   ].map(({ label, value }) => (
@@ -345,7 +355,7 @@ const Restaurants: React.FC<
                   onClick={handleSaveSpareCapacity}
                   className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-black font-bold hover:bg-blue-800"
                 >
-                  {isPending ? "Saving..." : "Save"}
+                  Save
                 </button>
               </div>
             </div>
@@ -387,11 +397,11 @@ const Restaurants: React.FC<
                         </div>
 
                         {/* Input Field */}
-                        {data.Question.toLowerCase().includes("(yes/no)") ? (
+                        {data.Question.toLowerCase().includes('(yes/no)') ? (
                           <select
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                            value={answers[key] || ""}
-                            onChange={(e) =>
+                            value={answers[key] || ''}
+                            onChange={e =>
                               handleInputChange(key, e.target.value)
                             }
                           >
@@ -400,12 +410,12 @@ const Restaurants: React.FC<
                             <option value="No">No</option>
                           </select>
                         ) : data.Question.includes(
-                            "How often do you conduct stock takes?"
+                            'How often do you conduct stock takes?'
                           ) ? (
                           <select
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
-                            value={answers[key] || ""}
-                            onChange={(e) =>
+                            value={answers[key] || ''}
+                            onChange={e =>
                               handleInputChange(key, e.target.value)
                             }
                           >
@@ -415,14 +425,14 @@ const Restaurants: React.FC<
                             <option value="Monthly">Monthly</option>
                             <option value="Monthly">Quarterly</option>
                           </select>
-                        ) : data.Question.toLowerCase().includes("(%)") ? (
+                        ) : data.Question.toLowerCase().includes('(%)') ? (
                           <input
                             type="number"
                             min="0"
                             max="100"
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                            value={answers[key] || ""}
-                            onChange={(e) =>
+                            value={answers[key] || ''}
+                            onChange={e =>
                               handleInputChange(
                                 key,
                                 Math.min(100, Number(e.target.value)).toString()
@@ -433,8 +443,8 @@ const Restaurants: React.FC<
                           <input
                             type="text"
                             className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                            value={answers[key] || ""}
-                            onChange={(e) =>
+                            value={answers[key] || ''}
+                            onChange={e =>
                               handleInputChange(key, e.target.value)
                             }
                           />
@@ -488,8 +498,11 @@ const Restaurants: React.FC<
             <RecommendedSolution />
           </div>
 
-          <button className="rounded-full py-2 px-4 w-1/4 bg-emerald-800 border-2 border-white text-[#fff] font-bold hover:bg-blue-800">
-            Submit
+          <button
+            className="rounded-full py-2 px-4 w-1/4 bg-emerald-800 border-2 border-white text-[#fff] font-bold hover:bg-blue-800"
+            onClick={handleSubmit}
+          >
+            {isPending ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </div>

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaCircleInfo } from "react-icons/fa6";
-import { serviceProviderExcessStock } from "../Questions/ShortForm/ExcessAudit/ServiceProvider";
-import { serviceProviderSpareQuestions } from "../Questions/ShortForm/SpareCapacity/ServiceProviders";
-import VideoModal from "../VideoModal";
-import { FaPlay } from "react-icons/fa";
-import RecommendedSolution from "./RecommendedSolution/RecommendedSolution";
-import { currencyOptions } from "../Questions/ShortForm/SpareCapacity/currencyOption";
-import { useCreateAudit } from "@/services/hooks/audit/hook";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { FaCircleInfo } from 'react-icons/fa6';
+import { serviceProviderExcessStock } from '../Questions/ShortForm/ExcessAudit/ServiceProvider';
+import { serviceProviderSpareQuestions } from '../Questions/ShortForm/SpareCapacity/ServiceProviders';
+import VideoModal from '../VideoModal';
+import { FaPlay } from 'react-icons/fa';
+import RecommendedSolution from './RecommendedSolution/RecommendedSolution';
+import { currencyOptions } from '../Questions/ShortForm/SpareCapacity/currencyOption';
+import { useCreateAudit } from '@/services/hooks/audit/hook';
+import Link from 'next/link';
 
 interface ServiceProviderProps {
-  selectedGroup: "GroupA" | "GroupB" | "GroupC" | "GroupD";
+  selectedGroup: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD';
   activeCategory: string | null;
   setActiveCategory: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -23,7 +23,7 @@ const ServiceProvider: React.FC<
   ServiceProviderProps & { selectedGroup: ServiceProviderGroups }
 > = ({ selectedGroup }) => {
   const groupData = serviceProviderSpareQuestions[selectedGroup]?.[0] || null; // Fetch selected group data
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [tooltipVisible, setTooltipVisible] = useState<string | null>(null);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
@@ -32,7 +32,7 @@ const ServiceProvider: React.FC<
 
   // Handle input change
   const handleInputChange = (key: string, value: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    setAnswers(prev => ({ ...prev, [key]: value }));
   };
 
   const [inputValues, setInputValues] = useState<Record<string, number>>({});
@@ -40,12 +40,12 @@ const ServiceProvider: React.FC<
   const [currentYearlyTurnOver, setCurrentYearlyTurnOver] = useState(0);
   const [yearlySpareCapacity, setYearlySpareCapacity] = useState(0);
 
-  const [currency, setCurrency] = useState<string>("£");
+  const [currency, setCurrency] = useState<string>('£');
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const handleInputChange2 = (question: string, value: number) => {
-    setInputValues((prev) => ({ ...prev, [question]: value }));
-    setErrors((prev) => ({ ...prev, [question]: false })); // Reset error when a value is entered
+    setInputValues(prev => ({ ...prev, [question]: value }));
+    setErrors(prev => ({ ...prev, [question]: false })); // Reset error when a value is entered
   };
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,7 +54,7 @@ const ServiceProvider: React.FC<
   };
 
   const handleCalculate = () => {
-    if (selectedGroup !== "GroupD") {
+    if (selectedGroup !== 'GroupD') {
       const newErrors = Object.keys(inputValues).reduce((acc, key) => {
         const index = parseInt(key, 10);
         acc[key] = [0, 3, 4, 5, 6].includes(index) && inputValues[key] === 0; // Require fields for calculations
@@ -63,7 +63,7 @@ const ServiceProvider: React.FC<
 
       setErrors(newErrors);
 
-      if (Object.values(newErrors).some((err) => err)) {
+      if (Object.values(newErrors).some(err => err)) {
         return; // Stop calculation if any required input is missing
       }
     }
@@ -91,15 +91,6 @@ const ServiceProvider: React.FC<
     setYearlyMaxCapacity(maxCapacity);
     setCurrentYearlyTurnOver(yearlyTurnOver);
     setYearlySpareCapacity(spareCapacity);
-
-    const audit = {
-      ...inputValues,
-      maxCapacity,
-      yearlyTurnOver,
-      spareCapacity,
-    };
-
-    mutate({ audit });
   };
 
   const handleSaveSpareCapacity = () => {
@@ -109,23 +100,31 @@ const ServiceProvider: React.FC<
       yearlySpareCapacity,
       ...inputValues,
     };
-
-    console.log("Saved Data:", audit);
-    mutate({ audit });
+    localStorage.setItem('spareCapacityData', JSON.stringify(audit));
   };
 
   const handleSaveExcessStock = () => {
     const leftSectionData: Record<string, string> = {};
 
     // Iterate over restaurantExcessStock to extract answers
-    Object.keys(serviceProviderExcessStock).forEach((key) => {
-      leftSectionData[key] = answers[key] || ""; // Store user inputs, fallback to empty string
+    Object.keys(serviceProviderExcessStock).forEach(key => {
+      leftSectionData[key] = answers[key] || ''; // Store user inputs, fallback to empty string
     });
 
     // Save to local storage
-    localStorage.setItem("leftSectionData", JSON.stringify(leftSectionData));
+    localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
+  };
 
-    console.log("Saved Data:", leftSectionData);
+  const handleSubmit = () => {
+    const excessStock = JSON.parse(
+      localStorage.getItem('leftSectionData') || '{}'
+    );
+    const spareCapacity = JSON.parse(
+      localStorage.getItem('spareCapacityData') || '{}'
+    );
+
+    const audit = { excessStock, spareCapacity };
+    mutate({ audit });
   };
 
   const handleReset = () => {
@@ -170,15 +169,15 @@ const ServiceProvider: React.FC<
                   <select
                     className="flex justify-start items-center w-full p-2 border border-[#838383] focus:border-[#2D3DFF] outline-none mb-2 rounded"
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    onChange={e => setSelectedCategory(e.target.value)}
                   >
                     <option value="">Select Service Provider Type</option>
-                    {groupData.DropDown.map((item) => (
+                    {groupData.DropDown.map(item => (
                       <option
-                        key={typeof item === "string" ? item : item.Category}
-                        value={typeof item === "string" ? item : item.Category}
+                        key={typeof item === 'string' ? item : item.Category}
+                        value={typeof item === 'string' ? item : item.Category}
                       >
-                        {typeof item === "string" ? item : item.Category}
+                        {typeof item === 'string' ? item : item.Category}
                       </option>
                     ))}
                   </select>
@@ -204,15 +203,15 @@ const ServiceProvider: React.FC<
                   {/* Questions Display */}
                   {selectedCategory &&
                     groupData.DropDown.find(
-                      (item) =>
-                        typeof item !== "string" &&
+                      item =>
+                        typeof item !== 'string' &&
                         item.Category === selectedCategory
                     )?.Questions.map((question, index) => {
-                      const maxValue = question.includes("(max 52)")
+                      const maxValue = question.includes('(max 52)')
                         ? 52
-                        : question.includes("(max 24)")
+                        : question.includes('(max 24)')
                         ? 24
-                        : question.includes("(max 7)")
+                        : question.includes('(max 7)')
                         ? 7
                         : undefined; // No limit if no max constraint
 
@@ -228,8 +227,8 @@ const ServiceProvider: React.FC<
                             type="number"
                             min="0"
                             max={maxValue}
-                            value={inputValues[question] || ""} // Ensure value is correctly bound
-                            onChange={(e) => {
+                            value={inputValues[question] || ''} // Ensure value is correctly bound
+                            onChange={e => {
                               const rawValue =
                                 parseInt(e.target.value, 10) || 0;
                               const clampedValue = Math.min(
@@ -241,8 +240,8 @@ const ServiceProvider: React.FC<
                             }}
                             className={`w-1/3 p-2 border ${
                               errors[question]
-                                ? "border-red-500"
-                                : "border-[#838383]"
+                                ? 'border-red-500'
+                                : 'border-[#838383]'
                             } focus:border-[#2D3DFF] outline-none rounded mb-4`}
                           />
                           {errors[question] && (
@@ -259,15 +258,15 @@ const ServiceProvider: React.FC<
                 <div className="w-1/3 flex flex-col items-center rounded-2xl gap-2 bg-white p-4">
                   {[
                     {
-                      label: "Yearly Maximum Capacity",
+                      label: 'Yearly Maximum Capacity',
                       value: yearlyMaxCapacity,
                     },
                     {
-                      label: "Current Yearly TurnOver",
+                      label: 'Current Yearly TurnOver',
                       value: currentYearlyTurnOver,
                     },
                     {
-                      label: "Yearly Spare Capacity",
+                      label: 'Yearly Spare Capacity',
                       value: yearlySpareCapacity,
                     },
                   ].map(({ label, value }) => (
@@ -337,7 +336,7 @@ const ServiceProvider: React.FC<
                   disabled={isPending}
                   className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
                 >
-                  {isPending ? "Saving..." : "Save"}
+                  Save
                 </button>
               </div>
             </div>
@@ -380,11 +379,11 @@ const ServiceProvider: React.FC<
                           </div>
 
                           {/* Input Field */}
-                          {data.Question.toLowerCase().includes("(yes/no)") ? (
+                          {data.Question.toLowerCase().includes('(yes/no)') ? (
                             <select
                               className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                              value={answers[key] || ""}
-                              onChange={(e) =>
+                              value={answers[key] || ''}
+                              onChange={e =>
                                 handleInputChange(key, e.target.value)
                               }
                             >
@@ -393,12 +392,12 @@ const ServiceProvider: React.FC<
                               <option value="No">No</option>
                             </select>
                           ) : data.Question.includes(
-                              "How often do you conduct stock takes?"
+                              'How often do you conduct stock takes?'
                             ) ? (
                             <select
                               className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded bg-[#fff] text-[#000]"
-                              value={answers[key] || ""}
-                              onChange={(e) =>
+                              value={answers[key] || ''}
+                              onChange={e =>
                                 handleInputChange(key, e.target.value)
                               }
                             >
@@ -408,14 +407,14 @@ const ServiceProvider: React.FC<
                               <option value="Monthly">Monthly</option>
                               <option value="Monthly">Quarterly</option>
                             </select>
-                          ) : data.Question.toLowerCase().includes("(%)") ? (
+                          ) : data.Question.toLowerCase().includes('(%)') ? (
                             <input
                               type="number"
                               min="0"
                               max="100"
                               className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                              value={answers[key] || ""}
-                              onChange={(e) =>
+                              value={answers[key] || ''}
+                              onChange={e =>
                                 handleInputChange(
                                   key,
                                   Math.min(
@@ -429,8 +428,8 @@ const ServiceProvider: React.FC<
                             <input
                               type="text"
                               className="w-1/3 p-2 border border-gray-600 focus:border-blue-500 outline-none rounded  bg-[#fff] text-[#000]"
-                              value={answers[key] || ""}
-                              onChange={(e) =>
+                              value={answers[key] || ''}
+                              onChange={e =>
                                 handleInputChange(key, e.target.value)
                               }
                             />
@@ -482,8 +481,14 @@ const ServiceProvider: React.FC<
           </div>
 
           <div className="flex flex-col justify-between w-fit h-1/3 gap-4 bg-[#000] bg-opacity-70 p-4 mt-6 rounded-3xl">
-          <RecommendedSolution />
+            <RecommendedSolution />
           </div>
+          <button
+            className="rounded-full py-2 px-4 w-1/4 bg-emerald-800 border-2 border-white text-[#fff] font-bold hover:bg-blue-800"
+            onClick={handleSubmit}
+          >
+            {isPending ? 'Submitting...' : 'Submit'}
+          </button>
         </div>
       </div>
     </div>
