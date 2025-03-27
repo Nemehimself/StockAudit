@@ -129,8 +129,6 @@ const Restaurants: React.FC<
 
     // Save to local storage
     localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
-
-    console.log('Saved Data:', leftSectionData);
   };
 
   const handleSubmit = () => {
@@ -141,7 +139,7 @@ const Restaurants: React.FC<
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Restuarant', excessStock, spareCapacity };
     mutate({ audit });
   };
 

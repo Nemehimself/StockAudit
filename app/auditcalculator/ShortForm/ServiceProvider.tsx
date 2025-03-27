@@ -123,7 +123,7 @@ const ServiceProvider: React.FC<
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Service Provider', excessStock, spareCapacity };
     mutate({ audit });
   };
 

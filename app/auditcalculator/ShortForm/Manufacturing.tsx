@@ -123,7 +123,7 @@ const Manufacturing: React.FC<
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Manufacturing', excessStock, spareCapacity };
     mutate({ audit });
   };
 
@@ -333,10 +333,9 @@ const Manufacturing: React.FC<
                 </Link>
                 <button
                   onClick={handleSaveSpareCapacity}
-                  disabled={isPending}
                   className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
                 >
-                  {isPending ? 'Saving...' : 'Save'}
+                  Save
                 </button>
               </div>
             </div>

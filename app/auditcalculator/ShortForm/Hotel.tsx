@@ -115,8 +115,6 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
 
     // Save to local storage
     localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
-
-    console.log('Saved Data:', leftSectionData);
   };
 
   const handleSubmit = () => {
@@ -127,7 +125,7 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Hotel', excessStock, spareCapacity };
     mutate({ audit });
   };
 
@@ -335,10 +333,9 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
                 </Link>
                 <button
                   onClick={handleSaveSpareCapacity}
-                  disabled={isPending}
                   className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
                 >
-                  {isPending ? 'Saving...' : 'Save'}
+                  Save
                 </button>
               </div>
             </div>

@@ -126,7 +126,7 @@ const Retail: React.FC<RetailProps & { selectedGroup: RetailGroups }> = ({
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Retail', excessStock, spareCapacity };
     mutate({ audit });
   };
 

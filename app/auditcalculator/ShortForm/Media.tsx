@@ -130,7 +130,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { excessStock, spareCapacity };
+    const audit = { type: 'Media', excessStock, spareCapacity };
     mutate({ audit });
   };
 
@@ -338,10 +338,9 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
                 </Link>
                 <button
                   onClick={handleSaveSpareCapacity}
-                  disabled={isPending}
                   className="rounded-2xl py-2 px-4 w-1/4 bg-lime-600 text-[#000] font-bold hover:bg-blue-800"
                 >
-                  {isPending ? 'Saving...' : 'Save'}
+                  Save
                 </button>
               </div>
             </div>
