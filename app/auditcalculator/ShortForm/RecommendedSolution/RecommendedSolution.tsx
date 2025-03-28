@@ -19,8 +19,6 @@ interface PaidSeason {
   price: number;
 }
 
-// const MIN_BASE_PRICE = 500;
-
 export default function RecommendedSolution() {
   const [paymentDetails, setPaymentDetails] = useState<{ amount: string; season: string } | null>(null);
   const [paidSeasons, setPaidSeasons] = useState<PaidSeason[]>([]);
@@ -105,13 +103,10 @@ export default function RecommendedSolution() {
     Autumn: 0,
   });
 
-  // const totalAudits = Math.floor(basePrice / MIN_BASE_PRICE);
-  // const auditsLeft = totalAudits;
-
   // Find the current season based on the active season
   const currentSeason = seasons.find((season) => season.name === activeSeason);
 
-  const isDisabled = basePrice < 2000;
+  const isDisabled = (paymentDetails?.amount !== undefined && Number(paymentDetails.amount) < 2000 && seasonCount < 4);
 
   const handleSliderChange = (dial: keyof SliderValues, newValue: number) => {
     const sumOtherDials = Object.keys(sliderValues)

@@ -50,8 +50,8 @@ export const Audit3 = () => {
   };
 
   const handlePaymentRedirect = (method: "paypal" | "stripe") => {
-    if (selectedSeasons.length === 0) {
-      alert("Please select a season before proceeding to payment.");
+    if (selectedSeasons.length !== 3) {
+      alert("Please select 3 seasons before proceeding to payment.");
       return;
     }
     const query = `?amount=1500&season=${encodeURIComponent(selectedSeasons.join(", "))}`;
