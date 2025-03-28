@@ -3,12 +3,19 @@
 import React, { useEffect, useState } from 'react';
 import { CiLogin } from 'react-icons/ci';
 import AuthModal from '../components/AuthModal';
+import { getCookieValue } from '@/services/getCookieValue';
 
-const Header = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+interface HeaderType {
+  modalOpen: boolean;
+  setModalOpen: (val: boolean) => void;
+}
+
+const Header: React.FC<HeaderType> = ({ modalOpen, setModalOpen }) => {
   const [name, setName] = useState<string | null>('');
 
   useEffect(() => {
+    const token = getCookieValue('token');
+    if (!token) return;
     const name = localStorage.getItem('username');
     setName(name);
   }, [name]);

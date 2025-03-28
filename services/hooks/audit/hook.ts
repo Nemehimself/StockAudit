@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export const useCreateAudit = () => {
   const router = useRouter();
-  const create = async (audit: { audit: Record<string, number> }) => {
+  const create = async (audit: { audit: Record<string, number | string> }) => {
     const token = getCookieValue('token');
     if (!token) {
       router.push('/stockaudit');

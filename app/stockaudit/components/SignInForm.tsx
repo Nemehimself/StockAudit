@@ -35,7 +35,12 @@ const SignInForm: React.FC<SignInFormProps> = ({ switchToRegister }) => {
     if (isSuccess) {
       toast('Login succesfully');
       document.cookie = `token=${data.accessToken}; max-age=86400; path=/; secure;`;
-      router.push('/auditcalculator'); // Navigate to AuditCalculator page
+
+      const redirect = localStorage.getItem('redirect');
+      if (redirect) {
+        localStorage.removeItem('redirect');
+        router.push(redirect);
+      } else router.push('/auditcalculator'); // Navigate to AuditCalculator page
     } else if (isError) {
       const error = mutateError as unknown as errorType;
       const errMsg = error.response.data.error;
