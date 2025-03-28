@@ -1,17 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import AppointmentModal from "./AppointmentModal"; // Import modal component
+import AppointmentModal from "./AppointmentModal";
 
 const Footer = () => {
   const [agentModalOpen, setAgentModalOpen] = useState(false);
   const [accountManagerModalOpen, setAccountManagerModalOpen] = useState(false);
   const [consultantModalOpen, setConsultantModalOpen] = useState(false);
-  const [appointmentDetails, setAppointmentDetails] = useState<string | null>(
-    null
-  );
+  const [appointmentDetails, setAppointmentDetails] = useState<string | null>(null);
+  
+  // New state for tracking payment and season conditions
+  const [isButtonsDisabled, setIsButtonsDisabled] = useState(true);
 
-  // Disable buttons if an appointment is booked
-  const disableButtons = appointmentDetails !== null;
+  useEffect(() => {
+    // Function to check button disabled state
+    const checkButtonDisabledState = () => {
+      const storedPayment = localStorage.getItem("paymentDetails");
+      const increasedBudget = localStorage.getItem("increasedBudget");
+
+      if (storedPayment) {
+        const parsedPayment = JSON.parse(storedPayment);
+        const seasonsArray = (parsedPayment.season as string)
+          .split(",")
+          .map((s: string) => s.trim());
+        
+        let amount = parseFloat(parsedPayment.amount);
+
+        // Check if there's an increased budget
+        if (increasedBudget) {
+          const parsedIncreasedBudget = JSON.parse(increasedBudget);
+          amount += parsedIncreasedBudget.amount;
+        }
+
+        // Disable buttons if amount is less than 2000 or seasons are less than 4
+        setIsButtonsDisabled(amount < 2000 || seasonsArray.length < 4);
+      }
+    };
+
+    // Check initial state
+    checkButtonDisabledState();
+
+    // Add event listener for storage changes
+    window.addEventListener('storage', checkButtonDisabledState);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('storage', checkButtonDisabledState);
+    };
+  }, []);
+
+  // Combine local appointment booking disable with payment conditions
+  const disableButtons = appointmentDetails !== null || isButtonsDisabled;
 
   return (
     <footer className="w-full flex flex-col justify-start gap-4 font-medium ml-2 cursor-pointer">
@@ -52,6 +90,15 @@ const Footer = () => {
         </button>
       </div>
 
+      {/* Conditional tooltip for why buttons are disabled */}
+      {isButtonsDisabled && (
+        <p className="text-center text-red-500 text-sm">
+          {localStorage.getItem("paymentDetails") 
+            ? "Increase budget to 2000+ to unlock booking." 
+            : "Please complete payment details first."}
+        </p>
+      )}
+
       {/* Display Appointment Details Only If Saved */}
       {appointmentDetails && (
         <p className="text-center">
@@ -59,7 +106,7 @@ const Footer = () => {
         </p>
       )}
 
-      {/* Agent Modal */}
+      {/* Appointment Modals */}
       <AppointmentModal
         title="Agent Appointment"
         isOpen={agentModalOpen}
@@ -69,7 +116,6 @@ const Footer = () => {
         }
       />
 
-      {/* Account Manager Modal */}
       <AppointmentModal
         title="Account Manager Appointment"
         isOpen={accountManagerModalOpen}
@@ -79,7 +125,6 @@ const Footer = () => {
         }
       />
 
-      {/* Consultant Modal */}
       <AppointmentModal
         title="Consultant Appointment"
         isOpen={consultantModalOpen}

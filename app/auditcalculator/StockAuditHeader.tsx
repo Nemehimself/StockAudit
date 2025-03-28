@@ -115,7 +115,7 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
 
       {paymentDetails && (
         <div className="p-2 bg-white text-[#000] font-bold">
-          Payment Amount: £{paymentDetails.amount} 
+          £{paymentDetails.amount} 
         </div>
       )}
       <div className="p-2 bg-white text-[#000] font-bold">

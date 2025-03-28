@@ -55,8 +55,8 @@ export const Audit2 = () => {
   };
 
   const handlePaymentRedirect = (method: "paypal" | "stripe") => {
-    if (selectedSeasons.length === 0) {
-      alert("Please select a season before proceeding to payment.");
+    if (selectedSeasons.length !== 2) {
+      alert("Please select 2 seasons before proceeding to payment.");
       return;
     }
     const query = `?amount=1000&season=${encodeURIComponent(selectedSeasons.join(", "))}`;
