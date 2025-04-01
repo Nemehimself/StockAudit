@@ -123,7 +123,12 @@ const Manufacturing: React.FC<
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { type: 'Manufacturing', excessStock, spareCapacity };
+    const audit = {
+      type: 'Manufacturing',
+      excessStock,
+      spareCapacity,
+      currency,
+    };
     mutate({ audit });
   };
 

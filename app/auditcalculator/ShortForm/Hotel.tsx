@@ -125,7 +125,7 @@ const Hotel: React.FC<HotelProps & { selectedGroup: HotelGroups }> = ({
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { type: 'Hotel', excessStock, spareCapacity };
+    const audit = { type: 'Hotel', excessStock, spareCapacity, currency };
     mutate({ audit });
   };
 

@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import React, { useState, useRef, useEffect } from 'react';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 import {
   FaUserCircle,
   FaChevronDown,
   FaChevronRight,
   FaHistory,
   FaOrcid,
-} from "react-icons/fa";
-import { CiLogout } from "react-icons/ci";
-import { deleteCookie } from "@/services/getCookieValue";
+} from 'react-icons/fa';
+import { CiLogout } from 'react-icons/ci';
+import { deleteCookie } from '@/services/getCookieValue';
 
 interface StockAuditHeaderProps {
-  activeAudit: "short" | "long";
-  setActiveAudit: React.Dispatch<React.SetStateAction<"short" | "long">>;
+  activeAudit: 'short' | 'long';
+  setActiveAudit: React.Dispatch<React.SetStateAction<'short' | 'long'>>;
   setActiveIndex: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
@@ -31,24 +31,24 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
     amount: string;
     season: string;
   } | null>(null);
-  const [name, setName] = useState<string | null>("");
+  const [name, setName] = useState<string | null>('');
   const [seasonCount, setSeasonCount] = useState(0);
 
   useEffect(() => {
-    const name = localStorage.getItem("username");
+    const name = localStorage.getItem('username');
     setName(name);
   }, [name]);
 
   useEffect(() => {
     // ✅ Retrieve payment details from localStorage
-    const storedPayment = localStorage.getItem("paymentDetails");
+    const storedPayment = localStorage.getItem('paymentDetails');
     if (storedPayment) {
       const parsedPayment = JSON.parse(storedPayment);
       setPaymentDetails(parsedPayment);
 
       // ✅ Count the number of seasons (assuming they are comma-separated)
       const seasonsArray: string[] = (parsedPayment.season as string)
-        .split(",")
+        .split(',')
         .map((s: string) => s.trim());
       setSeasonCount(seasonsArray.length);
     }
@@ -65,14 +65,18 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleLogout = () => {
-    deleteCookie("token");
-    localStorage.removeItem("username");
-    router.push("/stockaudit");
+    deleteCookie('token');
+    localStorage.removeItem('username');
+    router.push('/stockaudit');
+  };
+
+  const handleToHistory = () => {
+    router.push('/auditcalculator/history');
   };
 
   return (
@@ -82,7 +86,7 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
         <IoMdArrowRoundBack
           size={24}
           className="cursor-pointer"
-          onClick={() => router.push("/stockaudit")}
+          onClick={() => router.push('/stockaudit')}
         />
         <h1 className="text-xl font-bold">Welcome to your M.Commerce Audit.</h1>
       </div>
@@ -91,10 +95,10 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
       <div className="flex space-x-4">
         <button
           className={`px-4 py-2 font-bold shadow-md ${
-            activeAudit === "short" ? "bg-blue-500" : "bg-gray-700"
+            activeAudit === 'short' ? 'bg-blue-500' : 'bg-gray-700'
           }`}
           onClick={() => {
-            setActiveAudit("short");
+            setActiveAudit('short');
             setActiveIndex(0);
           }}
         >
@@ -102,10 +106,10 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
         </button>
         <button
           className={`px-4 py-2 font-bold shadow-md ${
-            activeAudit === "long" ? "bg-blue-500" : "bg-gray-700"
+            activeAudit === 'long' ? 'bg-blue-500' : 'bg-gray-700'
           }`}
           onClick={() => {
-            setActiveAudit("long");
+            setActiveAudit('long');
             setActiveIndex(0);
           }}
         >
@@ -115,17 +119,17 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
 
       {paymentDetails && (
         <div className="p-2 bg-white text-[#000] font-bold">
-          £{paymentDetails.amount} 
+          £{paymentDetails.amount}
         </div>
       )}
       <div className="p-2 bg-white text-[#000] font-bold">
-        {seasonCount} of {seasonCount} Audit{seasonCount > 1 ? "s" : ""} Left
+        {seasonCount} of {seasonCount} Audit{seasonCount > 1 ? 's' : ''} Left
       </div>
       {/* Right Side - User Dropdown */}
       <div className="relative" ref={dropdownRef}>
         <div
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => setDropdownOpen((prev) => !prev)}
+          onClick={() => setDropdownOpen(prev => !prev)}
         >
           <p className="text-xl font-bold">{name}</p>
           <FaUserCircle size={24} />
@@ -140,7 +144,10 @@ const StockAuditHeader: React.FC<StockAuditHeaderProps> = ({
               <span>001</span>
             </div>
             <hr className="border-gray-700" />
-            <div className="flex items-center gap-3 p-3 hover:bg-gray-700">
+            <div
+              className="flex items-center gap-3 p-3 hover:bg-gray-700 cursor-pointer"
+              onClick={handleToHistory}
+            >
               <FaHistory />
               <span>History</span>
             </div>
