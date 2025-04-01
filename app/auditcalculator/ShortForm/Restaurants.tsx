@@ -139,7 +139,7 @@ const Restaurants: React.FC<
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { type: 'Restuarant', excessStock, spareCapacity };
+    const audit = { type: 'Restuarant', excessStock, spareCapacity, currency };
     mutate({ audit });
   };
 

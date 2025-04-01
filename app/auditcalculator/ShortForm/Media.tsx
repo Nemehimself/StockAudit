@@ -118,8 +118,6 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
 
     // Save to local storage
     localStorage.setItem('leftSectionData', JSON.stringify(leftSectionData));
-
-    console.log('Saved Data:', leftSectionData);
   };
 
   const handleSubmit = () => {
@@ -130,7 +128,7 @@ const Media: React.FC<MediaProps & { selectedGroup: MediaGroups }> = ({
       localStorage.getItem('spareCapacityData') || '{}'
     );
 
-    const audit = { type: 'Media', excessStock, spareCapacity };
+    const audit = { type: 'Media', excessStock, spareCapacity, currency };
     mutate({ audit });
   };
 
