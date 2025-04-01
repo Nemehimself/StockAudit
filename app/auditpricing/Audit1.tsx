@@ -24,10 +24,6 @@ export const Audit1 = () => {
     setSelectedSeason(e.target.value); // Updates the selected season
   };
 
-//   const handleLogin = () => {
-//     router.push("/auditcalculator");
-//   };
-
   const handlePaymentRedirect = (method: "paypal" | "stripe") => {
     if (!selectedSeason) {
       alert("Please select a season before proceeding to payment.");
