@@ -15,7 +15,7 @@ const StockAuditMain = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <main className="flex flex-col container mx-auto px-4 py-8 gap-6">
+      <main className="flex flex-col container mx-auto px-4 py-6 md:py-8 gap-4 md:gap-6">
         <VideoSection />
         <AuditInfo />
         <AnimatedGraphic />
@@ -27,5 +27,4 @@ const StockAuditMain = () => {
     </div>
   );
 };
-
 export default StockAuditMain;
