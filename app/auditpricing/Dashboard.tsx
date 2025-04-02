@@ -12,15 +12,15 @@ export const Dashboard = () => {
     const [showFeatures, setShowFeatures] = useState(false);
 
     return (
-        <div className='flex flex-col items-center justify-center gap-4 mb-10'>
-          <h1 className='text-6xl w-full text-center text-[#fff] bg-blue-500 p-4 font-normal'>
+        <div className='flex flex-col items-center justify-center gap-4 mb-10 w-full'>
+          <h1 className='text-3xl md:text-4xl lg:text-6xl w-full text-center text-white bg-blue-500 p-4 font-normal'>
             AUDIT PRICING</h1>
-            <header className='flex flex-col items-center w-1/2 mt-4 justify-center gap-4'>
-                <h1 className='font-normal text-3xl'>
+            <header className='flex flex-col items-center w-full px-4 md:w-3/4 lg:w-1/2 mt-4 justify-center gap-4'>
+                <h1 className='font-normal text-xl md:text-2xl lg:text-3xl text-center'>
                     MAKE A SELECTION FROM OUR 
-                    <span className='text-7xl text-blue-600 ml-2'>BUDGETS</span>
+                    <span className='text-4xl md:text-5xl lg:text-7xl text-blue-600 ml-2 block md:inline'>BUDGETS</span>
                 </h1>
-                <p className='text-center mt-10'>
+                <p className='text-center mt-4 lg:mt-10 px-2'>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
                     Excepturi, ratione impedit maxime dolorem, quod voluptate quo dicta 
                     nostrum reiciendis dolorum assumenda aspernatur quia adipisci error, 
@@ -31,14 +31,14 @@ export const Dashboard = () => {
               src="https://lottie.host/e20ab106-7674-412f-b590-4b3258d8ee7c/HnQv0JcMqA.lottie"
               loop
               autoplay
-              className='w-48 h-24'
+              className='w-32 h-20 md:w-40 md:h-24 lg:w-48 lg:h-24'
             />
             {/* Budget Cards */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className='flex flex-row items-center w-5/6 justify-center px-20 gap-4 mt-6'
+                className='flex flex-col md:flex-row flex-wrap items-center w-full px-2 md:px-4 lg:px-6 justify-center gap-4 mt-6'
             >
                 <Audit1 />
                 <Audit2 />
@@ -50,10 +50,10 @@ export const Dashboard = () => {
             <motion.button
                 whileHover={{ scale: 1.05, backgroundColor: "#000", color: "#fff" }}
                 whileTap={{ scale: 0.95 }}
-                className="w-1/4 border border-[#000] text-black py-2 rounded-full flex items-center justify-center gap-6 px-4 transition-all duration-300 mt-10"
+                className="w-3/4 md:w-1/2 lg:w-1/4 border border-black text-black py-2 rounded-full flex items-center justify-center gap-4 px-4 transition-all duration-300 mt-10"
                 onClick={() => setShowFeatures(!showFeatures)}
             >
-                View all features for the budgets <FaChevronDown />
+                <span className="whitespace-nowrap">View all features</span> <FaChevronDown />
             </motion.button>
 
             {showFeatures && <BudgetFeatures />}
