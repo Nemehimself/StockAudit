@@ -26,15 +26,21 @@ export const Audit3 = () => {
         (season) => season === selectedValue
       ).length;
 
-      if (count > 0) {
-        // If the season is already selected, remove ONE instance
-        const indexToRemove = prevSeasons.indexOf(selectedValue);
-        return prevSeasons.filter((_, index) => index !== indexToRemove);
+      if (count === 3) {
+        // If the season is already selected X3, remove one instance
+        return prevSeasons.filter((season) => season !== selectedValue);
+      }
+
+      if (count === 1) {
+        // If selected once, allow selecting it again (twice)
+        return prevSeasons.length === 3
+          ? prevSeasons.filter((season) => season !== selectedValue) // Remove if already two
+          : [...prevSeasons, selectedValue]; // Allow duplicate selection
       }
 
       if (prevSeasons.length === 3) {
-        // If three different seasons are selected, replace the first one
-        return [prevSeasons[1], prevSeasons[2], selectedValue];
+        // If two different seasons are selected, replace the first one
+        return [prevSeasons[1], selectedValue];
       }
 
       // Normal case: Add the season if there's space
@@ -62,31 +68,30 @@ export const Audit3 = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.1, ease: "easeOut" }}
-      whileHover={{ scale: 1.05, boxShadow: "0px 5px 15px rgba(0,0,0,0.2)" }}
+      whileHover={{ scale: 1.02, boxShadow: "0px 5px 15px rgba(0,0,0,0.2)" }}
       whileTap={{ scale: 0.98 }}
-      className="flex flex-col items-center w-1/4 justify-center p-4 gap-4 shadow-lg rounded-lg text-white transition-all duration-300"
+      className="flex flex-col items-center w-full md:w-5/12 lg:w-1/5 justify-center p-4 gap-4 shadow-lg rounded-lg text-white transition-all duration-300 mb-6 md:mb-0"
       style={{
         background: "linear-gradient(to bottom right, #FFB347, #FFCC33)", // Sunny Yellow-Orange
       }}
     >
-      <p className="flex flex-row items-center text-3xl font-light gap-4">
-        <AiOutlineAudit className="w-8 h-8" /> Audit3
+      <p className="flex flex-row items-center text-2xl md:text-3xl font-light gap-2 md:gap-4">
+        <AiOutlineAudit className="w-6 h-6 md:w-8 md:h-8" /> Audit3
       </p>
-      <p className="text-center">
+      <p className="text-center text-sm md:text-base">
         You are only eligible for three Audits in one - three seasons
       </p>
-      <p className="text-2xl">
-        {" "}
+      <p className="text-xl md:text-2xl">
         £1500 <span className="text-xs">/budget</span>
       </p>
-      <p>20% on First payment</p>
-      <p className="flex items-center gap-2">
+      <p className="text-sm md:text-base">20% on First payment</p>
+      <p className="flex items-center gap-2 text-sm md:text-base">
         <HiBadgeCheck /> Select Your desired three Audits
       </p>
       {/* Season Dropdown */}
       <div className="relative w-full">
         <select
-          className="w-full p-3 border cursor-pointer border-gray-400 rounded-lg appearance-none bg-white text-gray-900"
+          className="w-full p-2 md:p-3 border cursor-pointer border-gray-400 rounded-lg appearance-none bg-white text-gray-900 text-sm md:text-base"
           value=""
           onChange={handleSeasonChange}
         >
@@ -110,26 +115,26 @@ export const Audit3 = () => {
       </div>
 
       {/* Display Selected Seasons */}
-      <div className="mt-2 text-[#000]">
+      <div className="mt-2 text-black">
         {selectedSeasons.length > 0 ? (
-          <p className="text-sm font-medium">
+          <p className="text-xs md:text-sm font-medium">
             Selected: {selectedSeasons.join(", ")}
           </p>
         ) : (
-          <p className="text-[#000]">No seasons selected</p>
+          <p className="text-xs md:text-sm">No seasons selected</p>
         )}
       </div>
       <div className="flex flex-row justify-center items-center gap-2 w-full" onClick={handleReset}>
-        <RiResetLeftFill className="w-6 h-6 cursor-pointer"/>
-        <p className="font-bold cursor-pointer">RESET</p>
+        <RiResetLeftFill className="w-4 h-4 md:w-6 md:h-6 cursor-pointer"/>
+        <p className="font-bold cursor-pointer text-sm md:text-base">RESET</p>
       </div>
-      <button className="border-t border-white  px-4 py-2 w-full bg-transparent text-white">
+      <button className="border-t border-white px-4 py-2 w-full bg-transparent text-white text-sm md:text-base">
         Make Payment
       </button>
       <motion.button
         whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
         whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-blue-500 transition-all duration-300"
+        className="flex flex-col justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-blue-500 transition-all duration-300 text-sm md:text-base w-full"
         onClick={() => handlePaymentRedirect("paypal")}
       >
         <FaPaypal /> <span>Pay with PayPal </span>
@@ -137,15 +142,15 @@ export const Audit3 = () => {
       <motion.button
         whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000" }}
         whileTap={{ scale: 0.95 }}
-        className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-black transition-all duration-300"
+        className="flex flex-col justify-between items-center bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:bg-white hover:text-black transition-all duration-300 text-sm md:text-base w-full"
         onClick={() => handlePaymentRedirect("stripe")}
       >
         <FaStripeS /> <span> Pay with Stripe </span>
       </motion.button>
 
       <hr className="w-full bg-white mt-2" />
-      <p>What we offer:</p>
-      <ul>
+      <p className="text-sm md:text-base">What we offer:</p>
+      <ul className="text-xs md:text-sm w-full">
         <li className="flex items-center gap-2">
           <HiBadgeCheck /> Lorem ipsum dolor sit amet.
         </li>
