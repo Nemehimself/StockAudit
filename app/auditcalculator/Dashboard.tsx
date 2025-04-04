@@ -8,12 +8,14 @@ import { LuCalendarClock } from 'react-icons/lu';
 import { getCookieValue } from '@/services/getCookieValue';
 import { useRouter } from 'next/navigation';
 import { useSSO } from '@/services/hooks/auth/hook';
+import { FaBars } from 'react-icons/fa';
 
 export default function Dashboard({ ssoId }: { ssoId?: string }) {
   const [activeLabel, setActiveLabel] = useState(shortMenuItems[0].label);
   const [activeGroup, setActiveGroup] = useState<
     'GroupA' | 'GroupB' | 'GroupC' | 'GroupD'
   >('GroupA');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const router = useRouter();
 
@@ -38,9 +40,9 @@ export default function Dashboard({ ssoId }: { ssoId?: string }) {
   useEffect(() => {
     const token = getCookieValue('token');
     if (!token && !ssoId && !isSuccess) {
-        router.push('/stockaudit');
+      router.push('/stockaudit');
     }
-}, [ssoId, router, isSuccess]); 
+  }, [ssoId, router, isSuccess]); 
 
   // Get the active menu item (to retrieve its background image)
   const activeMenuItem = shortMenuItems.find(
@@ -84,19 +86,51 @@ export default function Dashboard({ ssoId }: { ssoId?: string }) {
     return () => clearInterval(interval);
   }, []);
 
+  // Toggle sidebar for mobile view
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  // Close sidebar after selection on mobile
+  const handleSidebarSelection = (label: string, group: 'GroupA' | 'GroupB' | 'GroupC' | 'GroupD') => {
+    setActiveLabel(label);
+    setActiveGroup(group);
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+  };
+
   return (
-    <div className="flex h-screen w-full">
-      {/* Sidebar */}
-      <Sidebar
-        menuItems={shortMenuItems}
-        setActiveLabel={setActiveLabel}
-        setActiveGroup={setActiveGroup}
-        activeLabel={activeLabel}
-        activeGroup={activeGroup}
-      />
+    <div className="flex flex-col md:flex-row h-screen w-full">
+      {/* Mobile Menu Button */}
+      <button 
+        className="md:hidden fixed top-6 left-2 z-50 bg-gray-800 text-white p-2 rounded-md shadow-lg"
+        onClick={toggleSidebar}
+      >
+        <FaBars size={24} />
+      </button>
+
+      {/* Sidebar - shows as overlay on mobile, fixed on desktop */}
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative z-40 h-full`}>
+        <Sidebar
+          menuItems={shortMenuItems}
+          setActiveLabel={(label) => handleSidebarSelection(label, activeGroup)}
+          setActiveGroup={(group) => handleSidebarSelection(activeLabel, group)}
+          activeLabel={activeLabel}
+          activeGroup={activeGroup}
+        />
+      </div>
+
+      {/* Sidebar overlay backdrop for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Main Content */}
-      <div className="flex-1 ml-64 flex flex-col">
+      <div className="flex-1 flex flex-col w-full md:ml-0">
         {/* Stock Audit Header */}
         <StockAuditHeader
           activeAudit="short"
@@ -106,18 +140,19 @@ export default function Dashboard({ ssoId }: { ssoId?: string }) {
 
         {/* Content Section with Dynamic Background */}
         <div
-          className=" flex-1 bg-cover bg-center transition-all duration-300 ease-in-out"
+          className="flex-1 w-full bg-cover bg-center transition-all duration-300 ease-in-out overflow-y-auto"
           style={{ backgroundImage }}
         >
-          <div className="bg-slate-700 bg-opacity-70 w-full h-full p-4">
-            <div className="flex flex-row items-center gap-10 justify-center w-full mt-2 text-center px-8">
-              <p className="text-[#fff] font-bold py-2 px-6 bg-opacity-70 bg-[#000]">
+          <div className="bg-slate-700 bg-opacity-70 w-full p-2 md:p-4">
+            <div className="flex flex-col md:flex-row items-center gap-3 md:gap-10 justify-center w-full mt-2 text-center px-2 md:px-8">
+              <p className="text-[#fff] text-sm md:text-base font-bold py-2 px-3 md:px-6 bg-opacity-70 bg-[#000]">
                 Please complete this audit as accurately as possible, as it will
                 impact the final results
               </p>
-              <div className="flex py-2 px-6 bg-opacity-70 bg-[#000] text-[#fff] font-bold gap-2">
-                <LuCalendarClock className="w-6 h-6" />
-                {currentDateTime}
+              <div className="flex py-2 px-3 md:px-6 bg-opacity-70 bg-[#000] text-[#fff] text-sm md:text-base font-bold gap-2">
+                <LuCalendarClock className="w-4 h-4 md:w-6 md:h-6" />
+                <span className="hidden sm:inline">{currentDateTime}</span>
+                <span className="sm:hidden">{new Date().toLocaleTimeString()}</span>
               </div>
             </div>
             {activeComponent &&

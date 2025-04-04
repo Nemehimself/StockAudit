@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import { Restaurant } from "./Questions/ShortForm/SpareCapacity/Restaurant";
@@ -29,6 +29,21 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
   const [tooltipVisible, setTooltipVisible] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // Toggle menu dropdown
   const toggleSubMenu = (label: string) => {
@@ -36,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className="h-screen w-64 bg-gray-900 text-white p-4 shadow-lg fixed left-0 top-0 overflow-y-auto z-50">
+    <div className="h-screen w-64 bg-gray-900 text-white p-4 shadow-lg overflow-y-auto z-50 flex flex-col">
       <h2 className="text-lg font-bold mb-4 text-center">
         Select a Sector Below
       </h2>
@@ -46,19 +61,22 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div key={index} className="mb-2">
           {/* Main Sector */}
           <div
-            className={`flex items-center justify-between gap-3 p-3 cursor-pointer rounded-md transition ${item.bg} text-white hover:opacity-80`}
+            className={`flex items-center justify-between gap-2 p-2 md:gap-3 md:p-3 cursor-pointer rounded-md transition ${item.bg} text-white hover:opacity-80`}
             onClick={() => toggleSubMenu(item.label)}
           >
-            <div className="flex items-center gap-3">
-              <item.icon className="w-6 h-6" />
-              <span>{item.label}</span>
+            <div className="flex items-center gap-2 md:gap-3">
+              <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+              <span className="text-sm md:text-base">{item.label}</span>
             </div>
-            {openMenus[item.label] ? <FaChevronDown /> : <FaChevronRight />}
+            {openMenus[item.label] ? 
+              <FaChevronDown className="text-sm md:text-base" /> : 
+              <FaChevronRight className="text-sm md:text-base" />
+            }
           </div>
 
           {/* Submenu Items */}
           {openMenus[item.label] && (
-            <div className="ml-6 mt-2 space-y-2">
+            <div className="ml-4 md:ml-6 mt-1 md:mt-2 space-y-1 md:space-y-2">
               {item.subItems.map((subItem, subIndex) => {
                 const isActive =
                   item.label === activeLabel && subItem === activeGroup;
@@ -71,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 return (
                   <div
                     key={subIndex}
-                    className={`p-2 text-sm rounded-md cursor-pointer transition ${
+                    className={`p-1 md:p-2 text-xs md:text-sm rounded-md cursor-pointer transition ${
                       isActive ? "bg-gray-500" : "bg-gray-800 hover:bg-gray-700"
                     } flex justify-between items-center`}
                     onClick={() => {
@@ -85,15 +103,26 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                     {/* Tooltip Icon */}
                     <span
-                      className="relative group"
+                      className="relative"
                       onMouseEnter={() => setTooltipVisible(subItem)}
                       onMouseLeave={() => setTooltipVisible(null)}
+                      onClick={(e) => {
+                        // Prevent parent click from firing
+                        e.stopPropagation();
+                        // Toggle tooltip on mobile
+                        if (isMobile) {
+                          setTooltipVisible(tooltipVisible === subItem ? null : subItem);
+                        }
+                      }}
                     >
-                      <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300" />
+                      <FaCircleInfo className="cursor-pointer text-white hover:text-gray-300 w-4 h-4" />
 
-                      {/* Tooltip Content - Now Displays Correct Categories for Each Group */}
+                      {/* Tooltip Content - Mobile friendly positioning */}
                       {tooltipVisible === subItem && categories.length > 0 && (
-                        <div className="absolute right-full mr-2 top-1/2 transform -translate-y-1/2 w-48 p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg z-[9999]">
+                        <div className={`
+                          ${isMobile ? 'absolute left-1/2 -translate-x-1/2 top-full mt-2' : 'absolute right-full mr-2 top-1/2 -translate-y-1/2'} 
+                          w-48 p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg z-[9999]
+                        `}>
                           <ul className="mt-1">
                             {categories.map((category, i) => (
                               <li
