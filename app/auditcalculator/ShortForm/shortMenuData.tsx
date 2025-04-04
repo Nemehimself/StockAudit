@@ -4,7 +4,7 @@ import { FaHotel } from "react-icons/fa6";
 import { FaTools } from "react-icons/fa";
 import { BsShop } from "react-icons/bs";
 import { TiMediaPlay } from "react-icons/ti";
-import Restaurants from "./Restaurants";
+import Restaurants from "./Restaurants/Restaurants";
 import Retail from "./Retail";
 import Hotel from "./Hotel";
 import ServiceProvider from "./ServiceProvider";
@@ -19,7 +19,13 @@ const shortMenuItems = [
     icon: () => IoRestaurant,
     bg: "bg-red-500",
     image: "/StockAudit/restaurants.jpeg",
-    component: <Restaurants selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <Restaurants
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
   {
@@ -27,7 +33,13 @@ const shortMenuItems = [
     icon: BsShop,
     bg: "bg-blue-500",
     image: "/StockAudit/retail.jpeg",
-    component: <Retail selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <Retail
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
   {
@@ -35,7 +47,13 @@ const shortMenuItems = [
     icon: FaHotel,
     bg: "bg-lime-500",
     image: "/StockAudit/hotel.jpeg",
-    component: <Hotel selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <Hotel
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
   {
@@ -43,7 +61,13 @@ const shortMenuItems = [
     icon: MdMiscellaneousServices,
     bg: "bg-purple-500",
     image: "/StockAudit/serviceprovider.jpeg",
-    component: <ServiceProvider selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <ServiceProvider
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
   {
@@ -51,7 +75,13 @@ const shortMenuItems = [
     icon: TiMediaPlay,
     bg: "bg-yellow-500",
     image: "/StockAudit/media.jpeg",
-    component: <Media selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <Media
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
   {
@@ -59,7 +89,13 @@ const shortMenuItems = [
     icon: FaTools,
     bg: "bg-gray-500",
     image: "/StockAudit/manufacturing.jpeg",
-    component: <Manufacturing selectedGroup="GroupA" activeCategory={null} setActiveCategory={() => {}} />,
+    component: (
+      <Manufacturing
+        selectedGroup="GroupA"
+        activeCategory={null}
+        setActiveCategory={() => {}}
+      />
+    ),
     subItems: groups,
   },
 ];
